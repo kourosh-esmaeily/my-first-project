@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>جدول تناوبی تعاملی</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f1f5f9;
+    --surface: #ffffff;
+    --surface-alt: #f8fafc;
+    --text: #0f172a;
+    --text-light: #64748b;
+    --border: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --primary-light: #eff6ff;
+    --accent: #0ea5e9;
+    --success: #10b981;
+    --success-dark: #059669;
+    --success-light: #ecfdf5;
+    --danger: #ef4444;
+    --danger-dark: #dc2626;
+    --danger-light: #fef2f2;
+    --warning: #eab308;
+    --warning-light: #fef9c3;
+    --warning-text: #713f12;
+  }
+  body.dark {
+    --bg: #0b1220;
+    --surface: #1e293b;
+    --surface-alt: #141c2c;
+    --text: #e2e8f0;
+    --text-light: #94a3b8;
+    --border: #334155;
+    --border-strong: #475569;
+    --primary: #3b82f6;
+    --primary-dark: #2563eb;
+    --primary-light: #1e3a8a;
+    --accent: #22d3ee;
+    --success: #10b981;
+    --success-dark: #34d399;
+    --success-light: #064e3b;
+    --danger: #ef4444;
+    --danger-dark: #f87171;
+    --danger-light: #450a0a;
+    --warning: #fbbf24;
+    --warning-light: #422006;
+    --warning-text: #fef9c3;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Vazirmatn', Tahoma, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    transition: background .2s, color .2s;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ========== Topbar ========== */
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    transition: background .2s, border-color .2s;
+  }
+  .topbar-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 52px;
+  }
+  .brand {
+    font-weight: 700;
+    font-size: .92rem;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .nav {
+    display: flex;
+    gap: 2px;
+    flex: 1;
+    overflow-x: auto;
+  }
+  .nav-item {
+    padding: 7px 12px;
+    color: var(--text-light);
+    font-weight: 500;
+    font-size: .82rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .15s, color .15s;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+  }
+  .nav-item:hover { background: var(--surface-alt); color: var(--text); }
+  .nav-item.active { background: var(--primary); color: #fff; }
+  .theme-toggle {
+    padding: 6px 12px;
+    background: transparent;
+    border: 1px solid var(--border-strong);
+    color: var(--text);
+    font-family: inherit;
+    font-weight: 500;
+    font-size: .8rem;
+    cursor: pointer;
+    transition: background .15s;
+    white-space: nowrap;
+  }
+  .theme-toggle:hover { background: var(--surface-alt); }
+
+  /* ========== Main ========== */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 20px;
+  }
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ========== Panel (now: just a section block, no card) ========== */
+  .panel {
+    margin-bottom: 24px;
+  }
+  .panel h2 {
+    font-size: 1rem;
+    margin: 0 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  /* ========== Periodic Table in Home ========== */
+  .periodic-table-wrapper {
+    margin-bottom: 4px;
+    overflow-x: auto;
+  }
+  .periodic-table {
+    display: grid;
+    grid-template-columns: repeat(18, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    min-width: 720px;
+    direction: ltr;
+  }
+  .pt-cell {
+    background: var(--surface);
+    padding: 4px 2px;
+    text-align: center;
+    cursor: pointer;
+    transition: background .15s;
+    position: relative;
+    min-height: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--text);
+  }
+  .pt-cell:hover {
+    background: var(--primary-light);
+  }
+  .pt-cell .pt-z {
+    font-size: .6rem;
+    color: var(--text-light);
+    line-height: 1;
+  }
+  .pt-cell .pt-sym {
+    font-size: .82rem;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1.2;
+    margin-top: 1px;
+  }
+  .pt-cell .pt-name {
+    font-size: .55rem;
+    color: var(--text-light);
+    line-height: 1.2;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+  .pt-cell.empty {
+    background: var(--surface-alt);
+    cursor: default;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  /* ========== Buttons ========== */
+  button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    font-size: .82rem;
+    transition: background .15s, border-color .15s, color .15s;
+    font-weight: 500;
+  }
+  .btn { background: var(--primary); color: #fff; padding: 7px 14px; }
+  .btn:hover { background: var(--primary-dark); }
+  .btn.toggle { background: var(--accent); }
+  .btn.ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border-strong);
+  }
+  .btn.ghost:hover { background: var(--surface-alt); }
+
+  /* ========== Editor ========== */
+  .editor-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    padding: 10px 12px;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+  }
+  .editor-controls label { font-weight: 600; font-size: .84rem; }
+  .editor-controls input[type="range"] { flex: 1; min-width: 150px; accent-color: var(--primary); }
+  .font-size-val {
+    background: var(--primary);
+    color: #fff;
+    padding: 2px 10px;
+    font-weight: 600;
+    font-size: .8rem;
+    min-width: 44px;
+    text-align: center;
+  }
+  .editor {
+    width: 100%;
+    min-height: 420px;
+    padding: 14px;
+    border: 1px solid var(--border-strong);
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 1.8;
+    background: var(--surface);
+    color: var(--text);
+    resize: vertical;
+    transition: border-color .15s;
+  }
+  .editor:focus { outline: none; border-color: var(--primary); }
+
+  /* ========== Tables ========== */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--border);
+  }
+  th, td {
+    padding: 9px 8px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+    color: var(--text);
+    font-size: .86rem;
+  }
+  th:last-child, td:last-child { border-left: none; }
+  tr:last-child td { border-bottom: none; }
+  th {
+    background: var(--surface-alt);
+    color: var(--text);
+    font-weight: 600;
+    font-size: .8rem;
+  }
+  tbody tr:nth-child(even) { background: var(--surface-alt); }
+  tbody tr:hover { background: var(--primary-light); }
+  td.sym { font-weight: 700; color: var(--primary); letter-spacing: .5px; }
+  td.name { font-weight: 600; }
+  td:first-child { color: var(--text-light); font-weight: 600; }
+  table.masked td.sym, table.masked td.name { color: transparent; user-select: none; }
+
+  /* ========== Questions ========== */
+  .questions-section {
+    margin-top: 12px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .questions-toggle-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 13px;
+    background: var(--surface-alt);
+    color: var(--text);
+    cursor: pointer;
+    user-select: none;
+    font-weight: 600;
+    font-size: .83rem;
+    transition: background .15s;
+  }
+  .questions-toggle-bar:hover { background: var(--border); }
+  .chevron {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid currentColor;
+    transition: transform .2s ease;
+  }
+  .questions-section.collapsed .chevron { transform: rotate(-90deg); }
+  .questions-content {
+    padding: 12px;
+    max-height: 8000px;
+    overflow: hidden;
+    transition: max-height .3s ease, padding .3s ease;
+  }
+  .questions-section.collapsed .questions-content {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .q {
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    padding: 10px 12px;
+    margin-bottom: 8px;
+  }
+  .q:last-child { margin-bottom: 0; }
+  .q-text { font-size: .87rem; margin-bottom: 8px; color: var(--text); }
+  .answer {
+    background: var(--success-light);
+    padding: 8px 11px;
+    margin-top: 8px;
+    font-size: .83rem;
+    color: var(--success-dark);
+  }
+  .grade {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin-top: 8px;
+    font-size: .77rem;
+    color: var(--text-light);
+    flex-wrap: wrap;
+  }
+  .grade button {
+    padding: 4px 11px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    color: var(--text);
+    font-size: .77rem;
+  }
+  .grade button:hover { background: var(--surface-alt); }
+  .grade button.active-ok { background: var(--success); color: #fff; border-color: var(--success); }
+  .grade button.active-no { background: var(--danger); color: #fff; border-color: var(--danger); }
+  .hidden { display: none !important; }
+  .score {
+    margin-top: 12px;
+    font-weight: 600;
+    font-size: .86rem;
+    color: var(--primary);
+    text-align: center;
+    background: var(--primary-light);
+    padding: 9px;
+  }
+
+  /* ========== Flash cards ========== */
+  .fc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 10px;
+  }
+  .fc-card {
+    display: grid;
+    grid-template-areas: "stack";
+    height: 140px;
+    cursor: pointer;
+    background: var(--surface);
+    position: relative;
+  }
+  .fc-face {
+    grid-area: stack;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+  }
+  .fc-front {
+    background: var(--primary);
+    color: #fff;
+    opacity: 1;
+    transition: opacity .2s ease;
+  }
+  .fc-back {
+    background: var(--surface);
+    color: var(--text);
+    opacity: 0;
+    transition: opacity .2s ease;
+  }
+  .fc-card.show-back .fc-front { opacity: 0; }
+  .fc-card.show-back .fc-back { opacity: 1; }
+  .fc-front .big-z { font-size: 1.8rem; font-weight: 700; line-height: 1; }
+  .fc-front .z-label { font-size: .76rem; opacity: .85; margin-top: 4px; }
+  .fc-front .hint { font-size: .68rem; opacity: .7; margin-top: 6px; }
+  .fc-back .sym { font-size: 1.35rem; font-weight: 700; color: var(--primary); }
+  .fc-back .name { font-size: .86rem; font-weight: 600; margin-top: 4px; }
+  .fc-seen {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 7px;
+    height: 7px;
+    background: var(--success);
+    z-index: 5;
+  }
+  .fc-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .search-box {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border-strong);
+    font-family: inherit;
+    font-size: .84rem;
+    background: var(--surface);
+    color: var(--text);
+    transition: border-color .15s;
+  }
+  .search-box:focus { outline: none; border-color: var(--primary); }
+  .fc-progress {
+    height: 6px;
+    background: var(--border);
+    overflow: hidden;
+    margin-top: 12px;
+  }
+  .fc-progress-bar {
+    height: 100%;
+    background: var(--primary);
+    transition: width .3s ease;
+  }
+
+  /* ========== Lesson ========== */
+  .lesson-intro {
+    background: var(--primary-light);
+    padding: 11px 13px;
+    font-size: .84rem;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .group-block {
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    padding: 11px 13px;
+    margin-bottom: 8px;
+  }
+  .group-block h3 {
+    margin: 0 0 8px;
+    font-size: .88rem;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-weight: 700;
+  }
+  .group-tag {
+    background: var(--primary);
+    color: #fff;
+    font-size: .64rem;
+    padding: 2px 7px;
+    font-weight: 600;
+  }
+  .group-symbols {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    color: var(--primary);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 5px 10px;
+    display: inline-block;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    font-size: .82rem;
+  }
+  .mnemonic-box {
+    background: var(--warning-light);
+    padding: 9px 11px;
+    font-size: .81rem;
+    color: var(--warning-text);
+    line-height: 1.9;
+  }
+  .mnemonic-box .label {
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+    font-size: .76rem;
+  }
+  .mnemonic-box .code { font-weight: 600; font-size: .88rem; line-height: 1.9; }
+  .tip-box {
+    background: var(--success-light);
+    padding: 11px 13px;
+    font-size: .81rem;
+    color: var(--success-dark);
+    margin-top: 10px;
+  }
+
+  /* ========== Test builder ========== */
+  .tb-question-box {
+    background: var(--surface-alt);
+    border: 1px solid var(--border-strong);
+    padding: 14px;
+  }
+  .tb-question-text {
+    font-size: .9rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+  .tb-score-badge {
+    font-weight: 600;
+    color: var(--primary);
+    background: var(--primary-light);
+    padding: 6px 11px;
+    font-size: .8rem;
+    border: 1px solid var(--border);
+  }
+  .tb-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border-strong);
+    font-family: inherit;
+    font-size: .9rem;
+    background: var(--surface);
+    color: var(--text);
+    transition: border-color .15s;
+  }
+  .tb-input:focus { outline: none; border-color: var(--primary); }
+  .tb-input:disabled { opacity: .7; cursor: not-allowed; }
+  .tb-feedback { margin-top: 10px; font-weight: 600; font-size: .86rem; }
+
+  /* ========== Electron ========== */
+  .ec-element-display {
+    text-align: center;
+    margin: 12px 0;
+    padding: 14px;
+    background: var(--primary-light);
+    border: 1px solid var(--border);
+  }
+  .ec-element-display .z { font-size: 1.8rem; font-weight: 700; color: var(--primary); line-height: 1; }
+  .ec-element-display .name { font-size: .95rem; font-weight: 600; margin-top: 6px; }
+  .ec-element-display .sym { font-size: .86rem; color: var(--text-light); margin-top: 4px; letter-spacing: 1px; }
+  .ec-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 12px 0;
+  }
+  .ec-shell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 4px;
+    background: var(--surface);
+  }
+  .ec-shell-label { font-weight: 700; font-size: .86rem; }
+  .ec-max { font-size: .66rem; color: var(--text-light); }
+  .ec-slider {
+    writing-mode: vertical-lr;
+    direction: rtl;
+    width: 22px;
+    height: 110px;
+    accent-color: var(--primary);
+    cursor: pointer;
+  }
+  .ec-value {
+    font-weight: 600;
+    color: var(--primary);
+    background: var(--primary-light);
+    padding: 2px 9px;
+    min-width: 32px;
+    text-align: center;
+    font-size: .82rem;
+    border: 1px solid var(--border);
+  }
+  .ec-feedback {
+    margin-top: 10px;
+    font-weight: 600;
+    text-align: center;
+    font-size: .88rem;
+    padding: 10px;
+  }
+  .ec-feedback.correct { background: var(--success-light); color: var(--success-dark); }
+  .ec-feedback.wrong { background: var(--warning-light); color: var(--warning-text); }
+  .ec-correct {
+    background: var(--success-light);
+    padding: 11px;
+    margin-top: 8px;
+    font-size: .83rem;
+    color: var(--success-dark);
+    text-align: center;
+  }
+
+  /* ========== Mobile ========== */
+  @media (max-width: 768px) {
+    .topbar-inner {
+      padding: 8px 12px;
+      height: auto;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .nav { order: 3; width: 100%; }
+    .nav-item { padding: 6px 10px; font-size: .76rem; }
+    .container { padding: 16px 12px; }
+    .ec-grid { grid-template-columns: repeat(4, 1fr); }
+    .ec-slider { height: 90px; }
+    .fc-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+    .fc-card { height: 120px; }
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <span class="brand">جدول تناوبی</span>
+    <nav class="nav">
+      <button class="nav-item active" data-page="home">خانه</button>
+      <button class="nav-item" data-page="flashcards">فلش‌کارت</button>
+      <button class="nav-item" data-page="lesson">درسنامه</button>
+      <button class="nav-item" data-page="tables">جدول‌ها و سوالات</button>
+      <button class="nav-item" data-page="testbuilder">تست‌ساز</button>
+      <button class="nav-item" data-page="electron">آرایش الکترونی</button>
+    </nav>
+    <button class="theme-toggle" id="themeToggle">حالت شب</button>
+  </div>
+</header>
+
+<main class="container">
+  <!-- HOME -->
+  <section class="page active" id="page-home">
+    <div class="panel">
+      <h2>جدول تناوبی عناصر</h2>
+      <div class="periodic-table-wrapper">
+        <div class="periodic-table" id="periodicTable"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>یادداشت‌های من</h2>
+      <p style="font-size:.82rem;color:var(--text-light);margin:0 0 14px">
+        اینجا می‌توانید هرچه می‌خواهید بنویسید. اندازهٔ فونت قابل تغییر است و متن به‌صورت خودکار ذخیره می‌شود.
+      </p>
+      <div class="editor-controls">
+        <label for="fontSize">اندازهٔ فونت:</label>
+        <input type="range" id="fontSize" min="12" max="48" value="16" aria-label="اندازهٔ فونت">
+        <span class="font-size-val" id="fontSizeVal">۱۶</span>
+      </div>
+      <textarea class="editor" id="editor" placeholder="اینجا شروع به نوشتن کنید..." aria-label="ویرایشگر متن"></textarea>
+    </div>
+  </section>
+
+  <!-- FLASHCARDS -->
+  <section class="page" id="page-flashcards">
+    <div class="panel">
+      <h2>فلش‌کارت‌ها (۸۸ عنصر)</h2>
+      <p style="font-size:.8rem;color:var(--text-light);margin:0 0 10px">روی هر خانه کلیک کنید تا محتوای آن پنهان و پشتش ظاهر شود.</p>
+      <div class="fc-actions">
+        <input type="text" id="fcSearch" class="search-box" placeholder="جستجو بر اساس نام، نماد یا عدد اتمی..." style="flex:1;min-width:200px" aria-label="جستجوی فلش‌کارت">
+        <button class="btn ghost" id="fcShuffleBtn">بر زدن</button>
+        <button class="btn ghost" id="fcResetBtn">بازنشانی</button>
+      </div>
+      <div class="fc-grid" id="fcGrid"></div>
+      <div class="fc-progress"><div class="fc-progress-bar" id="fcProgressBar" style="width:0%"></div></div>
+      <div class="score" id="fcScore">تعداد کارت‌های دیده‌شده: ۰</div>
+    </div>
+  </section>
+
+  <!-- LESSON -->
+  <section class="page" id="page-lesson">
+    <div class="panel">
+      <h2>درسنامهٔ حفظی (گروه‌های اصلی)</h2>
+      <div class="lesson-intro">
+        این درسنامه عناصر ۱ تا ۴۰ را بر اساس <strong>گروه‌های جدول تناوبی</strong> با <strong>رمزهای فارسی</strong> پوشش می‌دهد. برای سایر عناصر از فلش‌کارت‌ها و تست‌ساز استفاده کنید.
+      </div>
+      <div class="group-block">
+        <h3>گروه ۱ — فلزات قلیایی <span class="group-tag">گروه ۱</span></h3>
+        <div class="group-symbols">H — Li — Na — K — Rb — Cs</div>
+        <div class="mnemonic-box">
+          <span class="label">رمز:</span>
+          <span class="code">«<u>ه</u>یوا <u>لی</u>لی <u>نا</u>ن <u>ک</u>رمانشاهی <u>ر</u>فت <u>س</u>راغ <u>ف</u>رانسوی»</span>
+        </div>
+      </div>
+      <div class="group-block">
+        <h3>گروه ۲ — فلزات قلیایی خاکی <span class="group-tag">گروه ۲</span></h3>
+        <div class="group-symbols">Be — Mg — Ca — Sr — Ba — Ra</div>
+        <div class="mnemonic-box">
+          <span class="label">رمز:</span>
+          <span class="code">«<u>ب</u>ه <u>م</u>گس <u>ک</u>له <u>س</u>ر‌مایه‌ای <u>با</u>ید <u>را</u>ه داد»</span>
+        </div>
+      </div>
+      <div class="group-block">
+        <h3>گروه ۱۳ — خانوادهٔ بور <span class="group-tag">گروه ۱۳</span></h3>
+        <div class="group-symbols">B — Al — Ga — In — Tl</div>
+        <div class="mnemonic-box">
+          <span class="label">رمز:</span>
+          <span class="code">«<u>ب</u>گو <u>ال</u>و <u>گا</u>ندم <u>اینجا</u> <u>ت</u>موم شده»</span>
+        </div>
+      </div>
+      <div class="group-block">
+        <h3>گروه ۱۴ — خانوادهٔ کربن <span class="group-tag">گروه ۱۴</span></h3>
+        <div class="group-symbols">C — Si — Ge — Sn — Pb</div>
+        <div class="mnemonic-box">
+          <span class="label">رمز:</span>
+          <span class="code">«<u>ک</u>سی <u>سی</u>بیل <u>ژ</u>رمن <u>س</u>رب <u>پ</u>یدا کرد»</span>
+        </div>
+      </div>
+      <div class="group-block">
+        <h3>گروه ۱۵ — خانوادهٔ نیتروژن <span class="group-tag">گروه ۱۵</span></h3>
+        <div class="group-symbols">N — P — As — Sb — Bi</div>
+        <div class="mnemonic-box">
+          <span class="label">رمز:</span>
+          <span class="code">«<u>ن</u>نه <u>پ</u>رید <u>آ</u>سمون <u>س</u>یبو <u>ب</u>گیره»</span>
+        </div>
+      </div>
+      <div class="group-block">
+        <h3>گروه ۱۶ — خانوادهٔ اکسیژن <span class="group-tag">گروه ۱۶</span></h3>
+        <div class="group-symbols">O — S — Se — Te — Po</div>
+        <div class="mnemonic-box">
+          <span class="label">رمز:</span>
+          <span class="code">«<u>او</u> <u>س</u>ریع <u>س</u>راغ <u>ت</u>لفن <u>پ</u>وسید»</span>
+        </div>
+      </div>
+      <div class="group-block">
+        <h3>گروه ۱۷ — هالوژن‌ها <span class="group-tag">گروه ۱۷</span></h3>
+        <div class="group-symbols">F — Cl — Br — I — At</div>
+        <div class="mnemonic-box">
+          <span class="label">رمز:</span>
+          <span class="code">«<u>ف</u>کر <u>کل</u>ی <u>بر</u>یدم <u>ای</u>نجا <u>آت</u>ش زدم»</span>
+        </div>
+      </div>
+      <div class="group-block">
+        <h3>گروه ۱۸ — گازهای نجیب <span class="group-tag">گروه ۱۸</span></h3>
+        <div class="group-symbols">He — Ne — Ar — Kr — Xe — Rn</div>
+        <div class="mnemonic-box">
+          <span class="label">رمز:</span>
+          <span class="code">«<u>هی</u> <u>ن</u>گاه <u>آر</u>ام <u>ک</u>ردم <u>ز</u>یر <u>ر</u>نگین‌کمان»</span>
+        </div>
+      </div>
+      <div class="group-block">
+        <h3>فلزات واسطهٔ دورهٔ چهارم <span class="group-tag">Sc تا Zn</span></h3>
+        <div class="group-symbols">Sc — Ti — V — Cr — Mn — Fe — Co — Ni — Cu — Zn</div>
+        <div class="mnemonic-box">
+          <span class="label">رمز:</span>
+          <span class="code">«<u>س</u>ردار <u>تی</u>پ <u>و</u>رزشکار <u>ک</u>شتی‌گیر <u>م</u>رد <u>ف</u>رزانه <u>ک</u>وچک <u>ن</u>از <u>ک</u>رد <u>ز</u>ندگی»</span>
+        </div>
+      </div>
+      <div class="tip-box">
+        <strong>نکته:</strong> برای عناصر ۳۱ تا ۱۱۸ از فلش‌کارت‌ها و تست‌ساز استفاده کنید. می‌توانید با روش «جمله‌سازی شخصی» از حروف اول نمادها، رمز دلخواه بسازید.
+      </div>
+    </div>
+  </section>
+
+  <!-- TABLES -->
+  <section class="page" id="page-tables">
+    <div class="panel">
+      <h2>نمرهٔ کل سوالات جدول‌ها</h2>
+      <div class="score" id="totalScore">نمرهٔ کل شما: ۰ / ۰</div>
+    </div>
+    <div id="app"></div>
+  </section>
+
+  <!-- TEST BUILDER -->
+  <section class="page" id="page-testbuilder">
+    <div class="panel">
+      <h2>تست‌ساز هوشمند (۸۸ عنصر)</h2>
+      <p style="font-size:.8rem;color:var(--text-light);margin:0 0 10px">
+        دکمهٔ «ساخت تست» را بزنید تا یک سؤال تصادفی دربارهٔ عدد اتمی، نام یا نماد یک عنصر بسازد.
+      </p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center">
+        <button class="btn" id="tbGenerateBtn">ساخت تست</button>
+        <span class="tb-score-badge" id="tbScore">نمرهٔ این بخش: ۰ / ۰</span>
+      </div>
+      <div id="tbQuestionBox" style="display:none">
+        <div class="tb-question-box">
+          <div class="tb-question-text" id="tbQuestionText"></div>
+          <div id="tbAnswerArea"></div>
+          <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+            <button class="btn" id="tbSubmitBtn">ثبت پاسخ</button>
+            <button class="btn ghost" id="tbNextBtn" style="display:none">سؤال بعدی</button>
+          </div>
+          <div class="tb-feedback" id="tbFeedback"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ELECTRON -->
+  <section class="page" id="page-electron">
+    <div class="panel">
+      <h2>پرسشگر آرایش الکترونی</h2>
+      <p style="font-size:.8rem;color:var(--text-light);margin:0 0 10px">
+        یک عنصر تصادفی نمایش داده می‌شود. با اسلایدرهای عمودی، تعداد الکترون‌های هر لایه را تنظیم کنید و سپس «بررسی پاسخ» را بزنید.
+      </p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center">
+        <button class="btn" id="ecGenerateBtn">عنصر تصادفی</button>
+        <span class="tb-score-badge" id="ecScore">نمرهٔ این بخش: ۰ / ۰</span>
+      </div>
+      <div id="ecElementBox" style="display:none">
+        <div class="ec-element-display" id="ecElementDisplay"></div>
+        <div class="ec-grid" id="ecGrid"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px">
+          <button class="btn" id="ecCheckBtn">بررسی پاسخ</button>
+          <button class="btn ghost" id="ecShowAnswerBtn">نمایش پاسخ صحیح</button>
+          <button class="btn ghost" id="ecNextBtn" style="display:none">عنصر بعدی</button>
+        </div>
+        <div class="ec-feedback hidden" id="ecFeedback"></div>
+        <div class="ec-correct hidden" id="ecCorrect"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+const rawElements = [
+  [1,'H','هیدروژن'],[2,'He','هلیم'],[3,'Li','لیتیم'],[4,'Be','بریلیم'],[5,'B','بور'],
+  [6,'C','کربن'],[7,'N','نیتروژن'],[8,'O','اکسیژن'],[9,'F','فلوئور'],[10,'Ne','نئون'],
+  [11,'Na','سدیم'],[12,'Mg','منیزیم'],[13,'Al','آلومینیوم'],[14,'Si','سیلیسیم'],[15,'P','فسفر'],
+  [16,'S','گوگرد'],[17,'Cl','کلر'],[18,'Ar','آرگون'],[19,'K','پتاسیم'],[20,'Ca','کلسیم'],
+  [21,'Sc','اسکاندیم'],[22,'Ti','تیتانیوم'],[23,'V','وانادیم'],[24,'Cr','کروم'],[25,'Mn','منگنز'],
+  [26,'Fe','آهن'],[27,'Co','کبالت'],[28,'Ni','نیکل'],[29,'Cu','مس'],[30,'Zn','روی'],
+  [31,'Ga','گالیم'],[32,'Ge','ژرمانیم'],[33,'As','آرسنیک'],[34,'Se','سلنیم'],[35,'Br','برم'],
+  [36,'Kr','کریپتون'],[37,'Rb','روبیدیم'],[38,'Sr','استرانسیوم'],[39,'Y','ایتریم'],[40,'Zr','زیرکونیم'],
+  [41,'Nb','نیوبیم'],[42,'Mo','مولیبدن'],[43,'Tc','تکنسیم'],[44,'Ru','روتنیم'],[45,'Rh','رودیم'],
+  [46,'Pd','پالادیم'],[47,'Ag','نقره'],[48,'Cd','کادمیم'],[49,'In','ایندیوم'],[50,'Sn','قلع'],
+  [51,'Sb','آنتیموان'],[52,'Te','تلوریم'],[53,'I','ید'],[54,'Xe','زنون'],[55,'Cs','سزیوم'],
+  [56,'Ba','باریوم'],[57,'La','لانتان'],[58,'Ce','سریم'],[59,'Pr','پرازئودیمیم'],[60,'Nd','نئودیمیم'],
+  [61,'Pm','پرومتیم'],[62,'Sm','ساماریم'],[63,'Eu','یوروپیم'],[64,'Gd','گادولینیم'],[65,'Tb','تربیم'],
+  [66,'Dy','دیسپروزیم'],[67,'Ho','هولمیم'],[68,'Er','اربیم'],[69,'Tm','تولیم'],[70,'Yb','ایتربیم'],
+  [71,'Lu','لوتسیم'],[72,'Hf','هافنیم'],[73,'Ta','تانتال'],[74,'W','تنگستن'],[75,'Re','رنیوم'],
+  [76,'Os','اسمیم'],[77,'Ir','ایریدیم'],[78,'Pt','پلاتین'],[79,'Au','طلا'],[80,'Hg','جیوه'],
+  [81,'Tl','تالیم'],[82,'Pb','سرب'],[83,'Bi','بیسموت'],[84,'Po','پولونیم'],[85,'At','استاتین'],
+  [86,'Rn','رادون'],[87,'Fr','فرانسیم'],[88,'Ra','رادیوم'],[89,'Ac','اکتینیم'],[90,'Th','توریم'],
+  [91,'Pa','پروتاکتینیم'],[92,'U','اورانیوم'],[93,'Np','نپتونیم'],[94,'Pu','پلوتونیم'],[95,'Am','آمریسیم'],
+  [96,'Cm','کوریم'],[97,'Bk','برکلیم'],[98,'Cf','کالیفرنیم'],[99,'Es','اینشتینیم'],[100,'Fm','فرمیم'],
+  [101,'Md','مندلیفیم'],[102,'No','نوبلیم'],[103,'Lr','لورنسیم'],[104,'Rf','رادرفوردیم'],[105,'Db','دوبنیم'],
+  [106,'Sg','سیبورگیم'],[107,'Bh','بوریم'],[108,'Hs','هاسیم'],[109,'Mt','مایتنریم'],[110,'Ds','دارمشتاتیم'],
+  [111,'Rg','رونتگنیم'],[112,'Cn','کوپرنیسیم'],[113,'Nh','نیهونیم'],[114,'Fl','فلرویم'],[115,'Mc','مسکوویم'],
+  [116,'Lv','لیورموریم'],[117,'Ts','تنسین'],[118,'Og','اوگانسون']
+];
+const elements = rawElements.map(([z, sym, name]) => ({ z, sym, name }));
+const faNum = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+const enNum = s => String(s).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+
+const LS = {
+  get: (k, def) => { try { const v = localStorage.getItem(k); return v === null ? def : v; } catch { return def; } },
+  set: (k, v) => { try { localStorage.setItem(k, v); } catch {} }
+};
+
+/* ============================================================
+   ساخت جدول مندلیف
+   ============================================================ */
+(function buildPeriodicTable() {
+  const tableEl = document.getElementById('periodicTable');
+  if (!tableEl) return;
+
+  const layout = {
+    1: { group: 1, period: 1 }, 2: { group: 18, period: 1 },
+    3: { group: 1, period: 2 }, 4: { group: 2, period: 2 },
+    5: { group: 13, period: 2 }, 6: { group: 14, period: 2 },
+    7: { group: 15, period: 2 }, 8: { group: 16, period: 2 },
+    9: { group: 17, period: 2 }, 10: { group: 18, period: 2 },
+    11: { group: 1, period: 3 }, 12: { group: 2, period: 3 },
+    13: { group: 13, period: 3 }, 14: { group: 14, period: 3 },
+    15: { group: 15, period: 3 }, 16: { group: 16, period: 3 },
+    17: { group: 17, period: 3 }, 18: { group: 18, period: 3 },
+    19: { group: 1, period: 4 }, 20: { group: 2, period: 4 },
+    21: { group: 3, period: 4 }, 22: { group: 4, period: 4 },
+    23: { group: 5, period: 4 }, 24: { group: 6, period: 4 },
+    25: { group: 7, period: 4 }, 26: { group: 8, period: 4 },
+    27: { group: 9, period: 4 }, 28: { group: 10, period: 4 },
+    29: { group: 11, period: 4 }, 30: { group: 12, period: 4 },
+    31: { group: 13, period: 4 }, 32: { group: 14, period: 4 },
+    33: { group: 15, period: 4 }, 34: { group: 16, period: 4 },
+    35: { group: 17, period: 4 }, 36: { group: 18, period: 4 },
+    37: { group: 1, period: 5 }, 38: { group: 2, period: 5 },
+    39: { group: 3, period: 5 }, 40: { group: 4, period: 5 },
+    41: { group: 5, period: 5 }, 42: { group: 6, period: 5 },
+    43: { group: 7, period: 5 }, 44: { group: 8, period: 5 },
+    45: { group: 9, period: 5 }, 46: { group: 10, period: 5 },
+    47: { group: 11, period: 5 }, 48: { group: 12, period: 5 },
+    49: { group: 13, period: 5 }, 50: { group: 14, period: 5 },
+    51: { group: 15, period: 5 }, 52: { group: 16, period: 5 },
+    53: { group: 17, period: 5 }, 54: { group: 18, period: 5 },
+    55: { group: 1, period: 6 }, 56: { group: 2, period: 6 },
+    72: { group: 4, period: 6 }, 73: { group: 5, period: 6 },
+    74: { group: 6, period: 6 }, 75: { group: 7, period: 6 },
+    76: { group: 8, period: 6 }, 77: { group: 9, period: 6 },
+    78: { group: 10, period: 6 }, 79: { group: 11, period: 6 },
+    80: { group: 12, period: 6 }, 81: { group: 13, period: 6 },
+    82: { group: 14, period: 6 }, 83: { group: 15, period: 6 },
+    84: { group: 16, period: 6 }, 85: { group: 17, period: 6 },
+    86: { group: 18, period: 6 },
+    87: { group: 1, period: 7 }, 88: { group: 2, period: 7 },
+    104: { group: 4, period: 7 }, 105: { group: 5, period: 7 },
+    106: { group: 6, period: 7 }, 107: { group: 7, period: 7 },
+    108: { group: 8, period: 7 }, 109: { group: 9, period: 7 },
+    110: { group: 10, period: 7 }, 111: { group: 11, period: 7 },
+    112: { group: 12, period: 7 }, 113: { group: 13, period: 7 },
+    114: { group: 14, period: 7 }, 115: { group: 15, period: 7 },
+    116: { group: 16, period: 7 }, 117: { group: 17, period: 7 },
+    118: { group: 18, period: 7 }
+  };
+
+  const lanthanides = [57,58,59,60,61,62,63,64,65,66,67,68,69,70,71];
+  const actinides = [89,90,91,92,93,94,95,96,97,98,99,100,101,102,103];
+  const byZ = {};
+  elements.forEach(el => { byZ[el.z] = el; });
+
+  function makeCell(z) {
+    const el = byZ[z];
+    if (!el) return null;
+    const a = document.createElement('a');
+    a.className = 'pt-cell';
+    a.href = `https://fa.wikipedia.org/wiki/${encodeURIComponent(el.name)}`;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.innerHTML = `
+      <span class="pt-z">${faNum(el.z)}</span>
+      <span class="pt-sym">${el.sym}</span>
+      <span class="pt-name">${el.name}</span>
+    `;
+    return a;
+  }
+
+  const gridItems = [];
+  for (let period = 1; period <= 7; period++) {
+    for (let group = 1; group <= 18; group++) {
+      let foundZ = null;
+      for (const zStr in layout) {
+        const z = parseInt(zStr, 10);
+        const pos = layout[z];
+        if (pos.group === group && pos.period === period) { foundZ = z; break; }
+      }
+      gridItems.push({ group, period, z: foundZ });
+    }
+  }
+
+  const mainGrid = document.createElement('div');
+  mainGrid.className = 'periodic-table';
+  mainGrid.style.direction = 'ltr';
+
+  gridItems.forEach(item => {
+    if (item.z) {
+      const cell = makeCell(item.z);
+      if (cell) mainGrid.appendChild(cell);
+    } else {
+      const empty = document.createElement('div');
+      empty.className = 'pt-cell empty';
+      mainGrid.appendChild(empty);
+    }
+  });
+
+  const extraWrapper = document.createElement('div');
+  extraWrapper.style.marginTop = '6px';
+
+  const lanLabel = document.createElement('div');
+  lanLabel.style.cssText = 'font-size:.72rem;font-weight:600;color:var(--text-light);padding:4px;background:var(--surface-alt);border:1px solid var(--border);border-bottom:none;';
+  lanLabel.textContent = 'لانتانیدها (۵۷–۷۱)';
+  extraWrapper.appendChild(lanLabel);
+
+  const lanGrid = document.createElement('div');
+  lanGrid.className = 'periodic-table';
+  lanGrid.style.direction = 'ltr';
+  for (let i = 0; i < 3; i++) {
+    const empty = document.createElement('div');
+    empty.className = 'pt-cell empty';
+    lanGrid.appendChild(empty);
+  }
+  lanthanides.forEach(z => {
+    const cell = makeCell(z);
+    if (cell) lanGrid.appendChild(cell);
+  });
+  extraWrapper.appendChild(lanGrid);
+
+  const actLabel = document.createElement('div');
+  actLabel.style.cssText = 'font-size:.72rem;font-weight:600;color:var(--text-light);padding:4px;background:var(--surface-alt);border:1px solid var(--border);border-top:none;border-bottom:none;margin-top:6px;';
+  actLabel.textContent = 'اکتینیدها (۸۹–۱۰۳)';
+  extraWrapper.appendChild(actLabel);
+
+  const actGrid = document.createElement('div');
+  actGrid.className = 'periodic-table';
+  actGrid.style.direction = 'ltr';
+  for (let i = 0; i < 3; i++) {
+    const empty = document.createElement('div');
+    empty.className = 'pt-cell empty';
+    actGrid.appendChild(empty);
+  }
+  actinides.forEach(z => {
+    const cell = makeCell(z);
+    if (cell) actGrid.appendChild(cell);
+  });
+  extraWrapper.appendChild(actGrid);
+
+  const wrapper = document.querySelector('.periodic-table-wrapper');
+  wrapper.innerHTML = '';
+  wrapper.appendChild(mainGrid);
+  wrapper.appendChild(extraWrapper);
+})();
+
+/* ============================================================
+   ناوبری
+   ============================================================ */
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const target = item.dataset.page;
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    item.classList.add('active');
+    document.getElementById('page-' + target).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+/* ============================================================
+   تم
+   ============================================================ */
+const themeToggle = document.getElementById('themeToggle');
+function applyTheme(isDark){
+  document.body.classList.toggle('dark', isDark);
+  themeToggle.textContent = isDark ? 'حالت روز' : 'حالت شب';
+}
+applyTheme(LS.get('theme', 'light') === 'dark');
+themeToggle.addEventListener('click', () => {
+  const isDark = !document.body.classList.contains('dark');
+  applyTheme(isDark);
+  LS.set('theme', isDark ? 'dark' : 'light');
+});
+
+/* ============================================================
+   ویرایشگر
+   ============================================================ */
+const fontSize = document.getElementById('fontSize');
+const fontSizeVal = document.getElementById('fontSizeVal');
+const editor = document.getElementById('editor');
+const savedSize = parseInt(LS.get('fontSize', '16'), 10);
+fontSize.value = savedSize;
+editor.style.fontSize = savedSize + 'px';
+fontSizeVal.textContent = faNum(savedSize);
+editor.value = LS.get('editorContent', '');
+fontSize.addEventListener('input', () => {
+  editor.style.fontSize = fontSize.value + 'px';
+  fontSizeVal.textContent = faNum(fontSize.value);
+  LS.set('fontSize', fontSize.value);
+});
+editor.addEventListener('input', () => LS.set('editorContent', editor.value));
+
+/* ============================================================
+   فلش‌کارت
+   ============================================================ */
+const fcGrid = document.getElementById('fcGrid');
+const fcScore = document.getElementById('fcScore');
+const fcSearch = document.getElementById('fcSearch');
+const fcProgressBar = document.getElementById('fcProgressBar');
+const seenCards = new Set(JSON.parse(LS.get('seenCards', '[]')));
+let currentElements = [...elements];
+
+function renderFlashcards(list) {
+  fcGrid.innerHTML = '';
+  const frag = document.createDocumentFragment();
+  list.forEach(el => {
+    const card = document.createElement('div');
+    card.className = 'fc-card';
+    card.innerHTML = `
+      <div class="fc-face fc-back">
+        <div class="sym">${el.sym}</div>
+        <div class="name">${el.name}</div>
+      </div>
+      <div class="fc-face fc-front">
+        <div class="big-z">${faNum(el.z)}</div>
+        <div class="z-label">عدد اتمی</div>
+        <div class="hint">کلیک کنید</div>
+      </div>`;
+    if (seenCards.has(el.z)) {
+      const dot = document.createElement('span');
+      dot.className = 'fc-seen';
+      card.appendChild(dot);
+    }
+    card.addEventListener('click', () => {
+      card.classList.toggle('show-back');
+      if (!seenCards.has(el.z)) {
+        seenCards.add(el.z);
+        LS.set('seenCards', JSON.stringify([...seenCards]));
+        const dot = document.createElement('span');
+        dot.className = 'fc-seen';
+        card.appendChild(dot);
+        updateFcScore();
+      }
+    });
+    frag.appendChild(card);
+  });
+  fcGrid.appendChild(frag);
+}
+function updateFcScore() {
+  const pct = Math.round((seenCards.size / elements.length) * 100);
+  fcScore.textContent = `تعداد کارت‌های دیده‌شده: ${faNum(seenCards.size)} از ${faNum(elements.length)} (${faNum(pct)}٪)`;
+  fcProgressBar.style.width = pct + '%';
+}
+fcSearch.addEventListener('input', () => {
+  const q = fcSearch.value.trim().toLowerCase();
+  currentElements = !q ? [...elements] : elements.filter(el =>
+    String(el.z).includes(q) || el.sym.toLowerCase().includes(q) || el.name.includes(q));
+  renderFlashcards(currentElements);
+  updateFcScore();
+});
+document.getElementById('fcShuffleBtn').addEventListener('click', () => {
+  const arr = [...currentElements];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  renderFlashcards(arr);
+});
+document.getElementById('fcResetBtn').addEventListener('click', () => {
+  if (!confirm('همهٔ کارت‌های دیده‌شده پاک شوند؟')) return;
+  fcSearch.value = ''; currentElements = [...elements]; seenCards.clear();
+  LS.set('seenCards', '[]');
+  renderFlashcards(currentElements); updateFcScore();
+});
+renderFlashcards(currentElements); updateFcScore();
+
+/* ============================================================
+   جدول‌ها و سوالات
+   ============================================================ */
+const app = document.getElementById('app');
+const allStates = [];
+function updateTotal(){
+  const sum = allStates.reduce((acc, s) => acc + s.filter(x => x === true).length, 0);
+  const total = allStates.reduce((acc, s) => acc + s.length, 0);
+  document.getElementById('totalScore').textContent = `نمرهٔ کل شما: ${faNum(sum)} / ${faNum(total)}`;
+}
+function makeQuestions(sectionElements) {
+  const qs = [];
+  const shuffled = [...sectionElements].sort(() => Math.random() - 0.5);
+  for (let i = 0; i < 10; i++) {
+    const el = shuffled[i % shuffled.length];
+    if (i % 2 === 0) {
+      qs.push({ q: `نام فارسی عنصر با عدد اتمی ${faNum(el[0])} و نماد «${el[1]}» چیست؟`, a: `${el[2]} (${el[1]}) — عدد اتمی ${faNum(el[0])}` });
+    } else {
+      qs.push({ q: `نماد شیمیایی عنصر «${el[2]}» (عدد اتمی ${faNum(el[0])}) چیست؟`, a: `${el[1]} — ${el[2]} با عدد اتمی ${faNum(el[0])}` });
+    }
+  }
+  return qs;
+}
+for (let start = 0; start < rawElements.length; start += 10) {
+  const slice = rawElements.slice(start, start + 10);
+  const sectionNum = Math.floor(start / 10) + 1;
+  const firstZ = slice[0][0], lastZ = slice[slice.length - 1][0];
+  const tbl = {
+    title: `بخش ${faNum(sectionNum)}: عناصر ${faNum(firstZ)} تا ${faNum(lastZ)}`,
+    elements: slice,
+    questions: makeQuestions(slice)
+  };
+  const card = document.createElement('section');
+  card.className = 'panel';
+  card.innerHTML = `<h2>${tbl.title}</h2>`;
+  const controls = document.createElement('div');
+  controls.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px';
+  const toggleBtn = document.createElement('button');
+  toggleBtn.className = 'btn toggle';
+  toggleBtn.textContent = 'مخفی کردن نماد و اسم';
+  controls.appendChild(toggleBtn);
+  card.appendChild(controls);
+
+  const table = document.createElement('table');
+  table.innerHTML = `<thead><tr><th>عدد اتمی</th><th>نماد</th><th>نام عنصر</th></tr></thead>`;
+  const tbody = document.createElement('tbody');
+  tbl.elements.forEach(([z, sym, name]) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${faNum(z)}</td><td class="sym">${sym}</td><td class="name">${name}</td>`;
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  card.appendChild(table);
+  let masked = false;
+  toggleBtn.addEventListener('click', () => {
+    masked = !masked;
+    table.classList.toggle('masked', masked);
+    toggleBtn.textContent = masked ? 'نمایش نماد و اسم' : 'مخفی کردن نماد و اسم';
+  });
+
+  const qSection = document.createElement('div');
+  qSection.className = 'questions-section collapsed';
+  const qBar = document.createElement('div');
+  qBar.className = 'questions-toggle-bar';
+  qBar.innerHTML = `<span>سؤالات تشریحی این بخش (۱۰ سؤال)</span><span class="chevron"></span>`;
+  qSection.appendChild(qBar);
+  const qContent = document.createElement('div');
+  qContent.className = 'questions-content';
+
+  const states = new Array(tbl.questions.length).fill(null);
+  allStates.push(states);
+  const scoreEl = document.createElement('div');
+  scoreEl.className = 'score';
+  function updateScore(){
+    const c = states.filter(x => x === true).length;
+    scoreEl.textContent = `نمرهٔ شما در این بخش: ${faNum(c)} / ${faNum(10)}`;
+    updateTotal();
+  }
+  tbl.questions.forEach((item, qi) => {
+    const box = document.createElement('div');
+    box.className = 'q';
+    const qText = document.createElement('div');
+    qText.className = 'q-text';
+    qText.textContent = `${faNum(qi + 1)}. ${item.q}`;
+    box.appendChild(qText);
+    const ansBtn = document.createElement('button');
+    ansBtn.className = 'btn';
+    ansBtn.textContent = 'جواب را نشانم بده';
+    box.appendChild(ansBtn);
+    const ans = document.createElement('div');
+    ans.className = 'answer hidden';
+    ans.textContent = item.a;
+    box.appendChild(ans);
+    const grade = document.createElement('div');
+    grade.className = 'grade hidden';
+    const label = document.createElement('span');
+    label.textContent = 'خودارزیابی:';
+    const okBtn = document.createElement('button');
+    okBtn.textContent = 'درست';
+    const noBtn = document.createElement('button');
+    noBtn.textContent = 'نادرست';
+    grade.append(label, okBtn, noBtn);
+    box.appendChild(grade);
+    ansBtn.addEventListener('click', () => {
+      const isHidden = ans.classList.toggle('hidden');
+      grade.classList.toggle('hidden', isHidden);
+      ansBtn.textContent = isHidden ? 'جواب را نشانم بده' : 'پنهان کردن جواب';
+    });
+    function setState(val){
+      states[qi] = val;
+      okBtn.classList.toggle('active-ok', val === true);
+      noBtn.classList.toggle('active-no', val === false);
+      updateScore();
+    }
+    okBtn.addEventListener('click', () => setState(states[qi] === true ? null : true));
+    noBtn.addEventListener('click', () => setState(states[qi] === false ? null : false));
+    qContent.appendChild(box);
+  });
+  qContent.appendChild(scoreEl);
+  qSection.appendChild(qContent);
+  card.appendChild(qSection);
+  qBar.addEventListener('click', () => {
+    qSection.classList.toggle('collapsed');
+  });
+  updateScore();
+  app.appendChild(card);
+}
+updateTotal();
+
+/* ============================================================
+   تست‌ساز
+   ============================================================ */
+(function initTestBuilder() {
+  const EXCLUDED_TB = new Set();
+  for (let i = 57; i <= 71; i++) EXCLUDED_TB.add(i);
+  for (let i = 89; i <= 103; i++) EXCLUDED_TB.add(i);
+  const tbElements = elements.filter(el => !EXCLUDED_TB.has(el.z));
+
+  const generateBtn = document.getElementById('tbGenerateBtn');
+  const questionBox = document.getElementById('tbQuestionBox');
+  const questionText = document.getElementById('tbQuestionText');
+  const answerArea = document.getElementById('tbAnswerArea');
+  const submitBtn = document.getElementById('tbSubmitBtn');
+  const nextBtn = document.getElementById('tbNextBtn');
+  const feedback = document.getElementById('tbFeedback');
+  const scoreSpan = document.getElementById('tbScore');
+
+  let currentQuestion = null, tbCorrect = 0, tbTotal = 0;
+
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function generateQuestion() {
+    const element = tbElements[Math.floor(Math.random() * tbElements.length)];
+    const types = ['atomicNumber', 'name', 'symbol'];
+    const type = types[Math.floor(Math.random() * types.length)];
+    let question, correctAnswer, options = null, inputMode;
+    if (type === 'atomicNumber') {
+      question = `عدد اتمی عنصر «${element.name}» (${element.sym}) چند است؟`;
+      correctAnswer = String(element.z); inputMode = 'text';
+    } else if (type === 'name') {
+      question = `نام فارسی عنصر با عدد اتمی ${faNum(element.z)} و نماد «${element.sym}» چیست؟`;
+      correctAnswer = element.name; inputMode = 'select';
+      const others = shuffle(tbElements.filter(e => e.z !== element.z)).slice(0, 5).map(e => e.name);
+      options = shuffle([element.name, ...others]);
+    } else {
+      question = `نماد شیمیایی عنصر «${element.name}» (عدد اتمی ${faNum(element.z)}) چیست؟`;
+      correctAnswer = element.sym; inputMode = 'select';
+      const others = shuffle(tbElements.filter(e => e.z !== element.z)).slice(0, 5).map(e => e.sym);
+      options = shuffle([element.sym, ...others]);
+    }
+    return { type, element, question, correctAnswer, options, inputMode };
+  }
+
+  function renderQuestion(q) {
+    currentQuestion = q;
+    questionText.textContent = q.question;
+    answerArea.innerHTML = '';
+    feedback.textContent = '';
+    submitBtn.style.display = 'inline-block';
+    nextBtn.style.display = 'none';
+    if (q.inputMode === 'text') {
+      const input = document.createElement('input');
+      input.type = 'text'; input.id = 'tbTextInput'; input.className = 'tb-input';
+      input.placeholder = 'عدد را بنویسید...'; input.style.textAlign = 'center';
+      input.setAttribute('aria-label', 'پاسخ عددی');
+      answerArea.appendChild(input); input.focus();
+      input.addEventListener('keydown', e => { if (e.key === 'Enter') submitBtn.click(); });
+    } else {
+      const select = document.createElement('select');
+      select.id = 'tbSelectInput'; select.className = 'tb-input';
+      select.setAttribute('aria-label', 'انتخاب پاسخ');
+      const def = document.createElement('option'); def.value = ''; def.textContent = '--- یک گزینه را انتخاب کنید ---';
+      select.appendChild(def);
+      q.options.forEach(opt => {
+        const o = document.createElement('option'); o.value = opt; o.textContent = opt; select.appendChild(o);
+      });
+      answerArea.appendChild(select); select.focus();
+    }
+    questionBox.style.display = 'block';
+  }
+
+  function submitAnswer() {
+    if (!currentQuestion) return;
+    const q = currentQuestion;
+    let userAnswer = '';
+    if (q.inputMode === 'text') {
+      userAnswer = enNum(document.getElementById('tbTextInput').value.trim());
+    } else {
+      userAnswer = document.getElementById('tbSelectInput').value;
+    }
+    if (!userAnswer) {
+      feedback.textContent = 'لطفاً یک پاسخ وارد کنید یا انتخاب کنید.';
+      feedback.style.color = 'var(--warning-text)';
+      return;
+    }
+    const isCorrect = userAnswer === q.correctAnswer;
+    tbTotal++; if (isCorrect) tbCorrect++;
+    scoreSpan.textContent = `نمرهٔ این بخش: ${faNum(tbCorrect)} / ${faNum(tbTotal)}`;
+    feedback.textContent = isCorrect ? 'پاسخ درست است.' : `پاسخ نادرست. پاسخ صحیح: «${q.correctAnswer}»`;
+    feedback.style.color = isCorrect ? 'var(--success-dark)' : 'var(--danger-dark)';
+    submitBtn.style.display = 'none'; nextBtn.style.display = 'inline-block';
+    const inp = document.getElementById('tbTextInput');
+    const sel = document.getElementById('tbSelectInput');
+    if (inp) inp.disabled = true;
+    if (sel) sel.disabled = true;
+  }
+
+  generateBtn.addEventListener('click', () => renderQuestion(generateQuestion()));
+  submitBtn.addEventListener('click', submitAnswer);
+  nextBtn.addEventListener('click', () => renderQuestion(generateQuestion()));
+})();
+
+/* ============================================================
+   آرایش الکترونی
+   ============================================================ */
+(function initElectronConfig() {
+  const EXCLUDED_EC = new Set();
+  for (let i = 57; i <= 71; i++) EXCLUDED_EC.add(i);
+  for (let i = 89; i <= 103; i++) EXCLUDED_EC.add(i);
+  const ecElements = elements.filter(el => !EXCLUDED_EC.has(el.z));
+
+  const generateBtn = document.getElementById('ecGenerateBtn');
+  const elementBox = document.getElementById('ecElementBox');
+  const elementDisplay = document.getElementById('ecElementDisplay');
+  const ecGrid = document.getElementById('ecGrid');
+  const checkBtn = document.getElementById('ecCheckBtn');
+  const showAnswerBtn = document.getElementById('ecShowAnswerBtn');
+  const nextBtn = document.getElementById('ecNextBtn');
+  const feedback = document.getElementById('ecFeedback');
+  const correctBox = document.getElementById('ecCorrect');
+  const scoreSpan = document.getElementById('ecScore');
+
+  const SHELLS = [
+    { name: 'K', max: 2 }, { name: 'L', max: 8 }, { name: 'M', max: 18 },
+    { name: 'N', max: 32 }, { name: 'O', max: 32 }, { name: 'P', max: 18 }, { name: 'Q', max: 8 }
+  ];
+  const EXCEPTIONS = {
+    24: [2,8,13,1], 29: [2,8,18,1],
+    41: [2,8,18,12,1], 42: [2,8,18,13,1], 44: [2,8,18,15,1],
+    45: [2,8,18,16,1], 46: [2,8,18,18], 47: [2,8,18,18,1],
+    78: [2,8,18,32,17,1], 79: [2,8,18,32,18,1]
+  };
+  const AUFBAU = [
+    [1,2],[2,2],[2,6],[3,2],[3,6],[4,2],[3,10],[4,6],[5,2],
+    [4,10],[5,6],[6,2],[4,14],[5,10],[6,6],[7,2],[5,14],[6,10],[7,6]
+  ];
+  function getShellConfiguration(z) {
+    if (EXCEPTIONS[z]) return [...EXCEPTIONS[z]];
+    let remaining = z;
+    const shells = [0,0,0,0,0,0,0];
+    for (const [n, cap] of AUFBAU) {
+      if (remaining <= 0) break;
+      const e = Math.min(remaining, cap);
+      shells[n - 1] += e;
+      remaining -= e;
+    }
+    return shells.filter(s => s > 0);
+  }
+
+  let currentElement = null, correctConfig = null;
+  let ecCorrect = 0, ecTotal = 0;
+  let sliderRefs = [];
+
+  function generateElement() {
+    currentElement = ecElements[Math.floor(Math.random() * ecElements.length)];
+    correctConfig = getShellConfiguration(currentElement.z);
+    elementDisplay.innerHTML = `
+      <div class="z">${faNum(currentElement.z)}</div>
+      <div class="name">${currentElement.name}</div>
+      <div class="sym">${currentElement.sym}</div>
+    `;
+    ecGrid.innerHTML = '';
+    sliderRefs = [];
+    SHELLS.forEach((shell, idx) => {
+      const div = document.createElement('div');
+      div.className = 'ec-shell';
+      div.innerHTML = `
+        <div class="ec-shell-label">${shell.name}</div>
+        <div class="ec-max">حداکثر ${faNum(shell.max)}</div>
+        <input type="range" class="ec-slider" min="0" max="${shell.max}" value="0"
+               data-shell="${idx}" aria-label="تعداد الکترون لایه ${shell.name}">
+        <div class="ec-value" id="ecVal${idx}">۰</div>
+      `;
+      ecGrid.appendChild(div);
+      const slider = div.querySelector('.ec-slider');
+      const valDisplay = div.querySelector('.ec-value');
+      sliderRefs.push(slider);
+      slider.addEventListener('input', () => {
+        valDisplay.textContent = faNum(slider.value);
+      });
+    });
+    feedback.classList.add('hidden');
+    feedback.textContent = '';
+    correctBox.classList.add('hidden');
+    correctBox.textContent = '';
+    checkBtn.style.display = 'inline-block';
+    showAnswerBtn.style.display = 'inline-block';
+    nextBtn.style.display = 'none';
+    elementBox.style.display = 'block';
+  }
+
+  function checkAnswer() {
+    if (!currentElement) return;
+    const userConfig = sliderRefs.map(s => parseInt(s.value, 10) || 0);
+    while (userConfig.length > 0 && userConfig[userConfig.length - 1] === 0) userConfig.pop();
+    const isCorrect = JSON.stringify(userConfig) === JSON.stringify(correctConfig);
+    ecTotal++;
+    if (isCorrect) ecCorrect++;
+    scoreSpan.textContent = `نمرهٔ این بخش: ${faNum(ecCorrect)} / ${faNum(ecTotal)}`;
+    feedback.classList.remove('hidden', 'correct', 'wrong');
+    feedback.classList.add(isCorrect ? 'correct' : 'wrong');
+    feedback.textContent = isCorrect
+      ? 'آرایش الکترونی درست است.'
+      : 'آرایش الکترونی نادرست است. می‌توانید پاسخ صحیح را ببینید یا عنصر بعدی را امتحان کنید.';
+    checkBtn.style.display = 'none';
+    nextBtn.style.display = 'inline-block';
+    showAnswerBtn.style.display = isCorrect ? 'none' : 'inline-block';
+  }
+
+  function showCorrectAnswer() {
+    if (!currentElement) return;
+    correctBox.innerHTML = `آرایش الکترونی صحیح ${currentElement.name} (${currentElement.sym}):<br>
+      <strong style="font-size:1.02rem">${correctConfig.map((e, i) => `${SHELLS[i].name}: ${faNum(e)}`).join(' — ')}</strong>`;
+    correctBox.classList.remove('hidden');
+    showAnswerBtn.style.display = 'none';
+  }
+
+  generateBtn.addEventListener('click', generateElement);
+  checkBtn.addEventListener('click', checkAnswer);
+  showAnswerBtn.addEventListener('click', showCorrectAnswer);
+  nextBtn.addEventListener('click', generateElement);
+})();
+</script>
+</body>
+</html>
