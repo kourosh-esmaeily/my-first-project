@@ -398,4 +398,818 @@ const I18N = {
     fcSearch: 'جستجو بر اساس نام، نماد یا عدد اتمی...',
     fcShuffle: 'بر زدن', fcReset: 'بازنشانی',
     fcSeen: 'تعداد کارت‌های دیده‌شده:', fcOf: 'از',
-    fcAtomicNum: '
+    fcAtomicNum: 'عدد اتمی', fcClick: 'کلیک کنید',
+    fcConfirmReset: 'همهٔ کارت‌های دیده‌شده پاک شوند؟',
+    lessonTitle: 'درسنامهٔ حفظی (گروه‌های اصلی)',
+    lessonIntro: 'این درسنامه عناصر ۱ تا ۴۰ را بر اساس گروه‌های جدول تناوبی با رمزهای فارسی پوشش می‌دهد. برای سایر عناصر از فلش‌کارت‌ها و تست‌ساز استفاده کنید.',
+    lessonGroup1: 'گروه ۱ — فلزات قلیایی', lessonGroup2: 'گروه ۲ — فلزات قلیایی خاکی',
+    lessonGroup13: 'گروه ۱۳ — خانوادهٔ بور', lessonGroup14: 'گروه ۱۴ — خانوادهٔ کربن',
+    lessonGroup15: 'گروه ۱۵ — خانوادهٔ نیتروژن', lessonGroup16: 'گروه ۱۶ — خانوادهٔ اکسیژن',
+    lessonGroup17: 'گروه ۱۷ — هالوژن‌ها', lessonGroup18: 'گروه ۱۸ — گازهای نجیب',
+    lessonGroupD4: 'فلزات واسطهٔ دورهٔ چهارم',
+    mnemonic: 'رمز:', lessonNote: 'نکته:',
+    lessonTipBody: 'برای عناصر ۳۱ تا ۱۱۸ از فلش‌کارت‌ها و تست‌ساز استفاده کنید. می‌توانید با روش «جمله‌سازی شخصی» از حروف اول نمادها، رمز دلخواه بسازید.',
+    totalScore: 'نمرهٔ کل سوالات جدول‌ها', yourTotalScore: 'نمرهٔ کل شما:',
+    sectionTitle: 'بخش {n}: عناصر {a} تا {b}',
+    atomicNumber: 'عدد اتمی', symbol: 'نماد', elementName: 'نام عنصر',
+    hideBtn: 'مخفی کردن نماد و اسم', showBtn: 'نمایش نماد و اسم',
+    questionsTitle: 'سؤالات تشریحی این بخش (۱۰ سؤال)',
+    showAnswer: 'جواب را نشانم بده', hideAnswer: 'پنهان کردن جواب',
+    selfGrade: 'خودارزیابی:', correct: 'درست', incorrect: 'نادرست',
+    yourSectionScore: 'نمرهٔ شما در این بخش:',
+    tableQName: 'نام فارسی عنصر با عدد اتمی {z} و نماد «{sym}» چیست؟',
+    tableQSymbol: 'نماد شیمیایی عنصر «{name}» (عدد اتمی {z}) چیست؟',
+    tableAName: '{name} ({sym}) — عدد اتمی {z}',
+    tableASymbol: '{sym} — {name} با عدد اتمی {z}',
+    tbTitle: 'تست‌ساز هوشمند (۸۸ عنصر)',
+    tbDesc: 'دکمهٔ «ساخت تست» را بزنید تا یک سؤال تصادفی دربارهٔ عدد اتمی، نام یا نماد یک عنصر بسازد.',
+    tbGenerate: 'ساخت تست', yourSectionScoreShort: 'نمرهٔ این بخش:',
+    submitAnswer: 'ثبت پاسخ', nextQuestion: 'سؤال بعدی',
+    chooseOption: '--- یک گزینه را انتخاب کنید ---', writeNumber: 'عدد را بنویسید...',
+    enterAnswer: 'لطفاً یک پاسخ وارد کنید یا انتخاب کنید.',
+    tbCorrectFeedback: 'پاسخ درست است.',
+    tbWrongFeedback: 'پاسخ نادرست. پاسخ صحیح: «{ans}»',
+    tbQAtomic: 'عدد اتمی عنصر «{name}» ({sym}) چند است؟',
+    tbQName: 'نام فارسی عنصر با عدد اتمی {z} و نماد «{sym}» چیست؟',
+    tbQSymbol: 'نماد شیمیایی عنصر «{name}» (عدد اتمی {z}) چیست؟',
+    ecTitle: 'پرسشگر آرایش الکترونی',
+    ecDesc: 'یک عنصر تصادفی نمایش داده می‌شود. با اسلایدرهای عمودی، تعداد الکترون‌های هر لایه را تنظیم کنید و سپس «بررسی پاسخ» را بزنید.',
+    randomElement: 'عنصر تصادفی', checkAnswer: 'بررسی پاسخ',
+    showCorrectAnswer: 'نمایش پاسخ صحیح', nextElement: 'عنصر بعدی',
+    maxLabel: 'حداکثر',
+    ecCorrectFeedback: 'آرایش الکترونی درست است.',
+    ecWrongFeedback: 'آرایش الکترونی نادرست است. می‌توانید پاسخ صحیح را ببینید یا عنصر بعدی را امتحان کنید.',
+    ecCorrectConfig: 'آرایش الکترونی صحیح {name} ({sym}):',
+  },
+  en: {
+    brand: 'Periodic Table', home: 'Home', flashcards: 'Flashcards', lesson: 'Lesson',
+    tables: 'Tables & Questions', testbuilder: 'Test Builder', electron: 'Electron Config',
+    darkMode: 'Dark Mode', lightMode: 'Light Mode', langToggle: 'فارسی',
+    periodicTable: 'Periodic Table of Elements', lanthanides: 'Lanthanides (57–71)', actinides: 'Actinides (89–103)',
+    myNotes: 'My Notes',
+    notesDesc: 'Write anything you want here. Font size can be changed and text is saved automatically.',
+    fontSize: 'Font size:', editorPlaceholder: 'Start writing here...',
+    fcTitle: 'Flashcards (88 elements)',
+    fcDesc: 'Click any card to hide its content and reveal the back.',
+    fcSearch: 'Search by name, symbol, or atomic number...',
+    fcShuffle: 'Shuffle', fcReset: 'Reset',
+    fcSeen: 'Cards seen:', fcOf: 'of',
+    fcAtomicNum: 'Atomic number', fcClick: 'Click',
+    fcConfirmReset: 'Clear all seen cards?',
+    lessonTitle: 'Study Guide (Main Groups)',
+    lessonIntro: 'This guide covers elements 1–40 organized by periodic table groups with Persian mnemonics. For other elements, use the flashcards and test builder.',
+    lessonGroup1: 'Group 1 — Alkali metals', lessonGroup2: 'Group 2 — Alkaline earth metals',
+    lessonGroup13: 'Group 13 — Boron family', lessonGroup14: 'Group 14 — Carbon family',
+    lessonGroup15: 'Group 15 — Nitrogen family', lessonGroup16: 'Group 16 — Oxygen family',
+    lessonGroup17: 'Group 17 — Halogens', lessonGroup18: 'Group 18 — Noble gases',
+    lessonGroupD4: 'Period 4 transition metals',
+    mnemonic: 'Mnemonic:', lessonNote: 'Note:',
+    lessonTipBody: 'For elements 31–118, use the flashcards and test builder. You can create your own mnemonics using the first letters of the symbols.',
+    totalScore: 'Total Table Score', yourTotalScore: 'Your total:',
+    sectionTitle: 'Section {n}: elements {a} to {b}',
+    atomicNumber: 'Atomic number', symbol: 'Symbol', elementName: 'Element name',
+    hideBtn: 'Hide symbols and names', showBtn: 'Show symbols and names',
+    questionsTitle: 'Essay questions for this section (10 questions)',
+    showAnswer: 'Show answer', hideAnswer: 'Hide answer',
+    selfGrade: 'Self-grade:', correct: 'Correct', incorrect: 'Incorrect',
+    yourSectionScore: 'Your score in this section:',
+    tableQName: 'What is the English name of the element with atomic number {z} and symbol "{sym}"?',
+    tableQSymbol: 'What is the chemical symbol of "{name}" (atomic number {z})?',
+    tableAName: '{name} ({sym}) — atomic number {z}',
+    tableASymbol: '{sym} — {name} with atomic number {z}',
+    tbTitle: 'Smart Test Builder (88 elements)',
+    tbDesc: 'Click "Generate Test" to create a random question about an element\'s atomic number, name, or symbol.',
+    tbGenerate: 'Generate Test', yourSectionScoreShort: 'Score:',
+    submitAnswer: 'Submit Answer', nextQuestion: 'Next Question',
+    chooseOption: '--- Select an option ---', writeNumber: 'Enter the number...',
+    enterAnswer: 'Please enter or select an answer.',
+    tbCorrectFeedback: 'Correct!',
+    tbWrongFeedback: 'Incorrect. Correct answer: "{ans}"',
+    tbQAtomic: 'What is the atomic number of "{name}" ({sym})?',
+    tbQName: 'What is the English name of the element with atomic number {z} and symbol "{sym}"?',
+    tbQSymbol: 'What is the chemical symbol of "{name}" (atomic number {z})?',
+    ecTitle: 'Electron Configuration Quiz',
+    ecDesc: 'A random element is shown. Use the vertical sliders to set the number of electrons in each shell, then click "Check Answer".',
+    randomElement: 'Random Element', checkAnswer: 'Check Answer',
+    showCorrectAnswer: 'Show Correct Answer', nextElement: 'Next Element',
+    maxLabel: 'max',
+    ecCorrectFeedback: 'Electron configuration is correct.',
+    ecWrongFeedback: 'Electron configuration is incorrect. You can view the correct answer or try the next element.',
+    ecCorrectConfig: 'Correct configuration for {name} ({sym}):',
+  }
+};
+
+/* ============================================================
+   توابع کمکی
+   ============================================================ */
+let currentLang = localStorage.getItem('lang') || 'fa';
+
+function t(key, params) {
+  let str = (I18N[currentLang] && I18N[currentLang][key]) || key;
+  if (params) {
+    for (const k in params) {
+      str = str.replace(new RegExp('\\{' + k + '\\}', 'g'), params[k]);
+    }
+  }
+  return str;
+}
+
+function faNum(n) {
+  const s = String(n);
+  if (currentLang === 'en') return s;
+  return s.replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+}
+
+function enNum(s) {
+  return String(s).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+}
+
+function elName(el) {
+  return currentLang === 'fa' ? el.name : el.nameEn;
+}
+
+function wikiUrl(el) {
+  const domain = currentLang === 'fa' ? 'fa' : 'en';
+  const title = currentLang === 'fa' ? el.name : el.nameEn;
+  return `https://${domain}.wikipedia.org/wiki/${encodeURIComponent(title)}`;
+}
+
+const LS = {
+  get: (k, def) => { try { const v = localStorage.getItem(k); return v === null ? def : v; } catch { return def; } },
+  set: (k, v) => { try { localStorage.setItem(k, v); } catch {} }
+};
+
+/* ============================================================
+   جدول مندلیف
+   ============================================================ */
+function buildPeriodicTable() {
+  const wrapper = document.querySelector('.periodic-table-wrapper');
+  if (!wrapper) return;
+
+  const layout = {
+    1:{g:1,p:1},2:{g:18,p:1},3:{g:1,p:2},4:{g:2,p:2},5:{g:13,p:2},6:{g:14,p:2},7:{g:15,p:2},8:{g:16,p:2},9:{g:17,p:2},10:{g:18,p:2},
+    11:{g:1,p:3},12:{g:2,p:3},13:{g:13,p:3},14:{g:14,p:3},15:{g:15,p:3},16:{g:16,p:3},17:{g:17,p:3},18:{g:18,p:3},
+    19:{g:1,p:4},20:{g:2,p:4},21:{g:3,p:4},22:{g:4,p:4},23:{g:5,p:4},24:{g:6,p:4},25:{g:7,p:4},26:{g:8,p:4},27:{g:9,p:4},28:{g:10,p:4},29:{g:11,p:4},30:{g:12,p:4},31:{g:13,p:4},32:{g:14,p:4},33:{g:15,p:4},34:{g:16,p:4},35:{g:17,p:4},36:{g:18,p:4},
+    37:{g:1,p:5},38:{g:2,p:5},39:{g:3,p:5},40:{g:4,p:5},41:{g:5,p:5},42:{g:6,p:5},43:{g:7,p:5},44:{g:8,p:5},45:{g:9,p:5},46:{g:10,p:5},47:{g:11,p:5},48:{g:12,p:5},49:{g:13,p:5},50:{g:14,p:5},51:{g:15,p:5},52:{g:16,p:5},53:{g:17,p:5},54:{g:18,p:5},
+    55:{g:1,p:6},56:{g:2,p:6},72:{g:4,p:6},73:{g:5,p:6},74:{g:6,p:6},75:{g:7,p:6},76:{g:8,p:6},77:{g:9,p:6},78:{g:10,p:6},79:{g:11,p:6},80:{g:12,p:6},81:{g:13,p:6},82:{g:14,p:6},83:{g:15,p:6},84:{g:16,p:6},85:{g:17,p:6},86:{g:18,p:6},
+    87:{g:1,p:7},88:{g:2,p:7},104:{g:4,p:7},105:{g:5,p:7},106:{g:6,p:7},107:{g:7,p:7},108:{g:8,p:7},109:{g:9,p:7},110:{g:10,p:7},111:{g:11,p:7},112:{g:12,p:7},113:{g:13,p:7},114:{g:14,p:7},115:{g:15,p:7},116:{g:16,p:7},117:{g:17,p:7},118:{g:18,p:7}
+  };
+  const lanthanides = [57,58,59,60,61,62,63,64,65,66,67,68,69,70,71];
+  const actinides = [89,90,91,92,93,94,95,96,97,98,99,100,101,102,103];
+  const byZ = {};
+  elements.forEach(el => { byZ[el.z] = el; });
+
+  function makeCell(z) {
+    const el = byZ[z];
+    if (!el) return null;
+    const a = document.createElement('a');
+    a.className = 'pt-cell';
+    a.href = wikiUrl(el);
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.innerHTML = `
+      <span class="pt-z">${faNum(el.z)}</span>
+      <span class="pt-sym">${el.sym}</span>
+      <span class="pt-name">${elName(el)}</span>
+    `;
+    return a;
+  }
+
+  const mainGrid = document.createElement('div');
+  mainGrid.className = 'periodic-table';
+  mainGrid.style.direction = 'ltr';
+  for (let period = 1; period <= 7; period++) {
+    for (let group = 1; group <= 18; group++) {
+      let foundZ = null;
+      for (const zStr in layout) {
+        const z = parseInt(zStr, 10);
+        if (layout[z].g === group && layout[z].p === period) { foundZ = z; break; }
+      }
+      if (foundZ) {
+        const cell = makeCell(foundZ);
+        if (cell) mainGrid.appendChild(cell);
+      } else {
+        const empty = document.createElement('div');
+        empty.className = 'pt-cell empty';
+        mainGrid.appendChild(empty);
+      }
+    }
+  }
+
+  const extra = document.createElement('div');
+  extra.style.marginTop = '6px';
+
+  const lanLabel = document.createElement('div');
+  lanLabel.style.cssText = 'font-size:.72rem;font-weight:600;color:var(--text-light);padding:4px;background:var(--surface-alt);border:1px solid var(--border);border-bottom:none;';
+  lanLabel.textContent = t('lanthanides');
+  extra.appendChild(lanLabel);
+
+  const lanGrid = document.createElement('div');
+  lanGrid.className = 'periodic-table';
+  lanGrid.style.direction = 'ltr';
+  for (let i = 0; i < 3; i++) {
+    const empty = document.createElement('div');
+    empty.className = 'pt-cell empty';
+    lanGrid.appendChild(empty);
+  }
+  lanthanides.forEach(z => { const c = makeCell(z); if (c) lanGrid.appendChild(c); });
+  extra.appendChild(lanGrid);
+
+  const actLabel = document.createElement('div');
+  actLabel.style.cssText = 'font-size:.72rem;font-weight:600;color:var(--text-light);padding:4px;background:var(--surface-alt);border:1px solid var(--border);border-top:none;border-bottom:none;margin-top:6px;';
+  actLabel.textContent = t('actinides');
+  extra.appendChild(actLabel);
+
+  const actGrid = document.createElement('div');
+  actGrid.className = 'periodic-table';
+  actGrid.style.direction = 'ltr';
+  for (let i = 0; i < 3; i++) {
+    const empty = document.createElement('div');
+    empty.className = 'pt-cell empty';
+    actGrid.appendChild(empty);
+  }
+  actinides.forEach(z => { const c = makeCell(z); if (c) actGrid.appendChild(c); });
+  extra.appendChild(actGrid);
+
+  wrapper.innerHTML = '';
+  wrapper.appendChild(mainGrid);
+  wrapper.appendChild(extra);
+}
+
+/* ============================================================
+   ناوبری
+   ============================================================ */
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const target = item.dataset.page;
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    item.classList.add('active');
+    document.getElementById('page-' + target).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+/* ============================================================
+   تم
+   ============================================================ */
+const themeToggle = document.getElementById('themeToggle');
+function applyTheme(isDark){
+  document.body.classList.toggle('dark', isDark);
+  themeToggle.textContent = isDark ? t('lightMode') : t('darkMode');
+}
+applyTheme(LS.get('theme', 'light') === 'dark');
+themeToggle.addEventListener('click', () => {
+  const isDark = !document.body.classList.contains('dark');
+  applyTheme(isDark);
+  LS.set('theme', isDark ? 'dark' : 'light');
+});
+
+/* ============================================================
+   دکمهٔ تغییر زبان
+   ============================================================ */
+const langToggle = document.getElementById('langToggle');
+langToggle.addEventListener('click', () => {
+  currentLang = currentLang === 'fa' ? 'en' : 'fa';
+  localStorage.setItem('lang', currentLang);
+  applyLanguage();
+});
+
+/* ============================================================
+   اعمال زبان
+   ============================================================ */
+function applyLanguage() {
+  const isFa = currentLang === 'fa';
+  document.documentElement.lang = currentLang;
+  document.documentElement.dir = isFa ? 'rtl' : 'ltr';
+  document.title = isFa ? 'جدول تناوبی تعاملی' : 'Interactive Periodic Table';
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.dataset.i18n);
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    el.placeholder = t(el.dataset.i18nPlaceholder);
+  });
+
+  applyTheme(document.body.classList.contains('dark'));
+  langToggle.textContent = t('langToggle');
+
+  fontSizeVal.textContent = faNum(fontSize.value);
+
+  buildPeriodicTable();
+  fcSearch.value = '';
+  currentElements = [...elements];
+  renderFlashcards(currentElements);
+  updateFcScore();
+  renderTables();
+  if (resetTestBuilderFn) resetTestBuilderFn();
+  if (resetElectronConfigFn) resetElectronConfigFn();
+}
+
+/* ============================================================
+   ویرایشگر
+   ============================================================ */
+const fontSize = document.getElementById('fontSize');
+const fontSizeVal = document.getElementById('fontSizeVal');
+const editor = document.getElementById('editor');
+const savedSize = parseInt(LS.get('fontSize', '16'), 10);
+fontSize.value = savedSize;
+editor.style.fontSize = savedSize + 'px';
+fontSizeVal.textContent = faNum(savedSize);
+editor.value = LS.get('editorContent', '');
+fontSize.addEventListener('input', () => {
+  editor.style.fontSize = fontSize.value + 'px';
+  fontSizeVal.textContent = faNum(fontSize.value);
+  LS.set('fontSize', fontSize.value);
+});
+editor.addEventListener('input', () => LS.set('editorContent', editor.value));
+
+/* ============================================================
+   فلش‌کارت
+   ============================================================ */
+const fcGrid = document.getElementById('fcGrid');
+const fcScore = document.getElementById('fcScore');
+const fcSearch = document.getElementById('fcSearch');
+const fcProgressBar = document.getElementById('fcProgressBar');
+const seenCards = new Set(JSON.parse(LS.get('seenCards', '[]')));
+let currentElements = [...elements];
+
+function renderFlashcards(list) {
+  fcGrid.innerHTML = '';
+  const frag = document.createDocumentFragment();
+  list.forEach(el => {
+    const card = document.createElement('div');
+    card.className = 'fc-card';
+    card.innerHTML = `
+      <div class="fc-face fc-back">
+        <div class="sym">${el.sym}</div>
+        <div class="name">${elName(el)}</div>
+      </div>
+      <div class="fc-face fc-front">
+        <div class="big-z">${faNum(el.z)}</div>
+        <div class="z-label">${t('fcAtomicNum')}</div>
+        <div class="hint">${t('fcClick')}</div>
+      </div>`;
+    if (seenCards.has(el.z)) {
+      const dot = document.createElement('span');
+      dot.className = 'fc-seen';
+      card.appendChild(dot);
+    }
+    card.addEventListener('click', () => {
+      card.classList.toggle('show-back');
+      if (!seenCards.has(el.z)) {
+        seenCards.add(el.z);
+        LS.set('seenCards', JSON.stringify([...seenCards]));
+        const dot = document.createElement('span');
+        dot.className = 'fc-seen';
+        card.appendChild(dot);
+        updateFcScore();
+      }
+    });
+    frag.appendChild(card);
+  });
+  fcGrid.appendChild(frag);
+}
+function updateFcScore() {
+  const pct = Math.round((seenCards.size / elements.length) * 100);
+  fcScore.textContent = `${t('fcSeen')} ${faNum(seenCards.size)} ${t('fcOf')} ${faNum(elements.length)} (${faNum(pct)}٪)`;
+  fcProgressBar.style.width = pct + '%';
+}
+fcSearch.addEventListener('input', () => {
+  const q = fcSearch.value.trim().toLowerCase();
+  currentElements = !q ? [...elements] : elements.filter(el =>
+    String(el.z).includes(q) ||
+    el.sym.toLowerCase().includes(q) ||
+    el.name.includes(q) ||
+    el.nameEn.toLowerCase().includes(q));
+  renderFlashcards(currentElements);
+  updateFcScore();
+});
+document.getElementById('fcShuffleBtn').addEventListener('click', () => {
+  const arr = [...currentElements];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  renderFlashcards(arr);
+});
+document.getElementById('fcResetBtn').addEventListener('click', () => {
+  if (!confirm(t('fcConfirmReset'))) return;
+  fcSearch.value = ''; currentElements = [...elements]; seenCards.clear();
+  LS.set('seenCards', '[]');
+  renderFlashcards(currentElements); updateFcScore();
+});
+
+/* ============================================================
+   جدول‌ها و سوالات
+   ============================================================ */
+const app = document.getElementById('app');
+const allStates = [];
+function updateTotal(){
+  const sum = allStates.reduce((acc, s) => acc + s.filter(x => x === true).length, 0);
+  const total = allStates.reduce((acc, s) => acc + s.length, 0);
+  document.getElementById('totalScore').textContent = `${t('yourTotalScore')} ${faNum(sum)} / ${faNum(total)}`;
+}
+function makeQuestions(sectionElements) {
+  const qs = [];
+  const shuffled = [...sectionElements].sort(() => Math.random() - 0.5);
+  for (let i = 0; i < 10; i++) {
+    const el = shuffled[i % shuffled.length];
+    const [z, sym, nameFa, nameEn] = el;
+    const nameStr = currentLang === 'fa' ? nameFa : nameEn;
+    if (i % 2 === 0) {
+      qs.push({
+        q: t('tableQName', {z: faNum(z), sym}),
+        a: t('tableAName', {name: nameStr, sym, z: faNum(z)})
+      });
+    } else {
+      qs.push({
+        q: t('tableQSymbol', {name: nameStr, z: faNum(z)}),
+        a: t('tableASymbol', {sym, name: nameStr, z: faNum(z)})
+      });
+    }
+  }
+  return qs;
+}
+function renderTables() {
+  app.innerHTML = '';
+  allStates.length = 0;
+  updateTotal();
+
+  for (let start = 0; start < rawElements.length; start += 10) {
+    const slice = rawElements.slice(start, start + 10);
+    const sectionNum = Math.floor(start / 10) + 1;
+    const firstZ = slice[0][0], lastZ = slice[slice.length - 1][0];
+    const tbl = {
+      title: t('sectionTitle', {n: faNum(sectionNum), a: faNum(firstZ), b: faNum(lastZ)}),
+      elements: slice,
+      questions: makeQuestions(slice)
+    };
+    const card = document.createElement('section');
+    card.className = 'panel';
+    card.innerHTML = `<h2>${tbl.title}</h2>`;
+    const controls = document.createElement('div');
+    controls.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px';
+    const toggleBtn = document.createElement('button');
+    toggleBtn.className = 'btn toggle';
+    toggleBtn.textContent = t('hideBtn');
+    controls.appendChild(toggleBtn);
+    card.appendChild(controls);
+
+    const table = document.createElement('table');
+    table.innerHTML = `<thead><tr><th>${t('atomicNumber')}</th><th>${t('symbol')}</th><th>${t('elementName')}</th></tr></thead>`;
+    const tbody = document.createElement('tbody');
+    tbl.elements.forEach(([z, sym, nameFa, nameEn]) => {
+      const tr = document.createElement('tr');
+      const nameStr = currentLang === 'fa' ? nameFa : nameEn;
+      tr.innerHTML = `<td>${faNum(z)}</td><td class="sym">${sym}</td><td class="name">${nameStr}</td>`;
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    card.appendChild(table);
+    let masked = false;
+    toggleBtn.addEventListener('click', () => {
+      masked = !masked;
+      table.classList.toggle('masked', masked);
+      toggleBtn.textContent = masked ? t('showBtn') : t('hideBtn');
+    });
+
+    const qSection = document.createElement('div');
+    qSection.className = 'questions-section collapsed';
+    const qBar = document.createElement('div');
+    qBar.className = 'questions-toggle-bar';
+    qBar.innerHTML = `<span>${t('questionsTitle')}</span><span class="chevron"></span>`;
+    qSection.appendChild(qBar);
+    const qContent = document.createElement('div');
+    qContent.className = 'questions-content';
+
+    const states = new Array(tbl.questions.length).fill(null);
+    allStates.push(states);
+    const scoreEl = document.createElement('div');
+    scoreEl.className = 'score';
+    function updateScore(){
+      const c = states.filter(x => x === true).length;
+      scoreEl.textContent = `${t('yourSectionScore')} ${faNum(c)} / ${faNum(10)}`;
+      updateTotal();
+    }
+    tbl.questions.forEach((item, qi) => {
+      const box = document.createElement('div');
+      box.className = 'q';
+      const qText = document.createElement('div');
+      qText.className = 'q-text';
+      qText.textContent = `${faNum(qi + 1)}. ${item.q}`;
+      box.appendChild(qText);
+      const ansBtn = document.createElement('button');
+      ansBtn.className = 'btn';
+      ansBtn.textContent = t('showAnswer');
+      box.appendChild(ansBtn);
+      const ans = document.createElement('div');
+      ans.className = 'answer hidden';
+      ans.textContent = item.a;
+      box.appendChild(ans);
+      const grade = document.createElement('div');
+      grade.className = 'grade hidden';
+      const label = document.createElement('span');
+      label.textContent = t('selfGrade');
+      const okBtn = document.createElement('button');
+      okBtn.textContent = t('correct');
+      const noBtn = document.createElement('button');
+      noBtn.textContent = t('incorrect');
+      grade.append(label, okBtn, noBtn);
+      box.appendChild(grade);
+      ansBtn.addEventListener('click', () => {
+        const isHidden = ans.classList.toggle('hidden');
+        grade.classList.toggle('hidden', isHidden);
+        ansBtn.textContent = isHidden ? t('showAnswer') : t('hideAnswer');
+      });
+      function setState(val){
+        states[qi] = val;
+        okBtn.classList.toggle('active-ok', val === true);
+        noBtn.classList.toggle('active-no', val === false);
+        updateScore();
+      }
+      okBtn.addEventListener('click', () => setState(states[qi] === true ? null : true));
+      noBtn.addEventListener('click', () => setState(states[qi] === false ? null : false));
+      qContent.appendChild(box);
+    });
+    qContent.appendChild(scoreEl);
+    qSection.appendChild(qContent);
+    card.appendChild(qSection);
+    qBar.addEventListener('click', () => {
+      qSection.classList.toggle('collapsed');
+    });
+    updateScore();
+    app.appendChild(card);
+  }
+}
+
+/* ============================================================
+   تست‌ساز
+   ============================================================ */
+let resetTestBuilderFn = null;
+(function initTestBuilder() {
+  const EXCLUDED_TB = new Set();
+  for (let i = 57; i <= 71; i++) EXCLUDED_TB.add(i);
+  for (let i = 89; i <= 103; i++) EXCLUDED_TB.add(i);
+  const tbElements = elements.filter(el => !EXCLUDED_TB.has(el.z));
+
+  const generateBtn = document.getElementById('tbGenerateBtn');
+  const questionBox = document.getElementById('tbQuestionBox');
+  const questionText = document.getElementById('tbQuestionText');
+  const answerArea = document.getElementById('tbAnswerArea');
+  const submitBtn = document.getElementById('tbSubmitBtn');
+  const nextBtn = document.getElementById('tbNextBtn');
+  const feedback = document.getElementById('tbFeedback');
+  const scoreSpan = document.getElementById('tbScore');
+
+  let currentQuestion = null, tbCorrect = 0, tbTotal = 0;
+
+  function updateScoreLabel() {
+    scoreSpan.textContent = `${t('yourSectionScoreShort')} ${faNum(tbCorrect)} / ${faNum(tbTotal)}`;
+  }
+
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function generateQuestion() {
+    const element = tbElements[Math.floor(Math.random() * tbElements.length)];
+    const types = ['atomicNumber', 'name', 'symbol'];
+    const type = types[Math.floor(Math.random() * types.length)];
+    let question, correctAnswer, options = null, inputMode;
+    if (type === 'atomicNumber') {
+      question = t('tbQAtomic', {name: elName(element), sym: element.sym});
+      correctAnswer = String(element.z);
+      inputMode = 'text';
+    } else if (type === 'name') {
+      question = t('tbQName', {z: faNum(element.z), sym: element.sym});
+      correctAnswer = elName(element);
+      inputMode = 'select';
+      const others = shuffle(tbElements.filter(e => e.z !== element.z)).slice(0, 5).map(e => elName(e));
+      options = shuffle([elName(element), ...others]);
+    } else {
+      question = t('tbQSymbol', {name: elName(element), z: faNum(element.z)});
+      correctAnswer = element.sym;
+      inputMode = 'select';
+      const others = shuffle(tbElements.filter(e => e.z !== element.z)).slice(0, 5).map(e => e.sym);
+      options = shuffle([element.sym, ...others]);
+    }
+    return { type, element, question, correctAnswer, options, inputMode };
+  }
+
+  function renderQuestion(q) {
+    currentQuestion = q;
+    questionText.textContent = q.question;
+    answerArea.innerHTML = '';
+    feedback.textContent = '';
+    submitBtn.textContent = t('submitAnswer');
+    nextBtn.textContent = t('nextQuestion');
+    submitBtn.style.display = 'inline-block';
+    nextBtn.style.display = 'none';
+    if (q.inputMode === 'text') {
+      const input = document.createElement('input');
+      input.type = 'text'; input.id = 'tbTextInput'; input.className = 'tb-input';
+      input.placeholder = t('writeNumber'); input.style.textAlign = 'center';
+      input.setAttribute('aria-label', t('writeNumber'));
+      answerArea.appendChild(input); input.focus();
+      input.addEventListener('keydown', e => { if (e.key === 'Enter') submitBtn.click(); });
+    } else {
+      const select = document.createElement('select');
+      select.id = 'tbSelectInput'; select.className = 'tb-input';
+      select.setAttribute('aria-label', t('chooseOption'));
+      const def = document.createElement('option'); def.value = ''; def.textContent = t('chooseOption');
+      select.appendChild(def);
+      q.options.forEach(opt => {
+        const o = document.createElement('option'); o.value = opt; o.textContent = opt; select.appendChild(o);
+      });
+      answerArea.appendChild(select); select.focus();
+    }
+    questionBox.style.display = 'block';
+  }
+
+  function submitAnswer() {
+    if (!currentQuestion) return;
+    const q = currentQuestion;
+    let userAnswer = '';
+    if (q.inputMode === 'text') {
+      userAnswer = enNum(document.getElementById('tbTextInput').value.trim());
+    } else {
+      userAnswer = document.getElementById('tbSelectInput').value;
+    }
+    if (!userAnswer) {
+      feedback.textContent = t('enterAnswer');
+      feedback.style.color = 'var(--warning-text)';
+      return;
+    }
+    const isCorrect = userAnswer === q.correctAnswer;
+    tbTotal++; if (isCorrect) tbCorrect++;
+    updateScoreLabel();
+    feedback.textContent = isCorrect
+      ? t('tbCorrectFeedback')
+      : t('tbWrongFeedback', {ans: q.correctAnswer});
+    feedback.style.color = isCorrect ? 'var(--success-dark)' : 'var(--danger-dark)';
+    submitBtn.style.display = 'none'; nextBtn.style.display = 'inline-block';
+    const inp = document.getElementById('tbTextInput');
+    const sel = document.getElementById('tbSelectInput');
+    if (inp) inp.disabled = true;
+    if (sel) sel.disabled = true;
+  }
+
+  generateBtn.addEventListener('click', () => renderQuestion(generateQuestion()));
+  submitBtn.addEventListener('click', submitAnswer);
+  nextBtn.addEventListener('click', () => renderQuestion(generateQuestion()));
+
+  resetTestBuilderFn = function() {
+    tbCorrect = 0; tbTotal = 0; currentQuestion = null;
+    questionBox.style.display = 'none';
+    updateScoreLabel();
+  };
+  resetTestBuilderFn();
+})();
+
+/* ============================================================
+   آرایش الکترونی
+   ============================================================ */
+let resetElectronConfigFn = null;
+(function initElectronConfig() {
+  const EXCLUDED_EC = new Set();
+  for (let i = 57; i <= 71; i++) EXCLUDED_EC.add(i);
+  for (let i = 89; i <= 103; i++) EXCLUDED_EC.add(i);
+  const ecElements = elements.filter(el => !EXCLUDED_EC.has(el.z));
+
+  const generateBtn = document.getElementById('ecGenerateBtn');
+  const elementBox = document.getElementById('ecElementBox');
+  const elementDisplay = document.getElementById('ecElementDisplay');
+  const ecGrid = document.getElementById('ecGrid');
+  const checkBtn = document.getElementById('ecCheckBtn');
+  const showAnswerBtn = document.getElementById('ecShowAnswerBtn');
+  const nextBtn = document.getElementById('ecNextBtn');
+  const feedback = document.getElementById('ecFeedback');
+  const correctBox = document.getElementById('ecCorrect');
+  const scoreSpan = document.getElementById('ecScore');
+
+  const SHELLS = [
+    { name: 'K', max: 2 }, { name: 'L', max: 8 }, { name: 'M', max: 18 },
+    { name: 'N', max: 32 }, { name: 'O', max: 32 }, { name: 'P', max: 18 }, { name: 'Q', max: 8 }
+  ];
+  const EXCEPTIONS = {
+    24: [2,8,13,1], 29: [2,8,18,1],
+    41: [2,8,18,12,1], 42: [2,8,18,13,1], 44: [2,8,18,15,1],
+    45: [2,8,18,16,1], 46: [2,8,18,18], 47: [2,8,18,18,1],
+    78: [2,8,18,32,17,1], 79: [2,8,18,32,18,1]
+  };
+  const AUFBAU = [
+    [1,2],[2,2],[2,6],[3,2],[3,6],[4,2],[3,10],[4,6],[5,2],
+    [4,10],[5,6],[6,2],[4,14],[5,10],[6,6],[7,2],[5,14],[6,10],[7,6]
+  ];
+  function getShellConfiguration(z) {
+    if (EXCEPTIONS[z]) return [...EXCEPTIONS[z]];
+    let remaining = z;
+    const shells = [0,0,0,0,0,0,0];
+    for (const [n, cap] of AUFBAU) {
+      if (remaining <= 0) break;
+      const e = Math.min(remaining, cap);
+      shells[n - 1] += e;
+      remaining -= e;
+    }
+    return shells.filter(s => s > 0);
+  }
+
+  let currentElement = null, correctConfig = null;
+  let ecCorrect = 0, ecTotal = 0;
+  let sliderRefs = [];
+
+  function updateScoreLabel() {
+    scoreSpan.textContent = `${t('yourSectionScoreShort')} ${faNum(ecCorrect)} / ${faNum(ecTotal)}`;
+  }
+
+  function generateElement() {
+    currentElement = ecElements[Math.floor(Math.random() * ecElements.length)];
+    correctConfig = getShellConfiguration(currentElement.z);
+    elementDisplay.innerHTML = `
+      <div class="z">${faNum(currentElement.z)}</div>
+      <div class="name">${elName(currentElement)}</div>
+      <div class="sym">${currentElement.sym}</div>
+    `;
+    ecGrid.innerHTML = '';
+    sliderRefs = [];
+    SHELLS.forEach((shell, idx) => {
+      const div = document.createElement('div');
+      div.className = 'ec-shell';
+      div.innerHTML = `
+        <div class="ec-shell-label">${shell.name}</div>
+        <div class="ec-max">${t('maxLabel')} ${faNum(shell.max)}</div>
+        <input type="range" class="ec-slider" min="0" max="${shell.max}" value="0"
+               data-shell="${idx}" aria-label="Shell ${shell.name}">
+        <div class="ec-value" id="ecVal${idx}">۰</div>
+      `;
+      ecGrid.appendChild(div);
+      const slider = div.querySelector('.ec-slider');
+      const valDisplay = div.querySelector('.ec-value');
+      sliderRefs.push(slider);
+      slider.addEventListener('input', () => {
+        valDisplay.textContent = faNum(slider.value);
+      });
+    });
+    feedback.classList.add('hidden');
+    feedback.textContent = '';
+    correctBox.classList.add('hidden');
+    correctBox.textContent = '';
+    checkBtn.textContent = t('checkAnswer');
+    showAnswerBtn.textContent = t('showCorrectAnswer');
+    nextBtn.textContent = t('nextElement');
+    checkBtn.style.display = 'inline-block';
+    showAnswerBtn.style.display = 'inline-block';
+    nextBtn.style.display = 'none';
+    elementBox.style.display = 'block';
+  }
+
+  function checkAnswer() {
+    if (!currentElement) return;
+    const userConfig = sliderRefs.map(s => parseInt(s.value, 10) || 0);
+    while (userConfig.length > 0 && userConfig[userConfig.length - 1] === 0) userConfig.pop();
+    const isCorrect = JSON.stringify(userConfig) === JSON.stringify(correctConfig);
+    ecTotal++;
+    if (isCorrect) ecCorrect++;
+    updateScoreLabel();
+    feedback.classList.remove('hidden', 'correct', 'wrong');
+    feedback.classList.add(isCorrect ? 'correct' : 'wrong');
+    feedback.textContent = isCorrect ? t('ecCorrectFeedback') : t('ecWrongFeedback');
+    checkBtn.style.display = 'none';
+    nextBtn.style.display = 'inline-block';
+    showAnswerBtn.style.display = isCorrect ? 'none' : 'inline-block';
+  }
+
+  function showCorrectAnswer() {
+    if (!currentElement) return;
+    correctBox.innerHTML = `${t('ecCorrectConfig', {name: elName(currentElement), sym: currentElement.sym})}<br>
+      <strong style="font-size:1.02rem">${correctConfig.map((e, i) => `${SHELLS[i].name}: ${faNum(e)}`).join(' — ')}</strong>`;
+    correctBox.classList.remove('hidden');
+    showAnswerBtn.style.display = 'none';
+  }
+
+  generateBtn.addEventListener('click', generateElement);
+  checkBtn.addEventListener('click', checkAnswer);
+  showAnswerBtn.addEventListener('click', showCorrectAnswer);
+  nextBtn.addEventListener('click', generateElement);
+
+  resetElectronConfigFn = function() {
+    ecCorrect = 0; ecTotal = 0; currentElement = null;
+    elementBox.style.display = 'none';
+    updateScoreLabel();
+  };
+  resetElectronConfigFn();
+})();
+
+/* ============================================================
+   راه‌اندازی اولیه
+   ============================================================ */
+applyLanguage();
+</script>
+</body>
+</html>
