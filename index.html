@@ -71,6 +71,19 @@
   .pt-cell .pt-name { font-size: .55rem; color: var(--text-light); line-height: 1.2; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
   .pt-cell.empty { background: var(--surface-alt); cursor: default; pointer-events: none; visibility: hidden; }
 
+  /* استایل خاص کادرهای لانتانید و اکتینید */
+  .pt-cell.series-indicator {
+    background: var(--warning-light);
+    border: 1px dashed var(--warning);
+    cursor: pointer;
+    color: var(--warning-text);
+  }
+  .pt-cell.series-indicator:hover { background: var(--warning); color: #fff; }
+  .pt-cell.series-indicator .pt-sym { color: var(--warning-text); font-size: 0.9rem; }
+  .pt-cell.series-indicator:hover .pt-sym { color: #fff; }
+  .pt-cell.series-indicator .pt-name { color: var(--warning-text); font-size: 0.55rem; }
+  .pt-cell.series-indicator:hover .pt-name { color: #fff; }
+
   button { cursor: pointer; border: none; font-size: .82rem; transition: background .15s, border-color .15s, color .15s; font-weight: 500; }
   .btn { background: var(--primary); color: #fff; padding: 7px 14px; }
   .btn:hover { background: var(--primary-dark); }
@@ -820,6 +833,25 @@ function buildPeriodicTable() {
     return a;
   }
 
+  function makeSeriesIndicator(type) {
+    const div = document.createElement('div');
+    div.className = 'pt-cell series-indicator';
+    if (type === 'lan') {
+      div.innerHTML = `<span class="pt-z">57-71</span><span class="pt-sym">↓</span><span class="pt-name">${t('lanthanides')}</span>`;
+      div.onclick = () => {
+        const target = document.getElementById('lan-grid');
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      };
+    } else {
+      div.innerHTML = `<span class="pt-z">89-103</span><span class="pt-sym">↓</span><span class="pt-name">${t('actinides')}</span>`;
+      div.onclick = () => {
+        const target = document.getElementById('act-grid');
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      };
+    }
+    return div;
+  }
+
   const mainGrid = document.createElement('div');
   mainGrid.className = 'periodic-table';
   mainGrid.style.direction = 'ltr';
@@ -830,7 +862,13 @@ function buildPeriodicTable() {
         const z = parseInt(zStr, 10);
         if (layout[z].g === group && layout[z].p === period) { foundZ = z; break; }
       }
-      if (foundZ) {
+      
+      // جایگذاری کادر راهنما در جای خالی لانتانیدها و اکتینیدها
+      if (!foundZ && period === 6 && group === 3) {
+        mainGrid.appendChild(makeSeriesIndicator('lan'));
+      } else if (!foundZ && period === 7 && group === 3) {
+        mainGrid.appendChild(makeSeriesIndicator('act'));
+      } else if (foundZ) {
         const cell = makeCell(foundZ);
         if (cell) mainGrid.appendChild(cell);
       } else {
@@ -850,6 +888,7 @@ function buildPeriodicTable() {
   extra.appendChild(lanLabel);
 
   const lanGrid = document.createElement('div');
+  lanGrid.id = 'lan-grid';
   lanGrid.className = 'periodic-table';
   lanGrid.style.direction = 'ltr';
   for (let i = 0; i < 3; i++) {
@@ -866,6 +905,7 @@ function buildPeriodicTable() {
   extra.appendChild(actLabel);
 
   const actGrid = document.createElement('div');
+  actGrid.id = 'act-grid';
   actGrid.className = 'periodic-table';
   actGrid.style.direction = 'ltr';
   for (let i = 0; i < 3; i++) {
