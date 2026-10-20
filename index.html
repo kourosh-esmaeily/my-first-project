@@ -1,4 +1,4 @@
-<!-- This code was generated completely by AI. -->
+<!-- this code was generated completely by AI. -->
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -188,7 +188,6 @@
     </div>
     <div class="panel">
       <h2 data-i18n="myNotes">یادداشت‌های من</h2>
-      <p style="font-size:.82rem;color:var(--text-light);margin:0 0 14px" data-i18n="notesDesc">اینجا می‌توانید هرچه می‌خواهید بنویسید. اندازهٔ فونت قابل تغییر است و متن به‌صورت خودکار ذخیره می‌شود.</p>
       <div class="editor-controls">
         <label for="fontSize" data-i18n="fontSize">اندازهٔ فونت:</label>
         <input type="range" id="fontSize" min="12" max="48" value="16" aria-label="Font size">
@@ -200,8 +199,7 @@
 
   <section class="page" id="page-flashcards">
     <div class="panel">
-      <h2 data-i18n="fcTitle">فلش‌کارت‌ها (۸۸ عنصر)</h2>
-      <p style="font-size:.8rem;color:var(--text-light);margin:0 0 10px" data-i18n="fcDesc">روی هر خانه کلیک کنید تا محتوای آن پنهان و پشتش ظاهر شود.</p>
+      <h2 data-i18n="fcTitle">فلش‌کارت‌ها</h2>
       <div class="fc-actions">
         <input type="text" id="fcSearch" class="search-box" placeholder="جستجو بر اساس نام، نماد یا عدد اتمی..." data-i18n-placeholder="fcSearch" style="flex:1;min-width:200px" aria-label="Search">
         <button class="btn ghost" id="fcShuffleBtn" data-i18n="fcShuffle">بر زدن</button>
@@ -306,8 +304,7 @@
 
   <section class="page" id="page-testbuilder">
     <div class="panel">
-      <h2 data-i18n="tbTitle">تست‌ساز هوشمند (۸۸ عنصر)</h2>
-      <p style="font-size:.8rem;color:var(--text-light);margin:0 0 10px" data-i18n="tbDesc">دکمهٔ «ساخت تست» را بزنید تا یک سؤال تصادفی دربارهٔ عدد اتمی، نام یا نماد یک عنصر بسازد.</p>
+      <h2 data-i18n="tbTitle">تست‌ساز هوشمند</h2>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center">
         <button class="btn" id="tbGenerateBtn" data-i18n="tbGenerate">ساخت تست</button>
         <span class="tb-score-badge" id="tbScore"></span>
@@ -329,7 +326,6 @@
   <section class="page" id="page-electron">
     <div class="panel">
       <h2 data-i18n="ecTitle">پرسشگر آرایش الکترونی</h2>
-      <p style="font-size:.8rem;color:var(--text-light);margin:0 0 10px" data-i18n="ecDesc">یک عنصر تصادفی نمایش داده می‌شود. با اسلایدرهای عمودی، تعداد الکترون‌های هر لایه را تنظیم کنید و سپس «بررسی پاسخ» را بزنید.</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center">
         <button class="btn" id="ecGenerateBtn" data-i18n="randomElement">عنصر تصادفی</button>
         <span class="tb-score-badge" id="ecScore"></span>
@@ -350,9 +346,6 @@
 </main>
 
 <script>
-/* ============================================================
-   داده‌های عناصر (نام فارسی و انگلیسی)
-   ============================================================ */
 const rawElements = [
   [1,'H','هیدروژن','Hydrogen'],[2,'He','هلیم','Helium'],[3,'Li','لیتیم','Lithium'],[4,'Be','بریلیم','Beryllium'],[5,'B','بور','Boron'],
   [6,'C','کربن','Carbon'],[7,'N','نیتروژن','Nitrogen'],[8,'O','اکسیژن','Oxygen'],[9,'F','فلوئور','Fluorine'],[10,'Ne','نئون','Neon'],
@@ -381,9 +374,6 @@ const rawElements = [
 ];
 const elements = rawElements.map(([z, sym, name, nameEn]) => ({ z, sym, name, nameEn }));
 
-/* ============================================================
-   ترجمه‌ها
-   ============================================================ */
 const I18N = {
   fa: {
     brand: 'جدول تناوبی', home: 'خانه', flashcards: 'فلش‌کارت', lesson: 'درسنامه',
@@ -391,10 +381,8 @@ const I18N = {
     darkMode: 'حالت شب', lightMode: 'حالت روز', langToggle: 'English',
     periodicTable: 'جدول تناوبی عناصر', lanthanides: 'لانتانیدها (۵۷–۷۱)', actinides: 'اکتینیدها (۸۹–۱۰۳)',
     myNotes: 'یادداشت‌های من',
-    notesDesc: 'اینجا می‌توانید هرچه می‌خواهید بنویسید. اندازهٔ فونت قابل تغییر است و متن به‌صورت خودکار ذخیره می‌شود.',
     fontSize: 'اندازهٔ فونت:', editorPlaceholder: 'اینجا شروع به نوشتن کنید...',
-    fcTitle: 'فلش‌کارت‌ها (۸۸ عنصر)',
-    fcDesc: 'روی هر خانه کلیک کنید تا محتوای آن پنهان و پشتش ظاهر شود.',
+    fcTitle: 'فلش‌کارت‌ها',
     fcSearch: 'جستجو بر اساس نام، نماد یا عدد اتمی...',
     fcShuffle: 'بر زدن', fcReset: 'بازنشانی',
     fcSeen: 'تعداد کارت‌های دیده‌شده:', fcOf: 'از',
@@ -421,8 +409,7 @@ const I18N = {
     tableQSymbol: 'نماد شیمیایی عنصر «{name}» (عدد اتمی {z}) چیست؟',
     tableAName: '{name} ({sym}) — عدد اتمی {z}',
     tableASymbol: '{sym} — {name} با عدد اتمی {z}',
-    tbTitle: 'تست‌ساز هوشمند (۸۸ عنصر)',
-    tbDesc: 'دکمهٔ «ساخت تست» را بزنید تا یک سؤال تصادفی دربارهٔ عدد اتمی، نام یا نماد یک عنصر بسازد.',
+    tbTitle: 'تست‌ساز هوشمند',
     tbGenerate: 'ساخت تست', yourSectionScoreShort: 'نمرهٔ این بخش:',
     submitAnswer: 'ثبت پاسخ', nextQuestion: 'سؤال بعدی',
     chooseOption: '--- یک گزینه را انتخاب کنید ---', writeNumber: 'عدد را بنویسید...',
@@ -433,7 +420,6 @@ const I18N = {
     tbQName: 'نام فارسی عنصر با عدد اتمی {z} و نماد «{sym}» چیست؟',
     tbQSymbol: 'نماد شیمیایی عنصر «{name}» (عدد اتمی {z}) چیست؟',
     ecTitle: 'پرسشگر آرایش الکترونی',
-    ecDesc: 'یک عنصر تصادفی نمایش داده می‌شود. با اسلایدرهای عمودی، تعداد الکترون‌های هر لایه را تنظیم کنید و سپس «بررسی پاسخ» را بزنید.',
     randomElement: 'عنصر تصادفی', checkAnswer: 'بررسی پاسخ',
     showCorrectAnswer: 'نمایش پاسخ صحیح', nextElement: 'عنصر بعدی',
     maxLabel: 'حداکثر',
@@ -447,10 +433,8 @@ const I18N = {
     darkMode: 'Dark Mode', lightMode: 'Light Mode', langToggle: 'فارسی',
     periodicTable: 'Periodic Table of Elements', lanthanides: 'Lanthanides (57–71)', actinides: 'Actinides (89–103)',
     myNotes: 'My Notes',
-    notesDesc: 'Write anything you want here. Font size can be changed and text is saved automatically.',
     fontSize: 'Font size:', editorPlaceholder: 'Start writing here...',
-    fcTitle: 'Flashcards (88 elements)',
-    fcDesc: 'Click any card to hide its content and reveal the back.',
+    fcTitle: 'Flashcards',
     fcSearch: 'Search by name, symbol, or atomic number...',
     fcShuffle: 'Shuffle', fcReset: 'Reset',
     fcSeen: 'Cards seen:', fcOf: 'of',
@@ -477,8 +461,7 @@ const I18N = {
     tableQSymbol: 'What is the chemical symbol of "{name}" (atomic number {z})?',
     tableAName: '{name} ({sym}) — atomic number {z}',
     tableASymbol: '{sym} — {name} with atomic number {z}',
-    tbTitle: 'Smart Test Builder (88 elements)',
-    tbDesc: 'Click "Generate Test" to create a random question about an element\'s atomic number, name, or symbol.',
+    tbTitle: 'Smart Test Builder',
     tbGenerate: 'Generate Test', yourSectionScoreShort: 'Score:',
     submitAnswer: 'Submit Answer', nextQuestion: 'Next Question',
     chooseOption: '--- Select an option ---', writeNumber: 'Enter the number...',
@@ -489,7 +472,6 @@ const I18N = {
     tbQName: 'What is the English name of the element with atomic number {z} and symbol "{sym}"?',
     tbQSymbol: 'What is the chemical symbol of "{name}" (atomic number {z})?',
     ecTitle: 'Electron Configuration Quiz',
-    ecDesc: 'A random element is shown. Use the vertical sliders to set the number of electrons in each shell, then click "Check Answer".',
     randomElement: 'Random Element', checkAnswer: 'Check Answer',
     showCorrectAnswer: 'Show Correct Answer', nextElement: 'Next Element',
     maxLabel: 'max',
@@ -499,9 +481,6 @@ const I18N = {
   }
 };
 
-/* ============================================================
-   توابع کمکی
-   ============================================================ */
 let currentLang = localStorage.getItem('lang') || 'fa';
 
 function t(key, params) {
@@ -539,9 +518,6 @@ const LS = {
   set: (k, v) => { try { localStorage.setItem(k, v); } catch {} }
 };
 
-/* ============================================================
-   جدول مندلیف
-   ============================================================ */
 function buildPeriodicTable() {
   const wrapper = document.querySelector('.periodic-table-wrapper');
   if (!wrapper) return;
@@ -636,12 +612,10 @@ function buildPeriodicTable() {
   wrapper.appendChild(extra);
 }
 
-/* ============================================================
-   ناوبری
-   ============================================================ */
 document.querySelectorAll('.nav-item').forEach(item => {
   item.addEventListener('click', () => {
     const target = item.dataset.page;
+    if (target === 'lesson' && currentLang === 'en') return;
     document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     item.classList.add('active');
@@ -650,9 +624,6 @@ document.querySelectorAll('.nav-item').forEach(item => {
   });
 });
 
-/* ============================================================
-   تم
-   ============================================================ */
 const themeToggle = document.getElementById('themeToggle');
 function applyTheme(isDark){
   document.body.classList.toggle('dark', isDark);
@@ -665,9 +636,6 @@ themeToggle.addEventListener('click', () => {
   LS.set('theme', isDark ? 'dark' : 'light');
 });
 
-/* ============================================================
-   دکمهٔ تغییر زبان
-   ============================================================ */
 const langToggle = document.getElementById('langToggle');
 langToggle.addEventListener('click', () => {
   currentLang = currentLang === 'fa' ? 'en' : 'fa';
@@ -675,9 +643,6 @@ langToggle.addEventListener('click', () => {
   applyLanguage();
 });
 
-/* ============================================================
-   اعمال زبان
-   ============================================================ */
 function applyLanguage() {
   const isFa = currentLang === 'fa';
   document.documentElement.lang = currentLang;
@@ -690,6 +655,13 @@ function applyLanguage() {
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
     el.placeholder = t(el.dataset.i18nPlaceholder);
   });
+
+  const lessonNav = document.querySelector('.nav-item[data-page="lesson"]');
+  if (lessonNav) lessonNav.style.display = isFa ? '' : 'none';
+
+  if (!isFa && document.getElementById('page-lesson').classList.contains('active')) {
+    document.querySelector('.nav-item[data-page="home"]').click();
+  }
 
   applyTheme(document.body.classList.contains('dark'));
   langToggle.textContent = t('langToggle');
@@ -706,9 +678,6 @@ function applyLanguage() {
   if (resetElectronConfigFn) resetElectronConfigFn();
 }
 
-/* ============================================================
-   ویرایشگر
-   ============================================================ */
 const fontSize = document.getElementById('fontSize');
 const fontSizeVal = document.getElementById('fontSizeVal');
 const editor = document.getElementById('editor');
@@ -724,9 +693,6 @@ fontSize.addEventListener('input', () => {
 });
 editor.addEventListener('input', () => LS.set('editorContent', editor.value));
 
-/* ============================================================
-   فلش‌کارت
-   ============================================================ */
 const fcGrid = document.getElementById('fcGrid');
 const fcScore = document.getElementById('fcScore');
 const fcSearch = document.getElementById('fcSearch');
@@ -800,9 +766,6 @@ document.getElementById('fcResetBtn').addEventListener('click', () => {
   renderFlashcards(currentElements); updateFcScore();
 });
 
-/* ============================================================
-   جدول‌ها و سوالات
-   ============================================================ */
 const app = document.getElementById('app');
 const allStates = [];
 function updateTotal(){
@@ -943,15 +906,9 @@ function renderTables() {
   }
 }
 
-/* ============================================================
-   تست‌ساز
-   ============================================================ */
 let resetTestBuilderFn = null;
 (function initTestBuilder() {
-  const EXCLUDED_TB = new Set();
-  for (let i = 57; i <= 71; i++) EXCLUDED_TB.add(i);
-  for (let i = 89; i <= 103; i++) EXCLUDED_TB.add(i);
-  const tbElements = elements.filter(el => !EXCLUDED_TB.has(el.z));
+  const tbElements = elements; // تمام ۱۱۸ عنصر
 
   const generateBtn = document.getElementById('tbGenerateBtn');
   const questionBox = document.getElementById('tbQuestionBox');
@@ -1072,15 +1029,9 @@ let resetTestBuilderFn = null;
   resetTestBuilderFn();
 })();
 
-/* ============================================================
-   آرایش الکترونی
-   ============================================================ */
 let resetElectronConfigFn = null;
 (function initElectronConfig() {
-  const EXCLUDED_EC = new Set();
-  for (let i = 57; i <= 71; i++) EXCLUDED_EC.add(i);
-  for (let i = 89; i <= 103; i++) EXCLUDED_EC.add(i);
-  const ecElements = elements.filter(el => !EXCLUDED_EC.has(el.z));
+  const ecElements = elements; // تمام ۱۱۸ عنصر
 
   const generateBtn = document.getElementById('ecGenerateBtn');
   const elementBox = document.getElementById('ecElementBox');
@@ -1206,9 +1157,6 @@ let resetElectronConfigFn = null;
   resetElectronConfigFn();
 })();
 
-/* ============================================================
-   راه‌اندازی اولیه
-   ============================================================ */
 applyLanguage();
 </script>
 </body>
