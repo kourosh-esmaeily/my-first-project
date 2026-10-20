@@ -5,54 +5,63 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>جدول تناوبی تعاملی</title>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f1f5f9; --surface: #ffffff; --surface-alt: #f8fafc;
-    --text: #0f172a; --text-light: #64748b;
-    --border: #e2e8f0; --border-strong: #cbd5e1;
-    --primary: #2563eb; --primary-dark: #1d4ed8; --primary-light: #eff6ff;
-    --accent: #0ea5e9; --success: #10b981; --success-dark: #059669; --success-light: #ecfdf5;
-    --danger: #ef4444; --danger-dark: #dc2626; --danger-light: #fef2f2;
-    --warning: #eab308; --warning-light: #fef9c3; --warning-text: #713f12;
+    --bg: #f4f1ea; --surface: #fdfcfb; --surface-alt: #ebe7de;
+    --text: #2e2a25; --text-light: #78736b;
+    --border: #dcd7cc; --border-strong: #c5bfb2;
+    --primary: #3a7d6d; --primary-dark: #2a5e51; --primary-light: #e0ece9;
+    --accent: #c29465; --success: #5e8c52; --success-dark: #3d6632; --success-light: #e5f0e1;
+    --danger: #b55a5a; --danger-dark: #8c3a3a; --danger-light: #f7e5e5;
+    --warning: #c99b3b; --warning-light: #f7eed9; --warning-text: #705218;
   }
   body.dark {
-    --bg: #0b1220; --surface: #1e293b; --surface-alt: #141c2c;
-    --text: #e2e8f0; --text-light: #94a3b8;
-    --border: #334155; --border-strong: #475569;
-    --primary: #3b82f6; --primary-dark: #2563eb; --primary-light: #1e3a8a;
-    --accent: #22d3ee; --success: #10b981; --success-dark: #34d399; --success-light: #064e3b;
-    --danger: #ef4444; --danger-dark: #f87171; --danger-light: #450a0a;
-    --warning: #fbbf24; --warning-light: #422006; --warning-text: #fef9c3;
+    --bg: #121212; --surface: #1e1e1e; --surface-alt: #2a2a2a;
+    --text: #e0e0e0; --text-light: #999999;
+    --border: #333333; --border-strong: #4d4d4d;
+    --primary: #3a7d6d; --primary-dark: #2a5e51; --primary-light: #2e2e2e;
+    --accent: #6b6b6b; --success: #5e8c52; --success-dark: #7eb672; --success-light: #263321;
+    --danger: #bc4749; --danger-dark: #e5989b; --danger-light: #331a1a;
+    --warning: #9e9e9e; --warning-light: #333333; --warning-text: #e0e0e0;
   }
+
+  /* فونت‌های کلاسیک */
+  html[lang="fa"] * {
+    font-family: 'Noto Naskh Arabic', 'Nazanin', 'B Nazanin', 'Mitra', 'B Mitra', 'Times New Roman', serif !important;
+  }
+  html[lang="en"] * {
+    font-family: 'Times New Roman', Times, serif !important;
+  }
+
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
-    margin: 0; font-family: 'Vazirmatn', Tahoma, sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.7;
-    transition: background .2s, color .2s; -webkit-font-smoothing: antialiased;
+    margin: 0; background: var(--bg); color: var(--text);
+    line-height: 1.8; transition: background .2s, color .2s;
+    -webkit-font-smoothing: antialiased;
     user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;
   }
-  input, textarea, select {
-    user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;
-  }
-  #editor {
-    user-select: text; -webkit-user-select: text; -moz-user-select: text; -ms-user-select: text;
-  }
-  .topbar { background: var(--surface); border-bottom: 1px solid var(--border); transition: background .2s, border-color .2s; }
+  input, textarea, select { user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
+  #editor, #history-content { user-select: text; -webkit-user-select: text; -moz-user-select: text; -ms-user-select: text; }
+
+  .topbar { background: var(--surface); border-bottom: 1px solid var(--border); }
   .topbar-inner { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; gap: 12px; height: 52px; }
-  .brand { font-weight: 700; font-size: .92rem; color: var(--text); white-space: nowrap; }
+  .brand { font-weight: 700; font-size: .92rem; color: var(--text); white-space: nowrap; cursor: pointer; }
+  .brand:hover { color: var(--primary); }
   .nav { display: flex; gap: 2px; flex: 1; overflow-x: auto; }
-  .nav-item { padding: 7px 12px; color: var(--text-light); font-weight: 500; font-size: .82rem; cursor: pointer; white-space: nowrap; transition: background .15s, color .15s; border: none; background: transparent; font-family: inherit; }
+  .nav-item { padding: 7px 12px; color: var(--text-light); font-weight: 500; font-size: .82rem; cursor: pointer; white-space: nowrap; transition: background .15s, color .15s; border: none; background: transparent; }
   .nav-item:hover { background: var(--surface-alt); color: var(--text); }
   .nav-item.active { background: var(--primary); color: #fff; }
-  .theme-toggle { padding: 6px 12px; background: transparent; border: 1px solid var(--border-strong); color: var(--text); font-family: inherit; font-weight: 500; font-size: .8rem; cursor: pointer; transition: background .15s; white-space: nowrap; }
+  .theme-toggle { padding: 6px 12px; background: transparent; border: 1px solid var(--border-strong); color: var(--text); font-weight: 500; font-size: .8rem; cursor: pointer; }
   .theme-toggle:hover { background: var(--surface-alt); }
   .container { max-width: 1200px; margin: 0 auto; padding: 24px 20px; }
   .page { display: none; }
   .page.active { display: block; }
+
   .panel { margin-bottom: 24px; }
   .panel h2 { font-size: 1rem; margin: 0 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); font-weight: 700; }
+
   .periodic-table-wrapper { margin-bottom: 4px; overflow-x: auto; }
   .periodic-table { display: grid; grid-template-columns: repeat(18, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); min-width: 720px; direction: ltr; }
   .pt-cell { background: var(--surface); padding: 4px 2px; text-align: center; cursor: pointer; transition: background .15s; position: relative; min-height: 56px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; color: var(--text); }
@@ -61,18 +70,123 @@
   .pt-cell .pt-sym { font-size: .82rem; font-weight: 700; color: var(--primary); line-height: 1.2; margin-top: 1px; }
   .pt-cell .pt-name { font-size: .55rem; color: var(--text-light); line-height: 1.2; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
   .pt-cell.empty { background: var(--surface-alt); cursor: default; pointer-events: none; visibility: hidden; }
-  button { font-family: inherit; cursor: pointer; border: none; font-size: .82rem; transition: background .15s, border-color .15s, color .15s; font-weight: 500; }
+
+  button { cursor: pointer; border: none; font-size: .82rem; transition: background .15s, border-color .15s, color .15s; font-weight: 500; }
   .btn { background: var(--primary); color: #fff; padding: 7px 14px; }
   .btn:hover { background: var(--primary-dark); }
-  .btn.toggle { background: var(--accent); }
+  .btn.toggle { background: var(--accent); color: #fff; }
   .btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--border-strong); }
   .btn.ghost:hover { background: var(--surface-alt); }
-  .editor-controls { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; padding: 10px 12px; background: var(--surface-alt); border: 1px solid var(--border); }
-  .editor-controls label { font-weight: 600; font-size: .84rem; }
-  .editor-controls input[type="range"] { flex: 1; min-width: 150px; accent-color: var(--primary); }
-  .font-size-val { background: var(--primary); color: #fff; padding: 2px 10px; font-weight: 600; font-size: .8rem; min-width: 44px; text-align: center; }
-  .editor { width: 100%; min-height: 420px; padding: 14px; border: 1px solid var(--border-strong); font-family: inherit; font-size: 16px; line-height: 1.8; background: var(--surface); color: var(--text); resize: vertical; transition: border-color .15s; }
-  .editor:focus { outline: none; border-color: var(--primary); }
+
+  /* ===== یادداشت‌ها (ویرایشگر و لیست) ===== */
+  .notes-layout { display: flex; gap: 16px; align-items: flex-start; }
+  .notes-sidebar { width: 260px; flex-shrink: 0; background: var(--surface-alt); border: 1px solid var(--border); padding: 10px; display: flex; flex-direction: column; gap: 8px; max-height: 600px; overflow-y: auto; }
+  .notes-sidebar > button { width: 100%; padding: 8px; background: var(--primary); color: #fff; font-weight: 600; margin-bottom: 8px; }
+  .notes-sidebar > button:hover { background: var(--primary-dark); }
+  .notes-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
+  .note-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; background: var(--surface); border: 1px solid var(--border); cursor: pointer; transition: background .15s; }
+  .note-item:hover { background: var(--primary-light); }
+  .note-item.active { border-color: var(--primary); font-weight: 700; background: var(--primary-light); }
+  .note-title { font-size: .85rem; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .delete-note-btn { background: transparent; border: none; color: var(--danger); font-size: .75rem; cursor: pointer; padding: 4px 8px; border-radius: 4px; font-weight: 600; }
+  .delete-note-btn:hover { background: var(--danger-light); color: var(--danger-dark); }
+  
+  .notes-editor-wrapper { flex: 1; min-width: 0; }
+  .note-title-input { width: 100%; padding: 10px 12px; margin-bottom: 8px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); font-size: 1rem; font-weight: 600; outline: none; border-radius: 4px; }
+  .note-title-input:focus { border-color: var(--primary); }
+  
+  .editor-toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; padding: 8px 12px; background: var(--surface-alt); border: 1px solid var(--border); border-radius: 4px; }
+  .editor-toolbar button { background: transparent; border: 1px solid transparent; color: var(--text); padding: 4px 8px; font-size: .9rem; border-radius: 4px; }
+  .editor-toolbar button:hover { background: var(--border); }
+  .editor-toolbar .separator { width: 1px; height: 20px; background: var(--border-strong); margin: 0 4px; }
+  
+  .editor { 
+    width: 100%; 
+    min-height: 420px; 
+    padding: 14px; 
+    border: 1px solid var(--border-strong); 
+    font-size: 16px !important; 
+    line-height: 1.8; 
+    background: var(--surface); 
+    color: var(--text); 
+    resize: vertical; 
+    outline: none; 
+    overflow-y: auto; 
+    border-radius: 4px; 
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  .editor:focus { border-color: var(--primary); }
+  
+  /* کادر عکس با نمایش بلوکی برای جلوگیری از گیر کردن نشانگر */
+  .img-container {
+    display: block;
+    width: 200px;
+    max-width: 100%;
+    height: 150px;
+    overflow: hidden;
+    margin: 10px 0;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    background: var(--surface-alt);
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  .img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+
+  /* کادر متن */
+  .note-text-box {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    background: var(--surface-alt);
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    padding: 18px 14px 14px 14px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    position: relative;
+  }
+  .note-text-box-inner {
+    outline: none;
+    min-height: 40px;
+    width: 100%;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* دکمه حذف کادر متن */
+  .delete-box-btn {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    background: var(--danger);
+    color: #fff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    display: none;
+    z-index: 10;
+    border: 2px solid var(--surface);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  .note-text-box:hover .delete-box-btn {
+    display: block;
+  }
+  .delete-box-btn:hover {
+    background: var(--danger-dark);
+  }
+
   table { width: 100%; border-collapse: collapse; border: 1px solid var(--border); }
   th, td { padding: 9px 8px; text-align: center; border-bottom: 1px solid var(--border); border-left: 1px solid var(--border); color: var(--text); font-size: .86rem; }
   th:last-child, td:last-child { border-left: none; }
@@ -84,8 +198,9 @@
   td.name { font-weight: 600; }
   td:first-child { color: var(--text-light); font-weight: 600; }
   table.masked td.sym, table.masked td.name { color: transparent; user-select: none; }
+
   .questions-section { margin-top: 12px; border: 1px solid var(--border); overflow: hidden; }
-  .questions-toggle-bar { display: flex; justify-content: space-between; align-items: center; padding: 9px 13px; background: var(--surface-alt); color: var(--text); cursor: pointer; user-select: none; font-weight: 600; font-size: .83rem; transition: background .15s; }
+  .questions-toggle-bar { display: flex; justify-content: space-between; align-items: center; padding: 9px 13px; background: var(--surface-alt); color: var(--text); cursor: pointer; user-select: none; font-weight: 600; font-size: .83rem; }
   .questions-toggle-bar:hover { background: var(--border); }
   .chevron { display: inline-block; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid currentColor; transition: transform .2s ease; }
   .questions-section.collapsed .chevron { transform: rotate(-90deg); }
@@ -102,6 +217,7 @@
   .grade button.active-no { background: var(--danger); color: #fff; border-color: var(--danger); }
   .hidden { display: none !important; }
   .score { margin-top: 12px; font-weight: 600; font-size: .86rem; color: var(--primary); text-align: center; background: var(--primary-light); padding: 9px; }
+
   .fc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 10px; }
   .fc-card { display: grid; grid-template-areas: "stack"; height: 140px; cursor: pointer; background: var(--surface); position: relative; }
   .fc-face { grid-area: stack; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; }
@@ -116,25 +232,28 @@
   .fc-back .name { font-size: .86rem; font-weight: 600; margin-top: 4px; }
   .fc-seen { position: absolute; top: 6px; left: 6px; width: 7px; height: 7px; background: var(--success); z-index: 5; }
   .fc-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
-  .search-box { width: 100%; padding: 8px 12px; border: 1px solid var(--border-strong); font-family: inherit; font-size: .84rem; background: var(--surface); color: var(--text); transition: border-color .15s; }
-  .search-box:focus { outline: none; border-color: var(--primary); }
-  .fc-progress { height: 6px; background: var(--border); overflow: hidden; margin-top: 12px; }
+  .search-box { width: 100%; padding: 8px 12px; border: 1px solid var(--border-strong); font-size: .84rem; background: var(--surface); color: var(--text); border-radius: 4px; outline: none; }
+  .search-box:focus { border-color: var(--primary); }
+  .fc-progress { height: 6px; background: var(--border); overflow: hidden; margin-top: 12px; border-radius: 3px; }
   .fc-progress-bar { height: 100%; background: var(--primary); transition: width .3s ease; }
+
   .lesson-intro { background: var(--primary-light); padding: 11px 13px; font-size: .84rem; color: var(--text); margin-bottom: 12px; }
   .group-block { background: var(--surface-alt); border: 1px solid var(--border); padding: 11px 13px; margin-bottom: 8px; }
   .group-block h3 { margin: 0 0 8px; font-size: .88rem; color: var(--text); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-weight: 700; }
-  .group-symbols { font-family: 'Courier New', monospace; font-weight: 700; color: var(--primary); background: var(--surface); border: 1px solid var(--border); padding: 5px 10px; display: inline-block; margin-bottom: 8px; letter-spacing: 1px; font-size: .82rem; }
+  .group-symbols { font-weight: 700; color: var(--primary); background: var(--surface); border: 1px solid var(--border); padding: 5px 10px; display: inline-block; margin-bottom: 8px; letter-spacing: 1px; font-size: .82rem; }
   .mnemonic-box { background: var(--warning-light); padding: 9px 11px; font-size: .81rem; color: var(--warning-text); line-height: 1.9; }
   .mnemonic-box .label { font-weight: 700; display: block; margin-bottom: 4px; font-size: .76rem; }
   .mnemonic-box .code { font-weight: 600; font-size: .88rem; line-height: 1.9; display: inline-block; }
   .tip-box { background: var(--success-light); padding: 11px 13px; font-size: .81rem; color: var(--success-dark); margin-top: 10px; }
+
   .tb-question-box { background: var(--surface-alt); border: 1px solid var(--border-strong); padding: 14px; }
   .tb-question-text { font-size: .9rem; font-weight: 600; margin-bottom: 12px; color: var(--text); }
   .tb-score-badge { font-weight: 600; color: var(--primary); background: var(--primary-light); padding: 6px 11px; font-size: .8rem; border: 1px solid var(--border); }
-  .tb-input { width: 100%; padding: 8px 12px; border: 1px solid var(--border-strong); font-family: inherit; font-size: .9rem; background: var(--surface); color: var(--text); transition: border-color .15s; }
-  .tb-input:focus { outline: none; border-color: var(--primary); }
+  .tb-input { width: 100%; padding: 8px 12px; border: 1px solid var(--border-strong); font-size: .9rem; background: var(--surface); color: var(--text); border-radius: 4px; outline: none; }
+  .tb-input:focus { border-color: var(--primary); }
   .tb-input:disabled { opacity: .7; cursor: not-allowed; }
   .tb-feedback { margin-top: 10px; font-weight: 600; font-size: .86rem; }
+
   .ec-element-display { text-align: center; margin: 12px 0; padding: 14px; background: var(--primary-light); border: 1px solid var(--border); }
   .ec-element-display .z { font-size: 1.8rem; font-weight: 700; color: var(--primary); line-height: 1; }
   .ec-element-display .name { font-size: .95rem; font-weight: 600; margin-top: 6px; }
@@ -149,6 +268,40 @@
   .ec-feedback.correct { background: var(--success-light); color: var(--success-dark); }
   .ec-feedback.wrong { background: var(--warning-light); color: var(--warning-text); }
   .ec-correct { background: var(--success-light); padding: 11px; margin-top: 8px; font-size: .83rem; color: var(--success-dark); text-align: center; }
+
+  /* ===== تاریخچه ===== */
+  .history-toolbar {
+    display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    margin-bottom: 16px; padding: 10px 12px;
+    background: var(--surface-alt); border: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .history-toolbar .color-swatch {
+    width: 24px; height: 24px; border-radius: 50%; cursor: pointer;
+    border: 2px solid var(--border-strong);
+  }
+  .history-toolbar .color-swatch:hover { transform: scale(1.15); }
+  .history-content {
+    font-size: 1rem; line-height: 2; color: var(--text);
+    max-width: 800px; margin: 0 auto;
+  }
+  .history-content h2 { font-size: 1.1rem; margin: 24px 0 12px; color: var(--primary); }
+  .history-content p { margin: 0 0 14px; text-align: justify; }
+  .history-content .wiki-links { margin-top: 24px; padding-top: 16px; border-top: 1px dashed var(--border); }
+  .history-content .wiki-links h3 { font-size: .95rem; color: var(--text); margin: 0 0 10px; }
+  .history-content .wiki-links a { display: inline-block; margin: 4px 8px 4px 0; padding: 6px 12px; background: var(--surface-alt); border: 1px solid var(--border-strong); border-radius: 6px; color: var(--primary); text-decoration: none; font-size: .82rem; transition: background .15s; }
+  .history-content .wiki-links a:hover { background: var(--border); }
+  .highlight-yellow { background-color: #fff3cd; color: #333; }
+  .highlight-green { background-color: #d4edda; color: #155724; }
+  .highlight-blue { background-color: #cce5ff; color: #004085; }
+  .highlight-pink { background-color: #f8d7da; color: #721c24; }
+  .comment-icon {
+    display: inline-block; width: 14px; height: 14px; background: var(--accent);
+    color: #fff; border-radius: 50%; font-size: 10px; line-height: 14px;
+    text-align: center; cursor: pointer; margin-right: 4px; vertical-align: middle;
+    position: relative; top: -1px;
+  }
+
   @media (max-width: 768px) {
     .topbar-inner { padding: 8px 12px; height: auto; flex-wrap: wrap; gap: 8px; }
     .nav { order: 3; width: 100%; }
@@ -158,16 +311,20 @@
     .ec-slider { height: 90px; }
     .fc-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
     .fc-card { height: 120px; }
+    .notes-layout { flex-direction: column; }
+    .notes-sidebar { width: 100%; max-height: 250px; }
+    .editor-toolbar { justify-content: center; }
   }
 </style>
 </head>
 <body>
 <header class="topbar">
   <div class="topbar-inner">
-    <span class="brand" data-i18n="brand">جدول تناوبی</span>
+    <span class="brand" id="brandLogo" data-i18n="brand">جدول تناوبی</span>
     <nav class="nav">
       <button class="nav-item active" data-page="home" data-i18n="home">خانه</button>
       <button class="nav-item" data-page="flashcards" data-i18n="flashcards">فلش‌کارت</button>
+      <button class="nav-item" data-page="notes" data-i18n="notesNav">یادداشت‌ها</button>
       <button class="nav-item" data-page="lesson" data-i18n="lesson">درسنامه</button>
       <button class="nav-item" data-page="tables" data-i18n="tables">جدول‌ها و سوالات</button>
       <button class="nav-item" data-page="testbuilder" data-i18n="testbuilder">تست‌ساز</button>
@@ -179,6 +336,7 @@
 </header>
 
 <main class="container">
+  <!-- خانه -->
   <section class="page active" id="page-home">
     <div class="panel">
       <h2 data-i18n="periodicTable">جدول تناوبی عناصر</h2>
@@ -186,17 +344,9 @@
         <div class="periodic-table" id="periodicTable"></div>
       </div>
     </div>
-    <div class="panel">
-      <h2 data-i18n="myNotes">یادداشت‌های من</h2>
-      <div class="editor-controls">
-        <label for="fontSize" data-i18n="fontSize">اندازهٔ فونت:</label>
-        <input type="range" id="fontSize" min="12" max="48" value="16" aria-label="Font size">
-        <span class="font-size-val" id="fontSizeVal">۱۶</span>
-      </div>
-      <textarea class="editor" id="editor" placeholder="اینجا شروع به نوشتن کنید..." data-i18n-placeholder="editorPlaceholder" aria-label="Text editor"></textarea>
-    </div>
   </section>
 
+  <!-- فلش‌کارت -->
   <section class="page" id="page-flashcards">
     <div class="panel">
       <h2 data-i18n="fcTitle">فلش‌کارت‌ها</h2>
@@ -211,6 +361,36 @@
     </div>
   </section>
 
+  <!-- یادداشت‌ها -->
+  <section class="page" id="page-notes">
+    <div class="panel">
+      <h2 data-i18n="myNotes">یادداشت‌های من</h2>
+      
+      <div class="notes-layout">
+        <div class="notes-sidebar">
+          <button id="newNoteBtn" data-i18n="newNote">یادداشت جدید</button>
+          <ul class="notes-list" id="notesList"></ul>
+        </div>
+        
+        <div class="notes-editor-wrapper">
+          <input type="text" id="noteTitle" class="note-title-input" placeholder="عنوان یادداشت..." data-i18n-placeholder="noteTitlePlaceholder">
+          
+          <div class="editor-toolbar">
+            <button id="boldBtn" title="بولد"><b>B</b></button>
+            <button id="italicBtn" title="ایتالیک"><i>I</i></button>
+            <div class="separator"></div>
+            <button id="textBoxBtn" title="کادر متن" data-i18n="insertTextBox">کادر متن</button>
+            <button id="imageBtn" title="آپلود عکس" data-i18n="insertImage">عکس</button>
+            <input type="file" id="imageInput" accept="image/*" style="display:none;">
+          </div>
+          
+          <div class="editor" id="editor" contenteditable="true" aria-label="Text editor"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- درسنامه -->
   <section class="page" id="page-lesson">
     <div class="panel">
       <h2 data-i18n="lessonTitle">درسنامهٔ حفظی (گروه‌های اصلی)</h2>
@@ -294,6 +474,7 @@
     </div>
   </section>
 
+  <!-- جدول‌ها و سوالات -->
   <section class="page" id="page-tables">
     <div class="panel">
       <h2 data-i18n="totalScore">نمرهٔ کل سوالات جدول‌ها</h2>
@@ -302,6 +483,7 @@
     <div id="app"></div>
   </section>
 
+  <!-- تست‌ساز -->
   <section class="page" id="page-testbuilder">
     <div class="panel">
       <h2 data-i18n="tbTitle">تست‌ساز هوشمند</h2>
@@ -323,13 +505,18 @@
     </div>
   </section>
 
+  <!-- آرایش الکترونی -->
   <section class="page" id="page-electron">
     <div class="panel">
       <h2 data-i18n="ecTitle">پرسشگر آرایش الکترونی</h2>
+      
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center">
         <button class="btn" id="ecGenerateBtn" data-i18n="randomElement">عنصر تصادفی</button>
+        <input type="text" id="ecSearchInput" class="tb-input" list="ecElementsList" placeholder="جستجوی عنصر..." data-i18n-placeholder="ecSearchPlaceholder" style="flex:1;min-width:200px;max-width:300px;" autocomplete="off">
+        <datalist id="ecElementsList"></datalist>
         <span class="tb-score-badge" id="ecScore"></span>
       </div>
+
       <div id="ecElementBox" style="display:none">
         <div class="ec-element-display" id="ecElementDisplay"></div>
         <div class="ec-grid" id="ecGrid"></div>
@@ -343,9 +530,32 @@
       </div>
     </div>
   </section>
+
+  <!-- تاریخچه -->
+  <section class="page" id="page-history">
+    <div class="panel">
+      <h2 data-i18n="historyTitle">تاریخچه جدول تناوبی</h2>
+      <div class="history-toolbar" id="historyToolbar">
+        <span style="font-size:.82rem;color:var(--text-light)" data-i18n="highlightLabel">هایلایت:</span>
+        <span class="color-swatch" style="background:#fff3cd" data-color="highlight-yellow" title="زرد"></span>
+        <span class="color-swatch" style="background:#d4edda" data-color="highlight-green" title="سبز"></span>
+        <span class="color-swatch" style="background:#cce5ff" data-color="highlight-blue" title="آبی"></span>
+        <span class="color-swatch" style="background:#f8d7da" data-color="highlight-pink" title="صورتی"></span>
+        <button class="btn ghost" id="addCommentBtn" data-i18n="addComment">افزودن کامنت</button>
+        <button class="btn ghost" id="removeHighlightBtn" data-i18n="removeHighlight">حذف هایلایت</button>
+        <button class="btn ghost" id="removeCommentBtn" data-i18n="removeComment">حذف کامنت</button>
+      </div>
+      <div class="history-content" id="history-content">
+        <!-- محتوای تاریخچه به صورت پویا بارگذاری می‌شود -->
+      </div>
+    </div>
+  </section>
 </main>
 
 <script>
+/* ============================================================
+   داده‌ها و ترجمه‌ها
+   ============================================================ */
 const rawElements = [
   [1,'H','هیدروژن','Hydrogen'],[2,'He','هلیم','Helium'],[3,'Li','لیتیم','Lithium'],[4,'Be','بریلیم','Beryllium'],[5,'B','بور','Boron'],
   [6,'C','کربن','Carbon'],[7,'N','نیتروژن','Nitrogen'],[8,'O','اکسیژن','Oxygen'],[9,'F','فلوئور','Fluorine'],[10,'Ne','نئون','Neon'],
@@ -376,12 +586,15 @@ const elements = rawElements.map(([z, sym, name, nameEn]) => ({ z, sym, name, na
 
 const I18N = {
   fa: {
-    brand: 'جدول تناوبی', home: 'خانه', flashcards: 'فلش‌کارت', lesson: 'درسنامه',
+    brand: 'جدول تناوبی', home: 'خانه', flashcards: 'فلش‌کارت', notesNav: 'یادداشت‌ها', lesson: 'درسنامه',
     tables: 'جدول‌ها و سوالات', testbuilder: 'تست‌ساز', electron: 'آرایش الکترونی',
     darkMode: 'حالت شب', lightMode: 'حالت روز', langToggle: 'English',
     periodicTable: 'جدول تناوبی عناصر', lanthanides: 'لانتانیدها (۵۷–۷۱)', actinides: 'اکتینیدها (۸۹–۱۰۳)',
     myNotes: 'یادداشت‌های من',
     fontSize: 'اندازهٔ فونت:', editorPlaceholder: 'اینجا شروع به نوشتن کنید...',
+    newNote: 'یادداشت جدید', untitledNote: 'بدون عنوان', deleteNoteConfirm: 'آیا از حذف این یادداشت مطمئن هستید؟',
+    fontDefault: 'فونت پیش‌فرض', fontSizeLabel: 'اندازه فونت متن', insertImage: 'عکس', insertTextBox: 'کادر متن',
+    noteTitlePlaceholder: 'عنوان یادداشت...',
     fcTitle: 'فلش‌کارت‌ها',
     fcSearch: 'جستجو بر اساس نام، نماد یا عدد اتمی...',
     fcShuffle: 'بر زدن', fcReset: 'بازنشانی',
@@ -423,17 +636,47 @@ const I18N = {
     randomElement: 'عنصر تصادفی', checkAnswer: 'بررسی پاسخ',
     showCorrectAnswer: 'نمایش پاسخ صحیح', nextElement: 'عنصر بعدی',
     maxLabel: 'حداکثر',
+    ecSearchPlaceholder: 'جستجوی عنصر (نام یا نماد)...',
     ecCorrectFeedback: 'آرایش الکترونی درست است.',
     ecWrongFeedback: 'آرایش الکترونی نادرست است. می‌توانید پاسخ صحیح را ببینید یا عنصر بعدی را امتحان کنید.',
     ecCorrectConfig: 'آرایش الکترونی صحیح {name} ({sym}):',
+    historyTitle: 'تاریخچه جدول تناوبی',
+    highlightLabel: 'هایلایت:',
+    addComment: 'افزودن کامنت',
+    removeHighlight: 'حذف هایلایت',
+    removeComment: 'حذف کامنت',
+    commentPrompt: 'کامنت خود را بنویسید:',
+    removeHighlightConfirm: 'آیا می‌خواهید این هایلایت حذف شود؟',
+    removeCommentConfirm: 'آیا می‌خواهید این کامنت حذف شود؟',
+    noTextSelected: 'لطفاً ابتدا متنی را انتخاب کنید.',
+    historyContent: `
+      <h2>ریشه‌های باستانی و کیمیاگری</h2>
+      <p>تلاش برای درک ماهیت بنیادی عناصر به دوران باستان بازمی‌گردد. فیلسوفان یونانی مانند تالس آب، آناکسیمنس هوا و هراکلیتوس آتش را عنصر اولیه جهان می‌دانستند. ارسطو بعدها نظریه چهار عنصر (آب، هوا، خاک و آتش) را معرفی کرد که تا قرن‌ها بر علم بشریت سایه افکنده بود. در طول قرون وسطی، کیمیاگران با تلاش برای تبدیل فلزات پست به طلا، به طور ناخواسته به کشف عناصر جدیدی مانند فسفر (توسط هنیگ براند در سال ۱۶۶۹) کمک کردند. با آغاز انقلاب شیمیایی و تلاش دانشمندانی چون رابرت بویل، تعریف دقیق‌تری از عنصر به عنوان ماده‌ای که به مواد ساده‌تر تجزیه نمی‌شود، ارائه شد.</p>
+      <h2>دسته‌بندی‌های اولیه</h2>
+      <p>در قرن نوزدهم، با توسعه روش‌های تجزیه شیمیایی و کشف عناصر بیشتر، دانشمندان به دنبال یافتن نظمی برای دسته‌بندی آن‌ها افتادند. در سال ۱۸۲۹، یوهان ولفگانگ دوبارینر متوجه شد که برخی عناصر خواص مشابهی دارند و می‌توان آن‌ها را در دسته‌های سه‌تایی (Triads) مانند کلر، برم و ید قرار داد. در سال ۱۸۶۲، الکساندر-امیل بگایر د شانکورتوا عناصر را بر اساس جرم اتمی در یک مارپیچ استوانه‌ای مرتب کرد. سه سال بعد، جان نیولندز قانون اوکتاوها را معرفی کرد و ادعا کرد که خواص عناصر هر هشت‌تا یکبار تکرار می‌شود، اما کار او توسط همکارانش جدی گرفته نشد.</p>
+      <h2>شاهکار دیمیتری مندلیف</h2>
+      <p>بزرگ‌ترین پیشرفت توسط دیمیتری مندلیف (۱۹۰۷-۱۸۳۴) صورت گرفت. او در دهه ۱۸۶۰ عناصر و خواص آن‌ها را روی کارت‌های جداگانه نوشت و با چیدن آن‌ها روی میز، چیدمان‌های مختلفی را آزمایش کرد. مندلیف اولین کسی نبود که جدول تناوبی را ساخت، اما جدول او به دلیل توانایی در پیش‌بینی عناصر کشف‌نشده و ساختار منظمش، مشهورترین و تأثیرگذارترین جدول شد. او در سال ۱۸۶۹ جدول خود را منتشر کرد و با جسارت جاهای خالی را برای عناصری مانند گالیم، اسکاندیم و ژرمانیم پیش‌بینی کرد. کشف این عناصر در دهه‌های بعد، اعتبار جدول او را برای همیشه تثبیت کرد.</p>
+      <h2>جدول مدرن و کشفیات جدید</h2>
+      <p>در سال ۱۹۱۳، هنری موزلی با آزمایش‌های پرتو ایکس نشان داد که عدد اتمی (تعداد پروتون‌ها) معیار بهتری برای مرتب‌سازی عناصر نسبت به جرم اتمی است. این کشف ناهماهنگی‌های باقی‌مانده (مانند تلوریم و ید) را برطرف کرد و منجر به شکل‌گیری جدول تناوبی مدرن شد. در طول قرن بیستم، با کشف عناصر مصنوعی و فرااورانیومی (مانند پلوتونیم و عناصر بعد از آن)، جدول تناوبی گسترش یافت. امروزه جدول تناوبی شامل ۱۱۸ عنصر است که در ۷ دوره و ۱۸ گروه سازماندهی شده‌اند و همچنان پایه و اساس شیمی نوین به شمار می‌رود.</p>
+      <div class="wiki-links">
+        <h3>منابع بیشتر در ویکی‌پدیا:</h3>
+        <a href="https://fa.wikipedia.org/wiki/جدول_تناوبی" target="_blank">جدول تناوبی</a>
+        <a href="https://fa.wikipedia.org/wiki/دیمیتری_مندلیف" target="_blank">دیمیتری مندلیف</a>
+        <a href="https://fa.wikipedia.org/wiki/تاریخ_شیمی" target="_blank">تاریخ شیمی</a>
+        <a href="https://fa.wikipedia.org/wiki/عنصر_شیمیایی" target="_blank">عنصر شیمیایی</a>
+      </div>
+    `
   },
   en: {
-    brand: 'Periodic Table', home: 'Home', flashcards: 'Flashcards', lesson: 'Lesson',
+    brand: 'Periodic Table', home: 'Home', flashcards: 'Flashcards', notesNav: 'Notes', lesson: 'Lesson',
     tables: 'Tables & Questions', testbuilder: 'Test Builder', electron: 'Electron Config',
     darkMode: 'Dark Mode', lightMode: 'Light Mode', langToggle: 'فارسی',
     periodicTable: 'Periodic Table of Elements', lanthanides: 'Lanthanides (57–71)', actinides: 'Actinides (89–103)',
     myNotes: 'My Notes',
     fontSize: 'Font size:', editorPlaceholder: 'Start writing here...',
+    newNote: 'New Note', untitledNote: 'Untitled', deleteNoteConfirm: 'Are you sure you want to delete this note?',
+    fontDefault: 'Default Font', fontSizeLabel: 'Inline Font Size', insertImage: 'Image', insertTextBox: 'TextBox',
+    noteTitlePlaceholder: 'Note title...',
     fcTitle: 'Flashcards',
     fcSearch: 'Search by name, symbol, or atomic number...',
     fcShuffle: 'Shuffle', fcReset: 'Reset',
@@ -475,9 +718,36 @@ const I18N = {
     randomElement: 'Random Element', checkAnswer: 'Check Answer',
     showCorrectAnswer: 'Show Correct Answer', nextElement: 'Next Element',
     maxLabel: 'max',
+    ecSearchPlaceholder: 'Search element (name or symbol)...',
     ecCorrectFeedback: 'Electron configuration is correct.',
     ecWrongFeedback: 'Electron configuration is incorrect. You can view the correct answer or try the next element.',
     ecCorrectConfig: 'Correct configuration for {name} ({sym}):',
+    historyTitle: 'History of the Periodic Table',
+    highlightLabel: 'Highlight:',
+    addComment: 'Add Comment',
+    removeHighlight: 'Remove Highlight',
+    removeComment: 'Remove Comment',
+    commentPrompt: 'Write your comment:',
+    removeHighlightConfirm: 'Do you want to remove this highlight?',
+    removeCommentConfirm: 'Do you want to remove this comment?',
+    noTextSelected: 'Please select some text first.',
+    historyContent: `
+      <h2>Ancient Roots and Alchemy</h2>
+      <p>The effort to understand the fundamental nature of elements dates back to antiquity. Greek philosophers such as Thales considered water, Anaximenes air, and Heraclitus fire as the primary element. Aristotle later introduced the theory of four elements (water, air, earth, and fire), which dominated human science for centuries. During the Middle Ages, alchemists, in their quest to turn base metals into gold, inadvertently helped discover new elements like phosphorus (by Hennig Brand in 1669). With the dawn of the Chemical Revolution and the work of scientists like Robert Boyle, a more precise definition of an element as a substance that cannot be decomposed into simpler substances was established.</p>
+      <h2>Early Classifications</h2>
+      <p>In the 19th century, with the development of chemical analysis methods and the discovery of more elements, scientists sought to find a system to classify them. In 1829, Johann Wolfgang Döbereiner noticed that some elements had similar properties and could be grouped into triads, such as chlorine, bromine, and iodine. In 1862, Alexandre-Émile Béguyer de Chancourtois arranged elements by atomic weight on a spiral cylinder. Three years later, John Newlands proposed the Law of Octaves, claiming that element properties repeated every eight elements, but his work was not taken seriously by his peers.</p>
+      <h2>Mendeleev's Masterpiece</h2>
+      <p>The greatest breakthrough came from Dmitri Mendeleev (1834–1907). In the 1860s, he listed elements and their properties on separate cards and experimented with various arrangements on his desk. Mendeleev was not the first to create a periodic table, but his table became the most famous and influential due to its ability to predict undiscovered elements and its clear, organized structure. He published his table in 1869 and boldly left gaps for elements like gallium, scandium, and germanium. The discovery of these elements in the following decades solidified the credibility of his table forever.</p>
+      <h2>The Modern Table and New Discoveries</h2>
+      <p>In 1913, Henry Moseley used X-ray experiments to show that atomic number (number of protons) is a better basis for ordering elements than atomic weight. This discovery resolved remaining inconsistencies (such as tellurium and iodine) and led to the modern periodic table. Throughout the 20th century, with the discovery of synthetic and transuranium elements (like plutonium and those beyond), the periodic table expanded. Today, the periodic table contains 118 elements organized into 7 periods and 18 groups, and remains a cornerstone of modern chemistry.</p>
+      <div class="wiki-links">
+        <h3>Further Reading on Wikipedia:</h3>
+        <a href="https://en.wikipedia.org/wiki/Periodic_table" target="_blank">Periodic Table</a>
+        <a href="https://en.wikipedia.org/wiki/Dmitri_Mendeleev" target="_blank">Dmitri Mendeleev</a>
+        <a href="https://en.wikipedia.org/wiki/History_of_chemistry" target="_blank">History of Chemistry</a>
+        <a href="https://en.wikipedia.org/wiki/Chemical_element" target="_blank">Chemical Element</a>
+      </div>
+    `
   }
 };
 
@@ -518,6 +788,9 @@ const LS = {
   set: (k, v) => { try { localStorage.setItem(k, v); } catch {} }
 };
 
+/* ============================================================
+   ساخت جدول تناوبی
+   ============================================================ */
 function buildPeriodicTable() {
   const wrapper = document.querySelector('.periodic-table-wrapper');
   if (!wrapper) return;
@@ -543,11 +816,7 @@ function buildPeriodicTable() {
     a.href = wikiUrl(el);
     a.target = '_blank';
     a.rel = 'noopener noreferrer';
-    a.innerHTML = `
-      <span class="pt-z">${faNum(el.z)}</span>
-      <span class="pt-sym">${el.sym}</span>
-      <span class="pt-name">${elName(el)}</span>
-    `;
+    a.innerHTML = `<span class="pt-z">${faNum(el.z)}</span><span class="pt-sym">${el.sym}</span><span class="pt-name">${elName(el)}</span>`;
     return a;
   }
 
@@ -612,6 +881,9 @@ function buildPeriodicTable() {
   wrapper.appendChild(extra);
 }
 
+/* ============================================================
+   ناوبری
+   ============================================================ */
 document.querySelectorAll('.nav-item').forEach(item => {
   item.addEventListener('click', () => {
     const target = item.dataset.page;
@@ -624,6 +896,16 @@ document.querySelectorAll('.nav-item').forEach(item => {
   });
 });
 
+document.getElementById('brandLogo').addEventListener('click', () => {
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-history').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+/* ============================================================
+   تم
+   ============================================================ */
 const themeToggle = document.getElementById('themeToggle');
 function applyTheme(isDark){
   document.body.classList.toggle('dark', isDark);
@@ -636,6 +918,9 @@ themeToggle.addEventListener('click', () => {
   LS.set('theme', isDark ? 'dark' : 'light');
 });
 
+/* ============================================================
+   زبان
+   ============================================================ */
 const langToggle = document.getElementById('langToggle');
 langToggle.addEventListener('click', () => {
   currentLang = currentLang === 'fa' ? 'en' : 'fa';
@@ -666,9 +951,9 @@ function applyLanguage() {
   applyTheme(document.body.classList.contains('dark'));
   langToggle.textContent = t('langToggle');
 
-  fontSizeVal.textContent = faNum(fontSize.value);
-
   buildPeriodicTable();
+  renderNotesList();
+  renderHistoryContent();
   fcSearch.value = '';
   currentElements = [...elements];
   renderFlashcards(currentElements);
@@ -678,21 +963,323 @@ function applyLanguage() {
   if (resetElectronConfigFn) resetElectronConfigFn();
 }
 
-const fontSize = document.getElementById('fontSize');
-const fontSizeVal = document.getElementById('fontSizeVal');
-const editor = document.getElementById('editor');
-const savedSize = parseInt(LS.get('fontSize', '16'), 10);
-fontSize.value = savedSize;
-editor.style.fontSize = savedSize + 'px';
-fontSizeVal.textContent = faNum(savedSize);
-editor.value = LS.get('editorContent', '');
-fontSize.addEventListener('input', () => {
-  editor.style.fontSize = fontSize.value + 'px';
-  fontSizeVal.textContent = faNum(fontSize.value);
-  LS.set('fontSize', fontSize.value);
-});
-editor.addEventListener('input', () => LS.set('editorContent', editor.value));
+/* ============================================================
+   یادداشت‌ها (Notes Management & Editor)
+   ============================================================ */
+let notes = JSON.parse(LS.get('notes', '[]'));
+let currentNoteId = LS.get('currentNoteId', null);
 
+// مهاجرت از سیستم قدیمی
+if (notes.length === 0) {
+  const oldContent = LS.get('editorContent', '');
+  if (oldContent) {
+    const newNote = { id: Date.now().toString(), title: t('untitledNote'), content: oldContent };
+    notes.push(newNote);
+    currentNoteId = newNote.id;
+    LS.set('notes', JSON.stringify(notes));
+    LS.set('currentNoteId', currentNoteId);
+  }
+}
+
+const editor = document.getElementById('editor');
+const noteTitle = document.getElementById('noteTitle');
+const notesListEl = document.getElementById('notesList');
+
+function renderNotesList() {
+  notesListEl.innerHTML = '';
+  notes.forEach(note => {
+    const li = document.createElement('li');
+    li.className = 'note-item' + (note.id === currentNoteId ? ' active' : '');
+    
+    const titleSpan = document.createElement('span');
+    titleSpan.className = 'note-title';
+    titleSpan.textContent = note.title || t('untitledNote');
+    
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'delete-note-btn';
+    deleteBtn.textContent = currentLang === 'fa' ? 'حذف' : 'Del';
+    deleteBtn.title = t('deleteNoteConfirm');
+    deleteBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      deleteNote(note.id);
+    });
+
+    li.appendChild(titleSpan);
+    li.appendChild(deleteBtn);
+    
+    li.addEventListener('click', () => {
+      currentNoteId = note.id;
+      LS.set('currentNoteId', currentNoteId);
+      loadNote(note);
+      renderNotesList();
+    });
+    
+    notesListEl.appendChild(li);
+  });
+}
+
+function loadNote(note) {
+  editor.innerHTML = note.content;
+  noteTitle.value = note.title || '';
+}
+
+function saveCurrentNote() {
+  if (!currentNoteId) return;
+  const noteIndex = notes.findIndex(n => n.id === currentNoteId);
+  if (noteIndex > -1) {
+    notes[noteIndex].content = editor.innerHTML;
+    notes[noteIndex].title = noteTitle.value;
+    LS.set('notes', JSON.stringify(notes));
+  }
+}
+
+document.getElementById('newNoteBtn').addEventListener('click', () => {
+  const newNote = {
+    id: Date.now().toString(),
+    title: '',
+    content: ''
+  };
+  notes.push(newNote);
+  currentNoteId = newNote.id;
+  LS.set('notes', JSON.stringify(notes));
+  LS.set('currentNoteId', currentNoteId);
+  
+  editor.innerHTML = '';
+  noteTitle.value = '';
+  renderNotesList();
+  noteTitle.focus();
+});
+
+function deleteNote(id) {
+  if (!confirm(t('deleteNoteConfirm'))) return;
+  notes = notes.filter(n => n.id !== id);
+  LS.set('notes', JSON.stringify(notes));
+  
+  if (currentNoteId === id) {
+    if (notes.length > 0) {
+      currentNoteId = notes[0].id;
+      loadNote(notes[0]);
+    } else {
+      currentNoteId = null;
+      editor.innerHTML = '';
+      noteTitle.value = '';
+    }
+    LS.set('currentNoteId', currentNoteId);
+  }
+  renderNotesList();
+}
+
+// ذخیره خودکار هنگام تایپ
+editor.addEventListener('input', () => {
+  saveCurrentNote();
+});
+noteTitle.addEventListener('input', () => {
+  saveCurrentNote();
+  renderNotesList();
+});
+
+// ابزارهای ویرایشگر
+document.getElementById('boldBtn').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.execCommand('bold', false, null);
+  editor.focus();
+});
+
+document.getElementById('italicBtn').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.execCommand('italic', false, null);
+  editor.focus();
+});
+
+// افزودن کادر متن با قابلیت خروج و حذف
+document.getElementById('textBoxBtn').addEventListener('click', (e) => {
+  e.preventDefault();
+  const wrapper = document.createElement('div');
+  wrapper.className = 'note-text-box';
+  wrapper.setAttribute('contenteditable', 'false');
+  
+  const delBtn = document.createElement('button');
+  delBtn.className = 'delete-box-btn';
+  delBtn.innerHTML = '×';
+  delBtn.title = 'حذف کادر';
+  delBtn.setAttribute('contenteditable', 'false');
+  
+  const inner = document.createElement('div');
+  inner.className = 'note-text-box-inner';
+  inner.setAttribute('contenteditable', 'true');
+  inner.innerHTML = '<br>';
+  
+  // مدیریت خروج با Escape یا Backspace
+  inner.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Escape') {
+      ev.preventDefault();
+      // ساخت یک پاراگراف جدید در پایین کادر و انتقال مکان‌نما
+      const p = document.createElement('p');
+      p.innerHTML = '<br>';
+      wrapper.after(p);
+      const range = document.createRange();
+      range.setStart(p, 0);
+      range.collapse(true);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      saveCurrentNote();
+    } else if (ev.key === 'Backspace' && inner.textContent.trim() === '') {
+      ev.preventDefault();
+      wrapper.remove();
+      saveCurrentNote();
+    }
+  });
+
+  wrapper.appendChild(delBtn);
+  wrapper.appendChild(inner);
+  
+  const selection = window.getSelection();
+  if (selection.rangeCount) {
+    const range = selection.getRangeAt(0);
+    range.deleteContents();
+    range.insertNode(wrapper);
+    
+    const newRange = document.createRange();
+    newRange.setStart(inner, 0);
+    newRange.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(newRange);
+  } else {
+    editor.appendChild(wrapper);
+  }
+  
+  inner.focus();
+  saveCurrentNote();
+});
+
+// هندل کردن حذف کادر با دکمه (Event Delegation)
+editor.addEventListener('click', (e) => {
+  if (e.target.classList.contains('delete-box-btn')) {
+    e.preventDefault();
+    e.stopPropagation();
+    const box = e.target.closest('.note-text-box');
+    if (box) {
+      box.remove();
+      saveCurrentNote();
+    }
+  }
+});
+
+// آپلود و بهینه‌سازی عکس
+const imageInput = document.getElementById('imageInput');
+document.getElementById('imageBtn').addEventListener('click', () => {
+  imageInput.click();
+});
+
+imageInput.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    const img = new Image();
+    img.onload = () => {
+      // بهینه‌سازی و تغییر سایز عکس
+      const canvas = document.createElement('canvas');
+      const MAX_WIDTH = 800;
+      const MAX_HEIGHT = 800;
+      let width = img.width;
+      let height = img.height;
+
+      if (width > height) {
+        if (width > MAX_WIDTH) {
+          height *= MAX_WIDTH / width;
+          width = MAX_WIDTH;
+        }
+      } else {
+        if (height > MAX_HEIGHT) {
+          width *= MAX_HEIGHT / height;
+          height = MAX_HEIGHT;
+        }
+      }
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      
+      // تبدیل به JPEG با کیفیت 0.7 برای کاهش حجم
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+
+      const imgElement = document.createElement('img');
+      imgElement.src = dataUrl;
+      imgElement.alt = 'Uploaded image';
+      
+      // ایجاد کادر با اندازه ثابت و غیر قابل ویرایش
+      const container = document.createElement('div');
+      container.className = 'img-container';
+      container.setAttribute('contenteditable', 'false'); 
+      container.appendChild(imgElement);
+
+      // باز کردن در تب جدید با کلیک روی کادر
+      container.onclick = function() {
+        const w = window.open("");
+        w.document.write('<html><body style="margin:0;display:flex;justify-content:center;align-items:center;background:#222;"><img src="' + dataUrl + '" style="max-width:100%;max-height:100vh;"></body></html>');
+        w.document.close();
+      };
+
+      const selection = window.getSelection();
+      if (selection.rangeCount) {
+        const range = selection.getRangeAt(0);
+        range.deleteContents();
+        range.insertNode(container);
+        
+        // ایجاد یک پاراگراف جدید بعد از عکس و انتقال نشانگر به آن
+        const p = document.createElement('p');
+        p.innerHTML = '<br>';
+        container.after(p);
+        
+        const newRange = document.createRange();
+        newRange.setStart(p, 0);
+        newRange.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(newRange);
+      } else {
+        editor.appendChild(container);
+        const p = document.createElement('p');
+        p.innerHTML = '<br>';
+        editor.appendChild(p);
+      }
+      
+      saveCurrentNote();
+    };
+    img.src = event.target.result;
+  };
+  reader.readAsDataURL(file);
+  imageInput.value = '';
+});
+
+// بارگذاری اولیه
+function initNotes() {
+  if (notes.length > 0) {
+    if (!currentNoteId || !notes.find(n => n.id === currentNoteId)) {
+      currentNoteId = notes[0].id;
+      LS.set('currentNoteId', currentNoteId);
+    }
+    const activeNote = notes.find(n => n.id === currentNoteId);
+    if (activeNote) {
+      loadNote(activeNote);
+    }
+  } else {
+    // اگر هیچ یادداشتی نیست، یک یادداشت خالی بساز
+    const newNote = { id: Date.now().toString(), title: '', content: '' };
+    notes.push(newNote);
+    currentNoteId = newNote.id;
+    LS.set('notes', JSON.stringify(notes));
+    LS.set('currentNoteId', currentNoteId);
+    loadNote(newNote);
+  }
+  renderNotesList();
+}
+
+/* ============================================================
+   فلش‌کارت
+   ============================================================ */
 const fcGrid = document.getElementById('fcGrid');
 const fcScore = document.getElementById('fcScore');
 const fcSearch = document.getElementById('fcSearch');
@@ -766,6 +1353,9 @@ document.getElementById('fcResetBtn').addEventListener('click', () => {
   renderFlashcards(currentElements); updateFcScore();
 });
 
+/* ============================================================
+   جدول‌ها و سوالات
+   ============================================================ */
 const app = document.getElementById('app');
 const allStates = [];
 function updateTotal(){
@@ -906,9 +1496,12 @@ function renderTables() {
   }
 }
 
+/* ============================================================
+   تست‌ساز
+   ============================================================ */
 let resetTestBuilderFn = null;
 (function initTestBuilder() {
-  const tbElements = elements; // تمام ۱۱۸ عنصر
+  const tbElements = elements;
 
   const generateBtn = document.getElementById('tbGenerateBtn');
   const questionBox = document.getElementById('tbQuestionBox');
@@ -1029,11 +1622,16 @@ let resetTestBuilderFn = null;
   resetTestBuilderFn();
 })();
 
+/* ============================================================
+   آرایش الکترونی
+   ============================================================ */
 let resetElectronConfigFn = null;
 (function initElectronConfig() {
-  const ecElements = elements; // تمام ۱۱۸ عنصر
+  const ecElements = elements;
 
   const generateBtn = document.getElementById('ecGenerateBtn');
+  const searchInput = document.getElementById('ecSearchInput');
+  const datalist = document.getElementById('ecElementsList');
   const elementBox = document.getElementById('ecElementBox');
   const elementDisplay = document.getElementById('ecElementDisplay');
   const ecGrid = document.getElementById('ecGrid');
@@ -1043,6 +1641,16 @@ let resetElectronConfigFn = null;
   const feedback = document.getElementById('ecFeedback');
   const correctBox = document.getElementById('ecCorrect');
   const scoreSpan = document.getElementById('ecScore');
+
+  // پر کردن لیست دیتالیست
+  function populateDatalist() {
+    datalist.innerHTML = '';
+    elements.forEach(el => {
+      const opt = document.createElement('option');
+      opt.value = `${elName(el)} (${el.sym})`;
+      datalist.appendChild(opt);
+    });
+  }
 
   const SHELLS = [
     { name: 'K', max: 2 }, { name: 'L', max: 8 }, { name: 'M', max: 18 },
@@ -1079,8 +1687,8 @@ let resetElectronConfigFn = null;
     scoreSpan.textContent = `${t('yourSectionScoreShort')} ${faNum(ecCorrect)} / ${faNum(ecTotal)}`;
   }
 
-  function generateElement() {
-    currentElement = ecElements[Math.floor(Math.random() * ecElements.length)];
+  function generateElement(forcedEl = null, revealAnswer = false) {
+    currentElement = forcedEl || ecElements[Math.floor(Math.random() * ecElements.length)];
     correctConfig = getShellConfiguration(currentElement.z);
     elementDisplay.innerHTML = `
       <div class="z">${faNum(currentElement.z)}</div>
@@ -1118,6 +1726,10 @@ let resetElectronConfigFn = null;
     showAnswerBtn.style.display = 'inline-block';
     nextBtn.style.display = 'none';
     elementBox.style.display = 'block';
+
+    if (revealAnswer) {
+      showCorrectAnswer();
+    }
   }
 
   function checkAnswer() {
@@ -1144,19 +1756,251 @@ let resetElectronConfigFn = null;
     showAnswerBtn.style.display = 'none';
   }
 
-  generateBtn.addEventListener('click', generateElement);
+  generateBtn.addEventListener('click', () => generateElement());
   checkBtn.addEventListener('click', checkAnswer);
   showAnswerBtn.addEventListener('click', showCorrectAnswer);
-  nextBtn.addEventListener('click', generateElement);
+  nextBtn.addEventListener('click', () => generateElement());
+
+  // مدیریت جستجو
+  searchInput.addEventListener('change', (e) => {
+    const val = e.target.value.trim();
+    if (!val) return;
+    const matchedEl = elements.find(item =>
+      val === `${elName(item)} (${item.sym})` ||
+      val === item.sym ||
+      val === elName(item) ||
+      (item.z && val.includes(String(item.z)))
+    );
+    if (matchedEl) {
+      generateElement(matchedEl, true); // با نمایش خودکار پاسخ
+    }
+    searchInput.value = '';
+  });
+
+  // مدیریت Enter در کادر جستجو
+  searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const val = searchInput.value.trim();
+      if (!val) return;
+      const matchedEl = elements.find(item =>
+        val.includes(elName(item)) ||
+        val.toLowerCase() === item.sym.toLowerCase() ||
+        val.includes(String(item.z))
+      );
+      if (matchedEl) {
+        generateElement(matchedEl, true);
+      }
+      searchInput.value = '';
+    }
+  });
+
+  populateDatalist();
 
   resetElectronConfigFn = function() {
     ecCorrect = 0; ecTotal = 0; currentElement = null;
     elementBox.style.display = 'none';
     updateScoreLabel();
+    populateDatalist(); // به‌روزرسانی لیست با زبان جدید
   };
   resetElectronConfigFn();
 })();
 
+/* ============================================================
+   تاریخچه (هایلایت و کامنت)
+   ============================================================ */
+const historyContentEl = document.getElementById('history-content');
+let currentHighlightColor = 'highlight-yellow';
+
+function renderHistoryContent() {
+  const content = currentLang === 'fa' ? I18N.fa.historyContent : I18N.en.historyContent;
+  historyContentEl.innerHTML = content;
+  restoreHighlights();
+}
+
+document.querySelectorAll('.color-swatch').forEach(swatch => {
+  swatch.addEventListener('click', () => {
+    currentHighlightColor = swatch.dataset.color;
+    document.querySelectorAll('.color-swatch').forEach(s => s.style.borderColor = 'var(--border-strong)');
+    swatch.style.borderColor = 'var(--text)';
+  });
+});
+
+// هایلایت ساده و افزودن کامنت
+document.querySelectorAll('.color-swatch').forEach(swatch => {
+  swatch.addEventListener('click', () => {
+    const selection = window.getSelection();
+    if (selection.isCollapsed) return;
+    const range = selection.getRangeAt(0);
+    const span = document.createElement('span');
+    span.className = swatch.dataset.color;
+    try {
+      range.surroundContents(span);
+    } catch (e) {
+      const fragment = range.extractContents();
+      span.appendChild(fragment);
+      range.insertNode(span);
+    }
+    selection.removeAllRanges();
+    saveHistoryState();
+  });
+});
+
+document.getElementById('addCommentBtn').addEventListener('click', () => {
+  const selection = window.getSelection();
+  if (selection.isCollapsed) {
+    alert(t('noTextSelected'));
+    return;
+  }
+  const range = selection.getRangeAt(0);
+  const comment = prompt(t('commentPrompt'));
+  if (!comment) return;
+
+  const span = document.createElement('span');
+  span.className = currentHighlightColor;
+  span.dataset.comment = comment;
+  try {
+    range.surroundContents(span);
+  } catch (e) {
+    const fragment = range.extractContents();
+    span.appendChild(fragment);
+    range.insertNode(span);
+  }
+  const icon = document.createElement('span');
+  icon.className = 'comment-icon';
+  icon.textContent = '?';
+  icon.title = comment;
+  icon.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (confirm(`${comment}\n\n${t('removeCommentConfirm')}`)) {
+      removeComment(span);
+    }
+  });
+  span.appendChild(icon);
+
+  selection.removeAllRanges();
+  saveHistoryState();
+});
+
+/* ============================================================
+   حذف هایلایت و کامنت
+   ============================================================ */
+function removeHighlight(element) {
+  if (!element) return;
+  const parent = element.parentNode;
+  while (element.firstChild) {
+    parent.insertBefore(element.firstChild, element);
+  }
+  parent.removeChild(element);
+  saveHistoryState();
+}
+
+function removeComment(element) {
+  if (!element || !element.dataset.comment) return;
+  delete element.dataset.comment;
+  const icon = element.querySelector('.comment-icon');
+  if (icon) icon.remove();
+  
+  if (!element.className.startsWith('highlight-')) {
+    const parent = element.parentNode;
+    while (element.firstChild) {
+      parent.insertBefore(element.firstChild, element);
+    }
+    parent.removeChild(element);
+  }
+  saveHistoryState();
+}
+
+// حذف با کلیک مستقیم روی هایلایت‌ها
+historyContentEl.addEventListener('click', (e) => {
+  const target = e.target;
+  if (target.classList.contains('comment-icon')) return;
+
+  if (target.tagName === 'SPAN' && target.className.startsWith('highlight-')) {
+    if (confirm(t('removeHighlightConfirm'))) {
+      removeHighlight(target);
+    }
+  }
+});
+
+// حذف با دکمه‌های نوار ابزار
+document.getElementById('removeHighlightBtn').addEventListener('click', () => {
+  const selection = window.getSelection();
+  if (selection.isCollapsed) {
+    alert(t('noTextSelected'));
+    return;
+  }
+  
+  let range = selection.getRangeAt(0);
+  let container = range.commonAncestorContainer;
+  let highlightSpan = container.nodeType === 3 ? container.parentNode : container;
+  
+  while (highlightSpan && highlightSpan !== historyContentEl) {
+    if (highlightSpan.classList && (
+        highlightSpan.classList.contains('highlight-yellow') ||
+        highlightSpan.classList.contains('highlight-green') ||
+        highlightSpan.classList.contains('highlight-blue') ||
+        highlightSpan.classList.contains('highlight-pink'))) {
+      break;
+    }
+    highlightSpan = highlightSpan.parentNode;
+  }
+  
+  if (highlightSpan && highlightSpan !== historyContentEl) {
+    removeHighlight(highlightSpan);
+    selection.removeAllRanges();
+  }
+});
+
+document.getElementById('removeCommentBtn').addEventListener('click', () => {
+  const selection = window.getSelection();
+  if (selection.isCollapsed) {
+    alert(t('noTextSelected'));
+    return;
+  }
+  
+  let range = selection.getRangeAt(0);
+  let container = range.commonAncestorContainer;
+  let commentSpan = container.nodeType === 3 ? container.parentNode : container;
+  
+  while (commentSpan && commentSpan !== historyContentEl) {
+    if (commentSpan.dataset && commentSpan.dataset.comment) {
+      break;
+    }
+    commentSpan = commentSpan.parentNode;
+  }
+  
+  if (commentSpan && commentSpan !== historyContentEl) {
+    removeComment(commentSpan);
+    selection.removeAllRanges();
+  } else {
+    alert('کامنتی در این بخش یافت نشد.');
+  }
+});
+
+function saveHistoryState() {
+  LS.set(`historyHighlights_${currentLang}`, historyContentEl.innerHTML);
+}
+
+function restoreHighlights() {
+  const saved = LS.get(`historyHighlights_${currentLang}`, null);
+  if (saved) {
+    historyContentEl.innerHTML = saved;
+    historyContentEl.querySelectorAll('.comment-icon').forEach(icon => {
+      icon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (confirm(`${icon.title}\n\n${t('removeCommentConfirm')}`)) {
+          removeComment(icon.parentNode);
+        }
+      });
+    });
+  }
+}
+
+/* ============================================================
+   راه‌اندازی اولیه
+   ============================================================ */
+initNotes();
 applyLanguage();
 </script>
 </body>
