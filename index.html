@@ -1,10 +1,9 @@
-<!-- this code was generated completely by AI. -->
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>جدول تناوبی تعاملی</title>
+<title>جدول تناوبی</title>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -15,6 +14,10 @@
     --accent: #c29465; --success: #5e8c52; --success-dark: #3d6632; --success-light: #e5f0e1;
     --danger: #b55a5a; --danger-dark: #8c3a3a; --danger-light: #f7e5e5;
     --warning: #c99b3b; --warning-light: #f7eed9; --warning-text: #705218;
+    
+    --cat-alkali: #f5e6c4; --cat-alkaline: #d4e8c8; --cat-transition: #e8c9b8;
+    --cat-post-transition: #dcd7cc; --cat-metalloid: #b8d8c8; --cat-nonmetal: #c8e0a8;
+    --cat-halogen: #f5c8d0; --cat-noble: #d8c8e8; --cat-lanthanide: #f5e8b8; --cat-actinide: #f5d0b8;
   }
   body.dark {
     --bg: #121212; --surface: #1e1e1e; --surface-alt: #2a2a2a;
@@ -24,15 +27,14 @@
     --accent: #6b6b6b; --success: #5e8c52; --success-dark: #7eb672; --success-light: #263321;
     --danger: #bc4749; --danger-dark: #e5989b; --danger-light: #331a1a;
     --warning: #9e9e9e; --warning-light: #333333; --warning-text: #e0e0e0;
+    
+    --cat-alkali: #4a4438; --cat-alkaline: #354a30; --cat-transition: #4a3a30;
+    --cat-post-transition: #383838; --cat-metalloid: #2f4a40; --cat-nonmetal: #3a4a28;
+    --cat-halogen: #4a3038; --cat-noble: #3a304a; --cat-lanthanide: #4a4428; --cat-actinide: #4a3828;
   }
 
-  /* فونت‌های کلاسیک */
-  html[lang="fa"] * {
-    font-family: 'Noto Naskh Arabic', 'Nazanin', 'B Nazanin', 'Mitra', 'B Mitra', 'Times New Roman', serif !important;
-  }
-  html[lang="en"] * {
-    font-family: 'Times New Roman', Times, serif !important;
-  }
+  html[lang="fa"] * { font-family: 'Noto Naskh Arabic', 'Nazanin', 'B Nazanin', 'Mitra', 'B Mitra', 'Times New Roman', serif !important; }
+  html[lang="en"] * { font-family: 'Times New Roman', Times, serif !important; }
 
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -62,36 +64,81 @@
   .panel { margin-bottom: 24px; }
   .panel h2 { font-size: 1rem; margin: 0 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); font-weight: 700; }
 
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px;
+    padding: 8px 10px; background: var(--surface-alt);
+    border: 1px solid var(--border); border-radius: 4px;
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 6px;
+    padding: 4px 10px; border-radius: 4px; cursor: pointer;
+    font-size: .78rem; border: 1px solid transparent; transition: all .15s;
+  }
+  .legend-item:hover { border-color: var(--border-strong); }
+  .legend-item.active { border-color: var(--text); font-weight: 700; }
+  .legend-swatch { width: 14px; height: 14px; border-radius: 2px; border: 1px solid rgba(0,0,0,.15); }
+
   .periodic-table-wrapper { margin-bottom: 4px; overflow-x: auto; }
   .periodic-table { display: grid; grid-template-columns: repeat(18, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); min-width: 720px; direction: ltr; }
-  .pt-cell { background: var(--surface); padding: 4px 2px; text-align: center; cursor: pointer; transition: background .15s; position: relative; min-height: 56px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; color: var(--text); }
-  .pt-cell:hover { background: var(--primary-light); }
+  .pt-cell { background: var(--surface); padding: 4px 2px; text-align: center; cursor: pointer; transition: all .15s; position: relative; min-height: 56px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; color: var(--text); }
+  .pt-cell:hover { filter: brightness(0.92); transform: scale(1.05); z-index: 2; }
+  .pt-cell.dimmed { opacity: 0.25; }
   .pt-cell .pt-z { font-size: .6rem; color: var(--text-light); line-height: 1; }
-  .pt-cell .pt-sym { font-size: .82rem; font-weight: 700; color: var(--primary); line-height: 1.2; margin-top: 1px; }
+  .pt-cell .pt-sym { font-size: .82rem; font-weight: 700; color: var(--text); line-height: 1.2; margin-top: 1px; }
   .pt-cell .pt-name { font-size: .55rem; color: var(--text-light); line-height: 1.2; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
   .pt-cell.empty { background: var(--surface-alt); cursor: default; pointer-events: none; visibility: hidden; }
+  .pt-cell.cat-alkali { background: var(--cat-alkali); }
+  .pt-cell.cat-alkaline { background: var(--cat-alkaline); }
+  .pt-cell.cat-transition { background: var(--cat-transition); }
+  .pt-cell.cat-post-transition { background: var(--cat-post-transition); }
+  .pt-cell.cat-metalloid { background: var(--cat-metalloid); }
+  .pt-cell.cat-nonmetal { background: var(--cat-nonmetal); }
+  .pt-cell.cat-halogen { background: var(--cat-halogen); }
+  .pt-cell.cat-noble { background: var(--cat-noble); }
+  .pt-cell.cat-lanthanide { background: var(--cat-lanthanide); }
+  .pt-cell.cat-actinide { background: var(--cat-actinide); }
+  .pt-cell.series-indicator { background: var(--surface-alt); border: 1px dashed var(--border-strong); cursor: pointer; color: var(--text-light); }
+  .pt-cell.series-indicator:hover { background: var(--warning-light); color: var(--warning-text); filter: none; transform: scale(1.05); }
+  .pt-cell.series-indicator .pt-sym { color: var(--text-light); font-size: 0.9rem; }
+  .pt-cell.series-indicator .pt-name { color: var(--text-light); font-size: 0.55rem; }
 
-  /* استایل خاص کادرهای لانتانید و اکتینید */
-  .pt-cell.series-indicator {
-    background: var(--warning-light);
-    border: 1px dashed var(--warning);
+  .cell-speak {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 14px;
+    height: 14px;
+    background: transparent;
+    border: none;
+    padding: 0;
     cursor: pointer;
-    color: var(--warning-text);
+    display: none;
+    z-index: 5;
+    overflow: visible;
   }
-  .pt-cell.series-indicator:hover { background: var(--warning); color: #fff; }
-  .pt-cell.series-indicator .pt-sym { color: var(--warning-text); font-size: 0.9rem; }
-  .pt-cell.series-indicator:hover .pt-sym { color: #fff; }
-  .pt-cell.series-indicator .pt-name { color: var(--warning-text); font-size: 0.55rem; }
-  .pt-cell.series-indicator:hover .pt-name { color: #fff; }
+  .cell-speak::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-20%, -50%);
+    width: 0;
+    height: 0;
+    border-left: 7px solid var(--text);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+  }
+  .cell-speak:hover::before { border-left-color: var(--primary); }
+  .pt-cell:hover .cell-speak { display: block; }
 
   button { cursor: pointer; border: none; font-size: .82rem; transition: background .15s, border-color .15s, color .15s; font-weight: 500; }
   .btn { background: var(--primary); color: #fff; padding: 7px 14px; }
   .btn:hover { background: var(--primary-dark); }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
   .btn.toggle { background: var(--accent); color: #fff; }
   .btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--border-strong); }
   .btn.ghost:hover { background: var(--surface-alt); }
 
-  /* ===== یادداشت‌ها (ویرایشگر و لیست) ===== */
   .notes-layout { display: flex; gap: 16px; align-items: flex-start; }
   .notes-sidebar { width: 260px; flex-shrink: 0; background: var(--surface-alt); border: 1px solid var(--border); padding: 10px; display: flex; flex-direction: column; gap: 8px; max-height: 600px; overflow-y: auto; }
   .notes-sidebar > button { width: 100%; padding: 8px; background: var(--primary); color: #fff; font-weight: 600; margin-bottom: 8px; }
@@ -103,102 +150,28 @@
   .note-title { font-size: .85rem; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .delete-note-btn { background: transparent; border: none; color: var(--danger); font-size: .75rem; cursor: pointer; padding: 4px 8px; border-radius: 4px; font-weight: 600; }
   .delete-note-btn:hover { background: var(--danger-light); color: var(--danger-dark); }
-  
   .notes-editor-wrapper { flex: 1; min-width: 0; }
   .note-title-input { width: 100%; padding: 10px 12px; margin-bottom: 8px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); font-size: 1rem; font-weight: 600; outline: none; border-radius: 4px; }
   .note-title-input:focus { border-color: var(--primary); }
-  
   .editor-toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; padding: 8px 12px; background: var(--surface-alt); border: 1px solid var(--border); border-radius: 4px; }
   .editor-toolbar button { background: transparent; border: 1px solid transparent; color: var(--text); padding: 4px 8px; font-size: .9rem; border-radius: 4px; }
   .editor-toolbar button:hover { background: var(--border); }
   .editor-toolbar .separator { width: 1px; height: 20px; background: var(--border-strong); margin: 0 4px; }
-  
   .editor { 
-    width: 100%; 
-    min-height: 420px; 
-    padding: 14px; 
-    border: 1px solid var(--border-strong); 
-    font-size: 16px !important; 
-    line-height: 1.8; 
-    background: var(--surface); 
-    color: var(--text); 
-    resize: vertical; 
-    outline: none; 
-    overflow-y: auto; 
-    border-radius: 4px; 
-    word-break: break-word;
-    overflow-wrap: break-word;
+    width: 100%; min-height: 420px; padding: 14px; 
+    border: 1px solid var(--border-strong); font-size: 16px !important; 
+    line-height: 1.8; background: var(--surface); color: var(--text); 
+    resize: vertical; outline: none; overflow-y: auto; border-radius: 4px; 
+    word-break: break-word; overflow-wrap: break-word;
   }
   .editor:focus { border-color: var(--primary); }
-  
-  /* کادر عکس با نمایش بلوکی برای جلوگیری از گیر کردن نشانگر */
-  .img-container {
-    display: block;
-    width: 200px;
-    max-width: 100%;
-    height: 150px;
-    overflow: hidden;
-    margin: 10px 0;
-    border-radius: 2px;
-    border: 1px solid var(--border);
-    cursor: pointer;
-    background: var(--surface-alt);
-    user-select: none;
-    -webkit-user-drag: none;
-  }
-  .img-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    pointer-events: none;
-  }
-
-  /* کادر متن */
-  .note-text-box {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    background: var(--surface-alt);
-    border: 1px solid var(--border-strong);
-    border-radius: 4px;
-    padding: 18px 14px 14px 14px;
-    margin: 10px 0;
-    box-sizing: border-box;
-    position: relative;
-  }
-  .note-text-box-inner {
-    outline: none;
-    min-height: 40px;
-    width: 100%;
-    word-break: break-word;
-    overflow-wrap: break-word;
-  }
-  
-  /* دکمه حذف کادر متن */
-  .delete-box-btn {
-    position: absolute;
-    top: -8px;
-    left: -8px;
-    background: var(--danger);
-    color: #fff;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    line-height: 20px;
-    text-align: center;
-    font-size: 14px;
-    cursor: pointer;
-    display: none;
-    z-index: 10;
-    border: 2px solid var(--surface);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  }
-  .note-text-box:hover .delete-box-btn {
-    display: block;
-  }
-  .delete-box-btn:hover {
-    background: var(--danger-dark);
-  }
+  .img-container { display: block; width: 200px; max-width: 100%; height: 150px; overflow: hidden; margin: 10px 0; border-radius: 2px; border: 1px solid var(--border); cursor: pointer; background: var(--surface-alt); user-select: none; -webkit-user-drag: none; }
+  .img-container img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+  .note-text-box { display: block; width: 100%; max-width: 100%; background: var(--surface-alt); border: 1px solid var(--border-strong); border-radius: 4px; padding: 18px 14px 14px 14px; margin: 10px 0; box-sizing: border-box; position: relative; }
+  .note-text-box-inner { outline: none; min-height: 40px; width: 100%; word-break: break-word; overflow-wrap: break-word; }
+  .delete-box-btn { position: absolute; top: -8px; left: -8px; background: var(--danger); color: #fff; border-radius: 50%; width: 20px; height: 20px; line-height: 20px; text-align: center; font-size: 14px; cursor: pointer; display: none; z-index: 10; border: 2px solid var(--surface); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+  .note-text-box:hover .delete-box-btn { display: block; }
+  .delete-box-btn:hover { background: var(--danger-dark); }
 
   table { width: 100%; border-collapse: collapse; border: 1px solid var(--border); }
   th, td { padding: 9px 8px; text-align: center; border-bottom: 1px solid var(--border); border-left: 1px solid var(--border); color: var(--text); font-size: .86rem; }
@@ -267,6 +240,52 @@
   .tb-input:disabled { opacity: .7; cursor: not-allowed; }
   .tb-feedback { margin-top: 10px; font-weight: 600; font-size: .86rem; }
 
+  .source-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px 12px;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+  .source-row label {
+    font-weight: 600;
+    font-size: .85rem;
+    white-space: nowrap;
+  }
+  .source-input {
+    padding: 8px 12px;
+    border: 1px solid var(--border-strong);
+    font-size: .85rem;
+    background: var(--surface);
+    color: var(--text);
+    border-radius: 4px;
+    outline: none;
+    font-family: inherit;
+    flex: 1;
+    min-width: 180px;
+    max-width: 400px;
+  }
+  .source-input:focus { border-color: var(--primary); }
+  .source-info {
+    font-size: .78rem;
+    color: var(--primary);
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 4px 10px;
+    background: var(--primary-light);
+    border-radius: 4px;
+  }
+  .source-help {
+    font-size: .75rem;
+    color: var(--text-light);
+    margin: 0 0 12px;
+    padding: 0 4px;
+  }
+
   .ec-element-display { text-align: center; margin: 12px 0; padding: 14px; background: var(--primary-light); border: 1px solid var(--border); }
   .ec-element-display .z { font-size: 1.8rem; font-weight: 700; color: var(--primary); line-height: 1; }
   .ec-element-display .name { font-size: .95rem; font-weight: 600; margin-top: 6px; }
@@ -282,22 +301,15 @@
   .ec-feedback.wrong { background: var(--warning-light); color: var(--warning-text); }
   .ec-correct { background: var(--success-light); padding: 11px; margin-top: 8px; font-size: .83rem; color: var(--success-dark); text-align: center; }
 
-  /* ===== تاریخچه ===== */
   .history-toolbar {
     display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
     margin-bottom: 16px; padding: 10px 12px;
     background: var(--surface-alt); border: 1px solid var(--border);
     position: sticky; top: 0; z-index: 10;
   }
-  .history-toolbar .color-swatch {
-    width: 24px; height: 24px; border-radius: 50%; cursor: pointer;
-    border: 2px solid var(--border-strong);
-  }
+  .history-toolbar .color-swatch { width: 24px; height: 24px; border-radius: 50%; cursor: pointer; border: 2px solid var(--border-strong); }
   .history-toolbar .color-swatch:hover { transform: scale(1.15); }
-  .history-content {
-    font-size: 1rem; line-height: 2; color: var(--text);
-    max-width: 800px; margin: 0 auto;
-  }
+  .history-content { font-size: 1rem; line-height: 2; color: var(--text); max-width: 800px; margin: 0 auto; }
   .history-content h2 { font-size: 1.1rem; margin: 24px 0 12px; color: var(--primary); }
   .history-content p { margin: 0 0 14px; text-align: justify; }
   .history-content .wiki-links { margin-top: 24px; padding-top: 16px; border-top: 1px dashed var(--border); }
@@ -308,11 +320,109 @@
   .highlight-green { background-color: #d4edda; color: #155724; }
   .highlight-blue { background-color: #cce5ff; color: #004085; }
   .highlight-pink { background-color: #f8d7da; color: #721c24; }
-  .comment-icon {
-    display: inline-block; width: 14px; height: 14px; background: var(--accent);
-    color: #fff; border-radius: 50%; font-size: 10px; line-height: 14px;
-    text-align: center; cursor: pointer; margin-right: 4px; vertical-align: middle;
-    position: relative; top: -1px;
+  .comment-icon { display: inline-block; width: 14px; height: 14px; background: var(--accent); color: #fff; border-radius: 50%; font-size: 10px; line-height: 14px; text-align: center; cursor: pointer; margin-right: 4px; vertical-align: middle; position: relative; top: -1px; }
+
+  .exam-timer-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 18px; background: var(--surface-alt);
+    border: 2px solid var(--border-strong); border-radius: 8px; margin-bottom: 16px;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .exam-timer-display {
+    font-size: 1.8rem; font-weight: 700; color: var(--primary);
+    font-variant-numeric: tabular-nums; letter-spacing: 2px;
+    transition: color .3s;
+  }
+  .exam-timer-display.warning { color: var(--warning); }
+  .exam-timer-display.danger { color: var(--danger); animation: pulse 1s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+  .exam-stats { display: flex; gap: 16px; flex-wrap: wrap; }
+  .exam-stat { display: flex; flex-direction: column; align-items: center; font-size: .78rem; color: var(--text-light); }
+  .exam-stat strong { font-size: 1.1rem; color: var(--text); }
+  .exam-stat.correct strong { color: var(--success-dark); }
+  .exam-stat.wrong strong { color: var(--danger-dark); }
+
+  .exam-setup {
+    background: var(--surface-alt); border: 1px solid var(--border);
+    border-radius: 8px; padding: 20px; text-align: center;
+  }
+  .exam-setup p { margin: 0 0 16px; color: var(--text-light); font-size: .9rem; }
+  .exam-duration-buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+  .exam-duration-buttons button {
+    padding: 12px 24px; background: var(--surface); color: var(--text);
+    border: 2px solid var(--border-strong); font-weight: 700; font-size: 1rem;
+  }
+  .exam-duration-buttons button:hover { background: var(--primary-light); border-color: var(--primary); }
+  .exam-duration-buttons button.selected { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+  .exam-results {
+    background: var(--surface-alt); border: 2px solid var(--primary);
+    border-radius: 8px; padding: 24px; text-align: center;
+  }
+  .exam-results h3 { font-size: 1.2rem; margin: 0 0 16px; color: var(--primary); }
+  .exam-results .result-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px; margin-bottom: 16px;
+  }
+  .exam-results .result-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; padding: 14px;
+  }
+  .exam-results .result-item .value { font-size: 1.8rem; font-weight: 700; color: var(--primary); }
+  .exam-results .result-item .label { font-size: .82rem; color: var(--text-light); margin-top: 4px; }
+  .exam-results .result-item.correct .value { color: var(--success-dark); }
+  .exam-results .result-item.wrong .value { color: var(--danger-dark); }
+  .exam-results .result-item.percent .value { color: var(--accent); }
+
+  /* === Layout modes: top bar (default) / left sidebar / right sidebar === */
+  body.layout-sidebar-left { padding-left: 220px; }
+  body.layout-sidebar-right { padding-right: 220px; }
+
+  body.layout-sidebar-left .topbar,
+  body.layout-sidebar-right .topbar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 220px;
+    z-index: 200;
+    overflow-y: auto;
+    border-bottom: none;
+  }
+  body.layout-sidebar-left .topbar { left: 0; border-right: 1px solid var(--border); }
+  body.layout-sidebar-right .topbar { right: 0; border-left: 1px solid var(--border); }
+
+  body.layout-sidebar-left .topbar-inner,
+  body.layout-sidebar-right .topbar-inner {
+    flex-direction: column;
+    align-items: stretch;
+    height: auto;
+    padding: 16px 12px;
+    gap: 8px;
+    max-width: none;
+  }
+  body.layout-sidebar-left .brand,
+  body.layout-sidebar-right .brand {
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    white-space: normal;
+  }
+  body.layout-sidebar-left .nav,
+  body.layout-sidebar-right .nav {
+    flex-direction: column;
+    overflow-x: visible;
+    width: 100%;
+    gap: 2px;
+  }
+  body.layout-sidebar-left .nav-item,
+  body.layout-sidebar-right .nav-item {
+    text-align: start;
+    white-space: normal;
+    width: 100%;
+  }
+  body.layout-sidebar-left .theme-toggle,
+  body.layout-sidebar-right .theme-toggle {
+    width: 100%;
   }
 
   @media (max-width: 768px) {
@@ -327,6 +437,69 @@
     .notes-layout { flex-direction: column; }
     .notes-sidebar { width: 100%; max-height: 250px; }
     .editor-toolbar { justify-content: center; }
+    .exam-timer-display { font-size: 1.4rem; }
+    .cell-speak { display: block; }
+    .source-input { max-width: 100%; }
+
+    body.layout-sidebar-left,
+    body.layout-sidebar-right { padding-left: 0; padding-right: 0; }
+    body.layout-sidebar-left .topbar,
+    body.layout-sidebar-right .topbar {
+      position: static;
+      width: auto;
+      left: auto;
+      right: auto;
+      bottom: auto;
+      overflow-y: visible;
+      border: none;
+      border-bottom: 1px solid var(--border);
+    }
+    body.layout-sidebar-left .topbar-inner,
+    body.layout-sidebar-right .topbar-inner {
+      flex-direction: row;
+      flex-wrap: wrap;
+      height: auto;
+      padding: 8px 12px;
+      gap: 8px;
+    }
+    body.layout-sidebar-left .brand,
+    body.layout-sidebar-right .brand {
+      text-align: start;
+      padding-bottom: 0;
+      border-bottom: none;
+      white-space: nowrap;
+    }
+    body.layout-sidebar-left .nav,
+    body.layout-sidebar-right .nav {
+      flex-direction: row;
+      overflow-x: auto;
+      overflow-y: visible;
+      order: 3;
+      width: 100%;
+    }
+    body.layout-sidebar-left .nav-item,
+    body.layout-sidebar-right .nav-item {
+      text-align: center;
+      white-space: nowrap;
+      width: auto;
+    }
+    body.layout-sidebar-left .theme-toggle,
+    body.layout-sidebar-right .theme-toggle {
+      width: auto;
+    }
+  }
+
+  @media print {
+    body { background: #fff !important; color: #000 !important; }
+    .topbar, .notes-sidebar, .editor-toolbar, .nav, .legend, .page:not(#page-notes), .brand, .theme-toggle { display: none !important; }
+    .container, .layout { padding: 0 !important; margin: 0 !important; max-width: 100% !important; }
+    #page-notes { display: block !important; }
+    .notes-layout { display: block !important; }
+    .notes-editor-wrapper { width: 100% !important; border: none !important; padding: 0 !important; }
+    .note-title-input { border: none !important; font-size: 24px !important; font-weight: bold !important; color: #000 !important; padding: 0 !important; margin-bottom: 20px !important; width: 100% !important; }
+    .editor { border: none !important; color: #000 !important; padding: 0 !important; min-height: auto !important; overflow: visible !important; }
+    .img-container { page-break-inside: avoid; border: 1px solid #ccc !important; }
+    .note-text-box { border: 1px solid #ccc !important; background: #f9f9f9 !important; }
   }
 </style>
 </head>
@@ -342,27 +515,34 @@
       <button class="nav-item" data-page="tables" data-i18n="tables">جدول‌ها و سوالات</button>
       <button class="nav-item" data-page="testbuilder" data-i18n="testbuilder">تست‌ساز</button>
       <button class="nav-item" data-page="electron" data-i18n="electron">آرایش الکترونی</button>
+      <button class="nav-item" data-page="exam" data-i18n="exam">آزمون زمان‌دار</button>
     </nav>
     <button class="theme-toggle" id="themeToggle" data-i18n="darkMode">حالت شب</button>
     <button class="theme-toggle" id="langToggle">English</button>
+    <button class="theme-toggle" id="layoutToggle" title="Layout"></button>
   </div>
 </header>
 
 <main class="container">
-  <!-- خانه -->
   <section class="page active" id="page-home">
     <div class="panel">
       <h2 data-i18n="periodicTable">جدول تناوبی عناصر</h2>
+      <div class="legend" id="legend"></div>
       <div class="periodic-table-wrapper">
         <div class="periodic-table" id="periodicTable"></div>
       </div>
     </div>
   </section>
 
-  <!-- فلش‌کارت -->
   <section class="page" id="page-flashcards">
     <div class="panel">
       <h2 data-i18n="fcTitle">فلش‌کارت‌ها</h2>
+      <div class="source-row">
+        <label data-i18n="sourceLabel">منبع سوالات:</label>
+        <input type="text" id="fcSourceInput" class="source-input" placeholder="مثلاً 1-20 یا H, O, Fe" data-i18n-placeholder="sourcePlaceholder">
+        <span class="source-info" id="fcSourceInfo"></span>
+      </div>
+      <p class="source-help" data-i18n="sourceHelp">بازه (1-20) یا نماد/نام با کاما (H, O, آهن) — خالی = همهٔ عناصر</p>
       <div class="fc-actions">
         <input type="text" id="fcSearch" class="search-box" placeholder="جستجو بر اساس نام، نماد یا عدد اتمی..." data-i18n-placeholder="fcSearch" style="flex:1;min-width:200px" aria-label="Search">
         <button class="btn ghost" id="fcShuffleBtn" data-i18n="fcShuffle">بر زدن</button>
@@ -374,20 +554,16 @@
     </div>
   </section>
 
-  <!-- یادداشت‌ها -->
   <section class="page" id="page-notes">
     <div class="panel">
       <h2 data-i18n="myNotes">یادداشت‌های من</h2>
-      
       <div class="notes-layout">
         <div class="notes-sidebar">
           <button id="newNoteBtn" data-i18n="newNote">یادداشت جدید</button>
           <ul class="notes-list" id="notesList"></ul>
         </div>
-        
         <div class="notes-editor-wrapper">
           <input type="text" id="noteTitle" class="note-title-input" placeholder="عنوان یادداشت..." data-i18n-placeholder="noteTitlePlaceholder">
-          
           <div class="editor-toolbar">
             <button id="boldBtn" title="بولد"><b>B</b></button>
             <button id="italicBtn" title="ایتالیک"><i>I</i></button>
@@ -395,99 +571,31 @@
             <button id="textBoxBtn" title="کادر متن" data-i18n="insertTextBox">کادر متن</button>
             <button id="imageBtn" title="آپلود عکس" data-i18n="insertImage">عکس</button>
             <input type="file" id="imageInput" accept="image/*" style="display:none;">
+            <div class="separator"></div>
+            <button id="exportPdfBtn" data-i18n="exportPdf">چاپ / PDF</button>
+            <button id="downloadHtmlBtn" data-i18n="downloadHtml">دانلود</button>
           </div>
-          
           <div class="editor" id="editor" contenteditable="true" aria-label="Text editor"></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- درسنامه -->
   <section class="page" id="page-lesson">
     <div class="panel">
       <h2 data-i18n="lessonTitle">درسنامهٔ حفظی (گروه‌های اصلی)</h2>
-      <div class="lesson-intro" data-i18n="lessonIntro">این درسنامه عناصر ۱ تا ۴۰ را بر اساس گروه‌های جدول تناوبی با رمزهای فارسی پوشش می‌دهد. برای سایر عناصر از فلش‌کارت‌ها و تست‌ساز استفاده کنید.</div>
-      <div class="group-block">
-        <h3 data-i18n="lessonGroup1">گروه ۱ — فلزات قلیایی</h3>
-        <div class="group-symbols">H — Li — Na — K — Rb — Cs</div>
-        <div class="mnemonic-box">
-          <span class="label" data-i18n="mnemonic">رمز:</span>
-          <span class="code" dir="rtl">«<u>ه</u>یوا <u>لی</u>لی <u>نا</u>ن <u>ک</u>رمانشاهی <u>ر</u>فت <u>س</u>راغ <u>ف</u>رانسوی»</span>
-        </div>
-      </div>
-      <div class="group-block">
-        <h3 data-i18n="lessonGroup2">گروه ۲ — فلزات قلیایی خاکی</h3>
-        <div class="group-symbols">Be — Mg — Ca — Sr — Ba — Ra</div>
-        <div class="mnemonic-box">
-          <span class="label" data-i18n="mnemonic">رمز:</span>
-          <span class="code" dir="rtl">«<u>ب</u>ه <u>م</u>گس <u>ک</u>له <u>س</u>ر‌مایه‌ای <u>با</u>ید <u>را</u>ه داد»</span>
-        </div>
-      </div>
-      <div class="group-block">
-        <h3 data-i18n="lessonGroup13">گروه ۱۳ — خانوادهٔ بور</h3>
-        <div class="group-symbols">B — Al — Ga — In — Tl</div>
-        <div class="mnemonic-box">
-          <span class="label" data-i18n="mnemonic">رمز:</span>
-          <span class="code" dir="rtl">«<u>ب</u>گو <u>ال</u>و <u>گا</u>ندم <u>اینجا</u> <u>ت</u>موم شده»</span>
-        </div>
-      </div>
-      <div class="group-block">
-        <h3 data-i18n="lessonGroup14">گروه ۱۴ — خانوادهٔ کربن</h3>
-        <div class="group-symbols">C — Si — Ge — Sn — Pb</div>
-        <div class="mnemonic-box">
-          <span class="label" data-i18n="mnemonic">رمز:</span>
-          <span class="code" dir="rtl">«<u>ک</u>سی <u>سی</u>بیل <u>ژ</u>رمن <u>س</u>رب <u>پ</u>یدا کرد»</span>
-        </div>
-      </div>
-      <div class="group-block">
-        <h3 data-i18n="lessonGroup15">گروه ۱۵ — خانوادهٔ نیتروژن</h3>
-        <div class="group-symbols">N — P — As — Sb — Bi</div>
-        <div class="mnemonic-box">
-          <span class="label" data-i18n="mnemonic">رمز:</span>
-          <span class="code" dir="rtl">«<u>ن</u>نه <u>پ</u>رید <u>آ</u>سمون <u>س</u>یبو <u>ب</u>گیره»</span>
-        </div>
-      </div>
-      <div class="group-block">
-        <h3 data-i18n="lessonGroup16">گروه ۱۶ — خانوادهٔ اکسیژن</h3>
-        <div class="group-symbols">O — S — Se — Te — Po</div>
-        <div class="mnemonic-box">
-          <span class="label" data-i18n="mnemonic">رمز:</span>
-          <span class="code" dir="rtl">«<u>او</u> <u>س</u>ریع <u>س</u>راغ <u>ت</u>لفن <u>پ</u>وسید»</span>
-        </div>
-      </div>
-      <div class="group-block">
-        <h3 data-i18n="lessonGroup17">گروه ۱۷ — هالوژن‌ها</h3>
-        <div class="group-symbols">F — Cl — Br — I — At</div>
-        <div class="mnemonic-box">
-          <span class="label" data-i18n="mnemonic">رمز:</span>
-          <span class="code" dir="rtl">«<u>ف</u>کر <u>کل</u>ی <u>بر</u>یدم <u>ای</u>نجا <u>آت</u>ش زدم»</span>
-        </div>
-      </div>
-      <div class="group-block">
-        <h3 data-i18n="lessonGroup18">گروه ۱۸ — گازهای نجیب</h3>
-        <div class="group-symbols">He — Ne — Ar — Kr — Xe — Rn</div>
-        <div class="mnemonic-box">
-          <span class="label" data-i18n="mnemonic">رمز:</span>
-          <span class="code" dir="rtl">«<u>هی</u> <u>ن</u>گاه <u>آر</u>ام <u>ک</u>ردم <u>ز</u>یر <u>ر</u>نگین‌کمان»</span>
-        </div>
-      </div>
-      <div class="group-block">
-        <h3 data-i18n="lessonGroupD4">فلزات واسطهٔ دورهٔ چهارم</h3>
-        <div class="group-symbols">Sc — Ti — V — Cr — Mn — Fe — Co — Ni — Cu — Zn</div>
-        <div class="mnemonic-box">
-          <span class="label" data-i18n="mnemonic">رمز:</span>
-          <span class="code" dir="rtl">«<u>س</u>ردار <u>تی</u>پ <u>و</u>رزشکار <u>ک</u>شتی‌گیر <u>م</u>رد <u>ف</u>رزانه <u>ک</u>وچک <u>ن</u>از <u>ک</u>رد <u>ز</u>ندگی»</span>
-        </div>
-      </div>
-      <div class="tip-box">
-        <strong data-i18n="lessonNote">نکته:</strong>
-        <span data-i18n="lessonTipBody">برای عناصر ۳۱ تا ۱۱۸ از فلش‌کارت‌ها و تست‌ساز استفاده کنید. می‌توانید با روش «جمله‌سازی شخصی» از حروف اول نمادها، رمز دلخواه بسازید.</span>
-      </div>
+      <div class="group-block"><h3 data-i18n="lessonGroup1">گروه ۱ — فلزات قلیایی</h3><div class="group-symbols">H — Li — Na — K — Rb — Cs</div><div class="mnemonic-box"><span class="label" data-i18n="mnemonic">رمز:</span><span class="code" dir="rtl">«<u>ه</u>لینا <u>ک</u>رباسی‌<u>ف</u>ر» (H, Li, Na, K, Rb, Cs, Fr)</span></div></div>
+      <div class="group-block"><h3 data-i18n="lessonGroup2">گروه ۲ — فلزات قلیایی خاکی</h3><div class="group-symbols">Be — Mg — Ca — Sr — Ba — Ra</div><div class="mnemonic-box"><span class="label" data-i18n="mnemonic">رمز:</span><span class="code" dir="rtl">«<u>ب</u>ه <u>م</u>گس <u>ک</u>له <u>س</u>رمه‌ای <u>با</u>ید <u>را</u>ه داد» (Be, Mg, Ca, Sr, Ba, Ra)</span></div></div>
+      <div class="group-block"><h3 data-i18n="lessonGroup13">گروه ۱۳ — خانوادهٔ بور</h3><div class="group-symbols">B — Al — Ga — In — Tl</div><div class="mnemonic-box"><span class="label" data-i18n="mnemonic">رمز:</span><span class="code" dir="rtl">«<u>ب</u>گو <u>ال</u>و <u>گا</u>ندم <u>اینجا</u> <u>ت</u>موم شده» (B, Al, Ga, In, Tl)</span></div></div>
+      <div class="group-block"><h3 data-i18n="lessonGroup14">گروه ۱۴ — خانوادهٔ کربن</h3><div class="group-symbols">C — Si — Ge — Sn — Pb</div><div class="mnemonic-box"><span class="label" data-i18n="mnemonic">رمز:</span><span class="code" dir="rtl">«<u>ک</u>سی <u>سی</u>بیل <u>ژ</u>رمن <u>س</u>رب <u>پ</u>یدا کرد» (C, Si, Ge, Sn, Pb)</span></div></div>
+      <div class="group-block"><h3 data-i18n="lessonGroup15">گروه ۱۵ — خانوادهٔ نیتروژن</h3><div class="group-symbols">N — P — As — Sb — Bi</div><div class="mnemonic-box"><span class="label" data-i18n="mnemonic">رمز:</span><span class="code" dir="rtl">«<u>ن</u>نه <u>پ</u>رید <u>آ</u>سمون <u>س</u>یبو <u>ب</u>گیره» (N, P, As, Sb, Bi)</span></div></div>
+      <div class="group-block"><h3 data-i18n="lessonGroup16">گروه ۱۶ — خانوادهٔ اکسیژن</h3><div class="group-symbols">O — S — Se — Te — Po</div><div class="mnemonic-box"><span class="label" data-i18n="mnemonic">رمز:</span><span class="code" dir="rtl">«<u>او</u> <u>س</u>ریع <u>س</u>راغ <u>ت</u>لفن <u>پ</u>وسید» (O, S, Se, Te, Po)</span></div></div>
+      <div class="group-block"><h3 data-i18n="lessonGroup17">گروه ۱۷ — هالوژن‌ها</h3><div class="group-symbols">F — Cl — Br — I — At</div><div class="mnemonic-box"><span class="label" data-i18n="mnemonic">رمز:</span><span class="code" dir="rtl">«<u>ف</u>کر <u>کل</u>ی <u>بر</u>یدم <u>ای</u>نجا <u>آت</u>ش زدم» (F, Cl, Br, I, At)</span></div></div>
+      <div class="group-block"><h3 data-i18n="lessonGroup18">گروه ۱۸ — گازهای نجیب</h3><div class="group-symbols">He — Ne — Ar — Kr — Xe — Rn</div><div class="mnemonic-box"><span class="label" data-i18n="mnemonic">رمز:</span><span class="code" dir="rtl">«<u>هی</u> <u>ن</u>گاه <u>آر</u>ام <u>ک</u>ردم <u>ز</u>یر <u>ر</u>نگین‌کمان» (He, Ne, Ar, Kr, Xe, Rn)</span></div></div>
+      <div class="group-block"><h3 data-i18n="lessonGroupD4">فلزات واسطهٔ دورهٔ چهارم</h3><div class="group-symbols">Sc — Ti — V — Cr — Mn — Fe — Co — Ni — Cu — Zn</div><div class="mnemonic-box"><span class="label" data-i18n="mnemonic">رمز:</span><span class="code" dir="rtl">«<u>س</u>ردار <u>تی</u>پ <u>و</u>رزشکار <u>ک</u>شتی‌گیر <u>م</u>رد <u>ف</u>رزانه <u>ک</u>وچک <u>ن</u>از <u>ک</u>رد <u>ز</u>ندگی» (Sc, Ti, V, Cr, Mn, Fe, Co, Ni, Cu, Zn)</span></div></div>
     </div>
   </section>
 
-  <!-- جدول‌ها و سوالات -->
   <section class="page" id="page-tables">
     <div class="panel">
       <h2 data-i18n="totalScore">نمرهٔ کل سوالات جدول‌ها</h2>
@@ -496,10 +604,15 @@
     <div id="app"></div>
   </section>
 
-  <!-- تست‌ساز -->
   <section class="page" id="page-testbuilder">
     <div class="panel">
       <h2 data-i18n="tbTitle">تست‌ساز هوشمند</h2>
+      <div class="source-row">
+        <label data-i18n="sourceLabel">منبع سوالات:</label>
+        <input type="text" id="tbSourceInput" class="source-input" placeholder="مثلاً 1-20 یا H, O, Fe" data-i18n-placeholder="sourcePlaceholder">
+        <span class="source-info" id="tbSourceInfo"></span>
+      </div>
+      <p class="source-help" data-i18n="sourceHelp">بازه (1-20) یا نماد/نام با کاما (H, O, آهن) — خالی = همهٔ عناصر</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center">
         <button class="btn" id="tbGenerateBtn" data-i18n="tbGenerate">ساخت تست</button>
         <span class="tb-score-badge" id="tbScore"></span>
@@ -518,18 +631,15 @@
     </div>
   </section>
 
-  <!-- آرایش الکترونی -->
   <section class="page" id="page-electron">
     <div class="panel">
       <h2 data-i18n="ecTitle">پرسشگر آرایش الکترونی</h2>
-      
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center">
         <button class="btn" id="ecGenerateBtn" data-i18n="randomElement">عنصر تصادفی</button>
         <input type="text" id="ecSearchInput" class="tb-input" list="ecElementsList" placeholder="جستجوی عنصر..." data-i18n-placeholder="ecSearchPlaceholder" style="flex:1;min-width:200px;max-width:300px;" autocomplete="off">
         <datalist id="ecElementsList"></datalist>
         <span class="tb-score-badge" id="ecScore"></span>
       </div>
-
       <div id="ecElementBox" style="display:none">
         <div class="ec-element-display" id="ecElementDisplay"></div>
         <div class="ec-grid" id="ecGrid"></div>
@@ -544,7 +654,60 @@
     </div>
   </section>
 
-  <!-- تاریخچه -->
+  <section class="page" id="page-exam">
+    <div class="panel">
+      <h2 data-i18n="examTitle">آزمون زمان‌دار</h2>
+      <div id="examSetup" class="exam-setup">
+        <p data-i18n="examIntro">مدت آزمون را انتخاب کنید. آزمون ترکیبی از سؤالات عدد اتمی، نام، نماد و آرایش الکترونی است.</p>
+        <div class="exam-duration-buttons">
+          <button data-duration="300" data-i18n-min="5">۵ دقیقه</button>
+          <button data-duration="600" class="selected" data-i18n-min="10">۱۰ دقیقه</button>
+          <button data-duration="900" data-i18n-min="15">۱۵ دقیقه</button>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center;margin-bottom:8px">
+          <label style="font-weight:600;font-size:.85rem" data-i18n="sourceLabel">منبع سوالات:</label>
+          <input type="text" id="examSourceInput" class="source-input" placeholder="مثلاً 1-20 یا H, O, Fe" data-i18n-placeholder="sourcePlaceholder">
+          <span class="source-info" id="examSourceInfo"></span>
+        </div>
+        <p style="font-size:.75rem;color:var(--text-light);margin:0 0 16px" data-i18n="sourceHelp">بازه (1-20) یا نماد/نام با کاما (H, O, آهن) — خالی = همهٔ عناصر</p>
+        <button class="btn" id="examStartBtn" style="padding: 12px 36px; font-size: 1rem;" data-i18n="examStart">شروع آزمون</button>
+      </div>
+      <div id="examActive" style="display:none">
+        <div class="exam-timer-bar">
+          <div>
+            <div style="font-size:.75rem;color:var(--text-light)" data-i18n="examTimeLeft">زمان باقی‌مانده</div>
+            <div class="exam-timer-display" id="examTimer">10:00</div>
+          </div>
+          <div class="exam-stats">
+            <div class="exam-stat correct"><strong id="examCorrectCount">0</strong><span data-i18n="examCorrectLabel">درست</span></div>
+            <div class="exam-stat wrong"><strong id="examWrongCount">0</strong><span data-i18n="examWrongLabel">نادرست</span></div>
+            <div class="exam-stat"><strong id="examTotalCount">0</strong><span data-i18n="examTotalLabel">کل</span></div>
+          </div>
+          <button class="btn ghost" id="examFinishBtn" data-i18n="examFinish">پایان آزمون</button>
+        </div>
+        <div class="tb-question-box" style="min-height: 250px;">
+          <div class="tb-question-text" id="examQuestionText"></div>
+          <div id="examAnswerArea"></div>
+          <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+            <button class="btn" id="examSubmitBtn" data-i18n="submitAnswer">ثبت پاسخ</button>
+            <button class="btn ghost" id="examSkipBtn" data-i18n="examSkip">رد کردن</button>
+          </div>
+          <div class="tb-feedback" id="examFeedback"></div>
+        </div>
+      </div>
+      <div id="examResults" class="exam-results" style="display:none">
+        <h3 data-i18n="examResultsTitle">کارنامه آزمون</h3>
+        <div class="result-grid">
+          <div class="result-item correct"><div class="value" id="resultCorrect">0</div><div class="label" data-i18n="examCorrectLabel">درست</div></div>
+          <div class="result-item wrong"><div class="value" id="resultWrong">0</div><div class="label" data-i18n="examWrongLabel">نادرست</div></div>
+          <div class="result-item"><div class="value" id="resultSkipped">0</div><div class="label" data-i18n="examSkippedLabel">رد شده</div></div>
+          <div class="result-item percent"><div class="value" id="resultPercent">0%</div><div class="label" data-i18n="examPercentLabel">درصد موفقیت</div></div>
+        </div>
+        <button class="btn" id="examRestartBtn" data-i18n="examRestart">آزمون جدید</button>
+      </div>
+    </div>
+  </section>
+
   <section class="page" id="page-history">
     <div class="panel">
       <h2 data-i18n="historyTitle">تاریخچه جدول تناوبی</h2>
@@ -558,71 +721,155 @@
         <button class="btn ghost" id="removeHighlightBtn" data-i18n="removeHighlight">حذف هایلایت</button>
         <button class="btn ghost" id="removeCommentBtn" data-i18n="removeComment">حذف کامنت</button>
       </div>
-      <div class="history-content" id="history-content">
-        <!-- محتوای تاریخچه به صورت پویا بارگذاری می‌شود -->
-      </div>
+      <div class="history-content" id="history-content"></div>
     </div>
   </section>
 </main>
 
 <script>
 /* ============================================================
-   داده‌ها و ترجمه‌ها
+   تلفظ صوتی (فقط انگلیسی)
+   ============================================================ */
+function speakText(text, lang = 'en-US') {
+  if (!('speechSynthesis' in window)) {
+    alert('Speech synthesis is not supported in this browser.');
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = lang;
+  utter.rate = 0.9;
+  utter.pitch = 1;
+  const voices = window.speechSynthesis.getVoices();
+  const preferred = voices.find(v => v.lang.startsWith('en') && v.localService) ||
+                    voices.find(v => v.lang.startsWith('en'));
+  if (preferred) utter.voice = preferred;
+  window.speechSynthesis.speak(utter);
+}
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.onvoiceschanged = () => {};
+}
+
+/* ============================================================
+   توابع کمکی منبع سوالات
+   ============================================================ */
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function parseElementSource(input) {
+  if (!input || !String(input).trim()) return [...elements];
+  // Convert Persian numbers to English and remove extra spaces around hyphens
+  const normalized = String(input)
+    .replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
+    .replace(/\s*[-–—]\s*/g, '-');
+    
+  const result = new Set();
+  const parts = normalized.split(/[,،;؛\s]+/).filter(p => p);
+  
+  for (const part of parts) {
+    const rangeMatch = part.match(/^(\d+)-(\d+)$/);
+    if (rangeMatch) {
+      const a = parseInt(rangeMatch[1], 10);
+      const b = parseInt(rangeMatch[2], 10);
+      const min = Math.min(a, b);
+      const max = Math.max(a, b);
+      elements.forEach(el => { if (el.z >= min && el.z <= max) result.add(el.z); });
+      continue;
+    }
+    if (/^\d+$/.test(part)) {
+      const z = parseInt(part, 10);
+      if (elements.find(el => el.z === z)) result.add(z);
+      continue;
+    }
+    const bySym = elements.find(el => el.sym.toLowerCase() === part.toLowerCase());
+    if (bySym) { result.add(bySym.z); continue; }
+    const byName = elements.find(el => el.name === part || el.nameEn.toLowerCase() === part.toLowerCase());
+    if (byName) { result.add(byName.z); continue; }
+  }
+  const filtered = elements.filter(el => result.has(el.z));
+  return filtered.length > 0 ? filtered : [...elements];
+}
+
+function getDistractors(source, element, count, keyFn) {
+  const correct = keyFn(element);
+  const pool = source.length >= count + 1 ? source : elements;
+  const candidates = shuffle(pool.filter(e => e.z !== element.z)).map(keyFn);
+  const unique = [...new Set(candidates)].filter(v => v !== correct);
+  if (unique.length < count) {
+    const extra = shuffle(elements.filter(e => e.z !== element.z)).map(keyFn);
+    const extraUnique = [...new Set(extra)].filter(v => v !== correct && !unique.includes(v));
+    unique.push(...extraUnique);
+  }
+  return unique.slice(0, count);
+}
+
+let updateTbSourceInfoFn = null;
+let updateExamSourceInfoFn = null;
+let updateExamTimerFn = null;
+
+/* ============================================================
+   داده‌ها
    ============================================================ */
 const rawElements = [
-  [1,'H','هیدروژن','Hydrogen'],[2,'He','هلیم','Helium'],[3,'Li','لیتیم','Lithium'],[4,'Be','بریلیم','Beryllium'],[5,'B','بور','Boron'],
-  [6,'C','کربن','Carbon'],[7,'N','نیتروژن','Nitrogen'],[8,'O','اکسیژن','Oxygen'],[9,'F','فلوئور','Fluorine'],[10,'Ne','نئون','Neon'],
-  [11,'Na','سدیم','Sodium'],[12,'Mg','منیزیم','Magnesium'],[13,'Al','آلومینیوم','Aluminium'],[14,'Si','سیلیسیم','Silicon'],[15,'P','فسفر','Phosphorus'],
-  [16,'S','گوگرد','Sulfur'],[17,'Cl','کلر','Chlorine'],[18,'Ar','آرگون','Argon'],[19,'K','پتاسیم','Potassium'],[20,'Ca','کلسیم','Calcium'],
-  [21,'Sc','اسکاندیم','Scandium'],[22,'Ti','تیتانیوم','Titanium'],[23,'V','وانادیم','Vanadium'],[24,'Cr','کروم','Chromium'],[25,'Mn','منگنز','Manganese'],
-  [26,'Fe','آهن','Iron'],[27,'Co','کبالت','Cobalt'],[28,'Ni','نیکل','Nickel'],[29,'Cu','مس','Copper'],[30,'Zn','روی','Zinc'],
-  [31,'Ga','گالیم','Gallium'],[32,'Ge','ژرمانیم','Germanium'],[33,'As','آرسنیک','Arsenic'],[34,'Se','سلنیم','Selenium'],[35,'Br','برم','Bromine'],
-  [36,'Kr','کریپتون','Krypton'],[37,'Rb','روبیدیم','Rubidium'],[38,'Sr','استرانسیوم','Strontium'],[39,'Y','ایتریم','Yttrium'],[40,'Zr','زیرکونیم','Zirconium'],
-  [41,'Nb','نیوبیم','Niobium'],[42,'Mo','مولیبدن','Molybdenum'],[43,'Tc','تکنسیم','Technetium'],[44,'Ru','روتنیم','Ruthenium'],[45,'Rh','رودیم','Rhodium'],
-  [46,'Pd','پالادیم','Palladium'],[47,'Ag','نقره','Silver'],[48,'Cd','کادمیم','Cadmium'],[49,'In','ایندیوم','Indium'],[50,'Sn','قلع','Tin'],
-  [51,'Sb','آنتیموان','Antimony'],[52,'Te','تلوریم','Tellurium'],[53,'I','ید','Iodine'],[54,'Xe','زنون','Xenon'],[55,'Cs','سزیوم','Caesium'],
-  [56,'Ba','باریوم','Barium'],[57,'La','لانتان','Lanthanum'],[58,'Ce','سریم','Cerium'],[59,'Pr','پرازئودیمیم','Praseodymium'],[60,'Nd','نئودیمیم','Neodymium'],
-  [61,'Pm','پرومتیم','Promethium'],[62,'Sm','ساماریم','Samarium'],[63,'Eu','یوروپیم','Europium'],[64,'Gd','گادولینیم','Gadolinium'],[65,'Tb','تربیم','Terbium'],
-  [66,'Dy','دیسپروزیم','Dysprosium'],[67,'Ho','هولمیم','Holmium'],[68,'Er','اربیم','Erbium'],[69,'Tm','تولیم','Thulium'],[70,'Yb','ایتربیم','Ytterbium'],
-  [71,'Lu','لوتسیم','Lutetium'],[72,'Hf','هافنیم','Hafnium'],[73,'Ta','تانتال','Tantalum'],[74,'W','تنگستن','Tungsten'],[75,'Re','رنیوم','Rhenium'],
-  [76,'Os','اسمیم','Osmium'],[77,'Ir','ایریدیم','Iridium'],[78,'Pt','پلاتین','Platinum'],[79,'Au','طلا','Gold'],[80,'Hg','جیوه','Mercury'],
-  [81,'Tl','تالیم','Thallium'],[82,'Pb','سرب','Lead'],[83,'Bi','بیسموت','Bismuth'],[84,'Po','پولونیم','Polonium'],[85,'At','استاتین','Astatine'],
-  [86,'Rn','رادون','Radon'],[87,'Fr','فرانسیم','Francium'],[88,'Ra','رادیوم','Radium'],[89,'Ac','اکتینیم','Actinium'],[90,'Th','توریم','Thorium'],
-  [91,'Pa','پروتاکتینیم','Protactinium'],[92,'U','اورانیوم','Uranium'],[93,'Np','نپتونیم','Neptunium'],[94,'Pu','پلوتونیم','Plutonium'],[95,'Am','آمریسیم','Americium'],
-  [96,'Cm','کوریم','Curium'],[97,'Bk','برکلیم','Berkelium'],[98,'Cf','کالیفرنیم','Californium'],[99,'Es','اینشتینیم','Einsteinium'],[100,'Fm','فرمیم','Fermium'],
-  [101,'Md','مندلیفیم','Mendelevium'],[102,'No','نوبلیم','Nobelium'],[103,'Lr','لورنسیم','Lawrencium'],[104,'Rf','رادرفوردیم','Rutherfordium'],[105,'Db','دوبنیم','Dubnium'],
-  [106,'Sg','سیبورگیم','Seaborgium'],[107,'Bh','بوریم','Bohrium'],[108,'Hs','هاسیم','Hassium'],[109,'Mt','مایتنریم','Meitnerium'],[110,'Ds','دارمشتاتیم','Darmstadtium'],
-  [111,'Rg','رونتگنیم','Roentgenium'],[112,'Cn','کوپرنیسیم','Copernicium'],[113,'Nh','نیهونیم','Nihonium'],[114,'Fl','فلرویم','Flerovium'],[115,'Mc','مسکوویم','Moscovium'],
-  [116,'Lv','لیورموریم','Livermorium'],[117,'Ts','تنسین','Tennessine'],[118,'Og','اوگانسون','Oganesson']
+  [1,'H','هیدروژن','Hydrogen','nonmetal'],[2,'He','هلیم','Helium','noble'],[3,'Li','لیتیم','Lithium','alkali'],[4,'Be','بریلیم','Beryllium','alkaline'],[5,'B','بور','Boron','metalloid'],
+  [6,'C','کربن','Carbon','nonmetal'],[7,'N','نیتروژن','Nitrogen','nonmetal'],[8,'O','اکسیژن','Oxygen','nonmetal'],[9,'F','فلوئور','Fluorine','halogen'],[10,'Ne','نئون','Neon','noble'],
+  [11,'Na','سدیم','Sodium','alkali'],[12,'Mg','منیزیم','Magnesium','alkaline'],[13,'Al','آلومینیوم','Aluminium','post-transition'],[14,'Si','سیلیسیم','Silicon','metalloid'],[15,'P','فسفر','Phosphorus','nonmetal'],
+  [16,'S','گوگرد','Sulfur','nonmetal'],[17,'Cl','کلر','Chlorine','halogen'],[18,'Ar','آرگون','Argon','noble'],[19,'K','پتاسیم','Potassium','alkali'],[20,'Ca','کلسیم','Calcium','alkaline'],
+  [21,'Sc','اسکاندیم','Scandium','transition'],[22,'Ti','تیتانیوم','Titanium','transition'],[23,'V','وانادیم','Vanadium','transition'],[24,'Cr','کروم','Chromium','transition'],[25,'Mn','منگنز','Manganese','transition'],
+  [26,'Fe','آهن','Iron','transition'],[27,'Co','کبالت','Cobalt','transition'],[28,'Ni','نیکل','Nickel','transition'],[29,'Cu','مس','Copper','transition'],[30,'Zn','روی','Zinc','transition'],
+  [31,'Ga','گالیم','Gallium','post-transition'],[32,'Ge','ژرمانیم','Germanium','metalloid'],[33,'As','آرسنیک','Arsenic','metalloid'],[34,'Se','سلنیم','Selenium','nonmetal'],[35,'Br','برم','Bromine','halogen'],
+  [36,'Kr','کریپتون','Krypton','noble'],[37,'Rb','روبیدیم','Rubidium','alkali'],[38,'Sr','استرانسیوم','Strontium','alkaline'],[39,'Y','ایتریم','Yttrium','transition'],[40,'Zr','زیرکونیم','Zirconium','transition'],
+  [41,'Nb','نیوبیم','Niobium','transition'],[42,'Mo','مولیبدن','Molybdenum','transition'],[43,'Tc','تکنسیم','Technetium','transition'],[44,'Ru','روتنیم','Ruthenium','transition'],[45,'Rh','رودیم','Rhodium','transition'],
+  [46,'Pd','پالادیم','Palladium','transition'],[47,'Ag','نقره','Silver','transition'],[48,'Cd','کادمیم','Cadmium','transition'],[49,'In','ایندیوم','Indium','post-transition'],[50,'Sn','قلع','Tin','post-transition'],
+  [51,'Sb','آنتیموان','Antimony','metalloid'],[52,'Te','تلوریم','Tellurium','metalloid'],[53,'I','ید','Iodine','halogen'],[54,'Xe','زنون','Xenon','noble'],[55,'Cs','سزیوم','Caesium','alkali'],
+  [56,'Ba','باریوم','Barium','alkaline'],[57,'La','لانتان','Lanthanum','lanthanide'],[58,'Ce','سریم','Cerium','lanthanide'],[59,'Pr','پرازئودیمیم','Praseodymium','lanthanide'],[60,'Nd','نئودیمیم','Neodymium','lanthanide'],
+  [61,'Pm','پرومتیم','Promethium','lanthanide'],[62,'Sm','ساماریم','Samarium','lanthanide'],[63,'Eu','یوروپیم','Europium','lanthanide'],[64,'Gd','گادولینیم','Gadolinium','lanthanide'],[65,'Tb','تربیم','Terbium','lanthanide'],
+  [66,'Dy','دیسپروزیم','Dysprosium','lanthanide'],[67,'Ho','هولمیم','Holmium','lanthanide'],[68,'Er','اربیم','Erbium','lanthanide'],[69,'Tm','تولیم','Thulium','lanthanide'],[70,'Yb','ایتربیم','Ytterbium','lanthanide'],
+  [71,'Lu','لوتسیم','Lutetium','lanthanide'],[72,'Hf','هافنیم','Hafnium','transition'],[73,'Ta','تانتال','Tantalum','transition'],[74,'W','تنگستن','Tungsten','transition'],[75,'Re','رنیوم','Rhenium','transition'],
+  [76,'Os','اسمیم','Osmium','transition'],[77,'Ir','ایریدیم','Iridium','transition'],[78,'Pt','پلاتین','Platinum','transition'],[79,'Au','طلا','Gold','transition'],[80,'Hg','جیوه','Mercury','transition'],
+  [81,'Tl','تالیم','Thallium','post-transition'],[82,'Pb','سرب','Lead','post-transition'],[83,'Bi','بیسموت','Bismuth','post-transition'],[84,'Po','پولونیم','Polonium','post-transition'],[85,'At','استاتین','Astatine','halogen'],
+  [86,'Rn','رادون','Radon','noble'],[87,'Fr','فرانسیم','Francium','alkali'],[88,'Ra','رادیوم','Radium','alkaline'],[89,'Ac','اکتینیم','Actinium','actinide'],[90,'Th','توریم','Thorium','actinide'],
+  [91,'Pa','پروتاکتینیم','Protactinium','actinide'],[92,'U','اورانیوم','Uranium','actinide'],[93,'Np','نپتونیم','Neptunium','actinide'],[94,'Pu','پلوتونیم','Plutonium','actinide'],[95,'Am','آمریسیم','Americium','actinide'],
+  [96,'Cm','کوریم','Curium','actinide'],[97,'Bk','برکلیم','Berkelium','actinide'],[98,'Cf','کالیفرنیم','Californium','actinide'],[99,'Es','اینشتینیم','Einsteinium','actinide'],[100,'Fm','فرمیم','Fermium','actinide'],
+  [101,'Md','مندلیفیم','Mendelevium','actinide'],[102,'No','نوبلیم','Nobelium','actinide'],[103,'Lr','لورنسیم','Lawrencium','actinide'],[104,'Rf','رادرفوردیم','Rutherfordium','transition'],[105,'Db','دوبنیم','Dubnium','transition'],
+  [106,'Sg','سیبورگیم','Seaborgium','transition'],[107,'Bh','بوریم','Bohrium','transition'],[108,'Hs','هاسیم','Hassium','transition'],[109,'Mt','مایتنریم','Meitnerium','transition'],[110,'Ds','دارمشتاتیم','Darmstadtium','transition'],
+  [111,'Rg','رونتگنیم','Roentgenium','transition'],[112,'Cn','کوپرنیسیم','Copernicium','transition'],[113,'Nh','نیهونیم','Nihonium','post-transition'],[114,'Fl','فلرویم','Flerovium','post-transition'],[115,'Mc','مسکوویم','Moscovium','post-transition'],
+  [116,'Lv','لیورموریم','Livermorium','post-transition'],[117,'Ts','تنسین','Tennessine','halogen'],[118,'Og','اوگانسون','Oganesson','noble']
 ];
-const elements = rawElements.map(([z, sym, name, nameEn]) => ({ z, sym, name, nameEn }));
+const elements = rawElements.map(([z, sym, name, nameEn, category]) => ({ z, sym, name, nameEn, category }));
+
+const CATEGORY_LABELS = {
+  fa: { alkali: 'فلزات قلیایی', alkaline: 'فلزات قلیایی خاکی', transition: 'فلزات واسطه', 'post-transition': 'فلزات پس‌واسطه', metalloid: 'شبه‌فلزها', nonmetal: 'نافلزها', halogen: 'هالوژن‌ها', noble: 'گازهای نجیب', lanthanide: 'لانتانیدها', actinide: 'اکتینیدها' },
+  en: { alkali: 'Alkali metals', alkaline: 'Alkaline earth metals', transition: 'Transition metals', 'post-transition': 'Post-transition metals', metalloid: 'Metalloids', nonmetal: 'Nonmetals', halogen: 'Halogens', noble: 'Noble gases', lanthanide: 'Lanthanides', actinide: 'Actinides' }
+};
 
 const I18N = {
   fa: {
     brand: 'جدول تناوبی', home: 'خانه', flashcards: 'فلش‌کارت', notesNav: 'یادداشت‌ها', lesson: 'درسنامه',
-    tables: 'جدول‌ها و سوالات', testbuilder: 'تست‌ساز', electron: 'آرایش الکترونی',
+    tables: 'جدول‌ها و سوالات', testbuilder: 'تست‌ساز', electron: 'آرایش الکترونی', exam: 'آزمون زمان‌دار',
     darkMode: 'حالت شب', lightMode: 'حالت روز', langToggle: 'English',
+    layoutLabel: 'چیدمان', layoutTop: 'نوار بالا', layoutLeft: 'سایدبار چپ', layoutRight: 'سایدبار راست', layoutToggleTitle: 'تغییر چیدمان',
     periodicTable: 'جدول تناوبی عناصر', lanthanides: 'لانتانیدها (۵۷–۷۱)', actinides: 'اکتینیدها (۸۹–۱۰۳)',
     myNotes: 'یادداشت‌های من',
-    fontSize: 'اندازهٔ فونت:', editorPlaceholder: 'اینجا شروع به نوشتن کنید...',
     newNote: 'یادداشت جدید', untitledNote: 'بدون عنوان', deleteNoteConfirm: 'آیا از حذف این یادداشت مطمئن هستید؟',
-    fontDefault: 'فونت پیش‌فرض', fontSizeLabel: 'اندازه فونت متن', insertImage: 'عکس', insertTextBox: 'کادر متن',
-    noteTitlePlaceholder: 'عنوان یادداشت...',
-    fcTitle: 'فلش‌کارت‌ها',
-    fcSearch: 'جستجو بر اساس نام، نماد یا عدد اتمی...',
-    fcShuffle: 'بر زدن', fcReset: 'بازنشانی',
-    fcSeen: 'تعداد کارت‌های دیده‌شده:', fcOf: 'از',
+    insertImage: 'عکس', insertTextBox: 'کادر متن',
+    noteTitlePlaceholder: 'عنوان یادداشت...', exportPdf: 'چاپ / PDF', downloadHtml: 'دانلود',
+    fcTitle: 'فلش‌کارت‌ها', fcSearch: 'جستجو بر اساس نام، نماد یا عدد اتمی...',
+    fcShuffle: 'بر زدن', fcReset: 'بازنشانی', fcSeen: 'تعداد کارت‌های دیده‌شده:', fcOf: 'از',
     fcAtomicNum: 'عدد اتمی', fcClick: 'کلیک کنید',
-    fcConfirmReset: 'همهٔ کارت‌های دیده‌شده پاک شوند؟',
+    fcConfirmResetSource: 'آیا کارت‌های دیده‌شده در این بازه پاک شوند؟',
     lessonTitle: 'درسنامهٔ حفظی (گروه‌های اصلی)',
-    lessonIntro: 'این درسنامه عناصر ۱ تا ۴۰ را بر اساس گروه‌های جدول تناوبی با رمزهای فارسی پوشش می‌دهد. برای سایر عناصر از فلش‌کارت‌ها و تست‌ساز استفاده کنید.',
     lessonGroup1: 'گروه ۱ — فلزات قلیایی', lessonGroup2: 'گروه ۲ — فلزات قلیایی خاکی',
     lessonGroup13: 'گروه ۱۳ — خانوادهٔ بور', lessonGroup14: 'گروه ۱۴ — خانوادهٔ کربن',
     lessonGroup15: 'گروه ۱۵ — خانوادهٔ نیتروژن', lessonGroup16: 'گروه ۱۶ — خانوادهٔ اکسیژن',
     lessonGroup17: 'گروه ۱۷ — هالوژن‌ها', lessonGroup18: 'گروه ۱۸ — گازهای نجیب',
-    lessonGroupD4: 'فلزات واسطهٔ دورهٔ چهارم',
-    mnemonic: 'رمز:', lessonNote: 'نکته:',
-    lessonTipBody: 'برای عناصر ۳۱ تا ۱۱۸ از فلش‌کارت‌ها و تست‌ساز استفاده کنید. می‌توانید با روش «جمله‌سازی شخصی» از حروف اول نمادها، رمز دلخواه بسازید.',
+    lessonGroupD4: 'فلزات واسطهٔ دورهٔ چهارم', mnemonic: 'رمز:',
     totalScore: 'نمرهٔ کل سوالات جدول‌ها', yourTotalScore: 'نمرهٔ کل شما:',
     sectionTitle: 'بخش {n}: عناصر {a} تا {b}',
     atomicNumber: 'عدد اتمی', symbol: 'نماد', elementName: 'نام عنصر',
@@ -635,40 +882,43 @@ const I18N = {
     tableQSymbol: 'نماد شیمیایی عنصر «{name}» (عدد اتمی {z}) چیست؟',
     tableAName: '{name} ({sym}) — عدد اتمی {z}',
     tableASymbol: '{sym} — {name} با عدد اتمی {z}',
-    tbTitle: 'تست‌ساز هوشمند',
-    tbGenerate: 'ساخت تست', yourSectionScoreShort: 'نمرهٔ این بخش:',
+    tbTitle: 'تست‌ساز هوشمند', tbGenerate: 'ساخت تست', yourSectionScoreShort: 'نمرهٔ این بخش:',
     submitAnswer: 'ثبت پاسخ', nextQuestion: 'سؤال بعدی',
     chooseOption: '--- یک گزینه را انتخاب کنید ---', writeNumber: 'عدد را بنویسید...',
     enterAnswer: 'لطفاً یک پاسخ وارد کنید یا انتخاب کنید.',
-    tbCorrectFeedback: 'پاسخ درست است.',
-    tbWrongFeedback: 'پاسخ نادرست. پاسخ صحیح: «{ans}»',
+    tbCorrectFeedback: 'پاسخ درست است.', tbWrongFeedback: 'پاسخ نادرست. پاسخ صحیح: «{ans}»',
     tbQAtomic: 'عدد اتمی عنصر «{name}» ({sym}) چند است؟',
     tbQName: 'نام فارسی عنصر با عدد اتمی {z} و نماد «{sym}» چیست؟',
     tbQSymbol: 'نماد شیمیایی عنصر «{name}» (عدد اتمی {z}) چیست؟',
-    ecTitle: 'پرسشگر آرایش الکترونی',
-    randomElement: 'عنصر تصادفی', checkAnswer: 'بررسی پاسخ',
-    showCorrectAnswer: 'نمایش پاسخ صحیح', nextElement: 'عنصر بعدی',
-    maxLabel: 'حداکثر',
+    ecTitle: 'پرسشگر آرایش الکترونی', randomElement: 'عنصر تصادفی', checkAnswer: 'بررسی پاسخ',
+    showCorrectAnswer: 'نمایش پاسخ صحیح', nextElement: 'عنصر بعدی', maxLabel: 'حداکثر',
     ecSearchPlaceholder: 'جستجوی عنصر (نام یا نماد)...',
     ecCorrectFeedback: 'آرایش الکترونی درست است.',
     ecWrongFeedback: 'آرایش الکترونی نادرست است. می‌توانید پاسخ صحیح را ببینید یا عنصر بعدی را امتحان کنید.',
     ecCorrectConfig: 'آرایش الکترونی صحیح {name} ({sym}):',
-    historyTitle: 'تاریخچه جدول تناوبی',
-    highlightLabel: 'هایلایت:',
-    addComment: 'افزودن کامنت',
-    removeHighlight: 'حذف هایلایت',
-    removeComment: 'حذف کامنت',
+    examTitle: 'آزمون زمان‌دار', examIntro: 'مدت آزمون را انتخاب کنید. آزمون ترکیبی از سؤالات عدد اتمی، نام، نماد و آرایش الکترونی است.',
+    examStart: 'شروع آزمون', examTimeLeft: 'زمان باقی‌مانده', examCorrectLabel: 'درست',
+    examWrongLabel: 'نادرست', examTotalLabel: 'کل', examFinish: 'پایان آزمون',
+    examSkip: 'رد کردن', examResultsTitle: 'کارنامه آزمون', examSkippedLabel: 'رد شده',
+    examPercentLabel: 'درصد موفقیت', examRestart: 'آزمون جدید',
+    examQConfig: 'آرایش الکترونی عنصر «{name}» ({sym}) کدام است؟',
+    sourceLabel: 'منبع سوالات:', sourcePlaceholder: 'مثلاً 1-20 یا H, O, Fe',
+    sourceHelp: 'بازه (1-20) یا نماد/نام با کاما (H, O, آهن) — خالی = همهٔ عناصر',
+    sourceAll: 'همه ۱۱۸ عنصر', sourceCount: '{n} عنصر',
+    historyTitle: 'تاریخچه جدول تناوبی', highlightLabel: 'هایلایت:',
+    addComment: 'افزودن کامنت', removeHighlight: 'حذف هایلایت', removeComment: 'حذف کامنت',
     commentPrompt: 'کامنت خود را بنویسید:',
     removeHighlightConfirm: 'آیا می‌خواهید این هایلایت حذف شود؟',
     removeCommentConfirm: 'آیا می‌خواهید این کامنت حذف شود؟',
     noTextSelected: 'لطفاً ابتدا متنی را انتخاب کنید.',
+    noCommentFound: 'کامنتی در این بخش یافت نشد.',
     historyContent: `
       <h2>ریشه‌های باستانی و کیمیاگری</h2>
       <p>تلاش برای درک ماهیت بنیادی عناصر به دوران باستان بازمی‌گردد. فیلسوفان یونانی مانند تالس آب، آناکسیمنس هوا و هراکلیتوس آتش را عنصر اولیه جهان می‌دانستند. ارسطو بعدها نظریه چهار عنصر (آب، هوا، خاک و آتش) را معرفی کرد که تا قرن‌ها بر علم بشریت سایه افکنده بود. در طول قرون وسطی، کیمیاگران با تلاش برای تبدیل فلزات پست به طلا، به طور ناخواسته به کشف عناصر جدیدی مانند فسفر (توسط هنیگ براند در سال ۱۶۶۹) کمک کردند. با آغاز انقلاب شیمیایی و تلاش دانشمندانی چون رابرت بویل، تعریف دقیق‌تری از عنصر به عنوان ماده‌ای که به مواد ساده‌تر تجزیه نمی‌شود، ارائه شد.</p>
       <h2>دسته‌بندی‌های اولیه</h2>
       <p>در قرن نوزدهم، با توسعه روش‌های تجزیه شیمیایی و کشف عناصر بیشتر، دانشمندان به دنبال یافتن نظمی برای دسته‌بندی آن‌ها افتادند. در سال ۱۸۲۹، یوهان ولفگانگ دوبارینر متوجه شد که برخی عناصر خواص مشابهی دارند و می‌توان آن‌ها را در دسته‌های سه‌تایی (Triads) مانند کلر، برم و ید قرار داد. در سال ۱۸۶۲، الکساندر-امیل بگایر د شانکورتوا عناصر را بر اساس جرم اتمی در یک مارپیچ استوانه‌ای مرتب کرد. سه سال بعد، جان نیولندز قانون اوکتاوها را معرفی کرد و ادعا کرد که خواص عناصر هر هشت‌تا یکبار تکرار می‌شود، اما کار او توسط همکارانش جدی گرفته نشد.</p>
-      <h2>شاهکار دیمیتری مندلیف</h2>
-      <p>بزرگ‌ترین پیشرفت توسط دیمیتری مندلیف (۱۹۰۷-۱۸۳۴) صورت گرفت. او در دهه ۱۸۶۰ عناصر و خواص آن‌ها را روی کارت‌های جداگانه نوشت و با چیدن آن‌ها روی میز، چیدمان‌های مختلفی را آزمایش کرد. مندلیف اولین کسی نبود که جدول تناوبی را ساخت، اما جدول او به دلیل توانایی در پیش‌بینی عناصر کشف‌نشده و ساختار منظمش، مشهورترین و تأثیرگذارترین جدول شد. او در سال ۱۸۶۹ جدول خود را منتشر کرد و با جسارت جاهای خالی را برای عناصری مانند گالیم، اسکاندیم و ژرمانیم پیش‌بینی کرد. کشف این عناصر در دهه‌های بعد، اعتبار جدول او را برای همیشه تثبیت کرد.</p>
+      <h2>شاهکار دمیتری مندلیف</h2>
+      <p>بزرگ‌ترین پیشرفت توسط دمیتری مندلیف (۱۹۰۷-۱۸۳۴) صورت گرفت. او در دهه ۱۸۶۰ عناصر و خواص آن‌ها را روی کارت‌های جداگانه نوشت و با چیدن آن‌ها روی میز، چیدمان‌های مختلفی را آزمایش کرد. مندلیف اولین کسی نبود که جدول تناوبی را ساخت، اما جدول او به دلیل توانایی در پیش‌بینی عناصر کشف‌نشده و ساختار منظمش، مشهورترین و تأثیرگذارترین جدول شد. او در سال ۱۸۶۹ جدول خود را منتشر کرد و با جسارت جاهای خالی را برای عناصری مانند گالیم، اسکاندیم و ژرمانیم پیش‌بینی کرد. کشف این عناصر در دهه‌های بعد، اعتبار جدول او را برای همیشه تثبیت کرد.</p>
       <h2>جدول مدرن و کشفیات جدید</h2>
       <p>در سال ۱۹۱۳، هنری موزلی با آزمایش‌های پرتو ایکس نشان داد که عدد اتمی (تعداد پروتون‌ها) معیار بهتری برای مرتب‌سازی عناصر نسبت به جرم اتمی است. این کشف ناهماهنگی‌های باقی‌مانده (مانند تلوریم و ید) را برطرف کرد و منجر به شکل‌گیری جدول تناوبی مدرن شد. در طول قرن بیستم، با کشف عناصر مصنوعی و فرااورانیومی (مانند پلوتونیم و عناصر بعد از آن)، جدول تناوبی گسترش یافت. امروزه جدول تناوبی شامل ۱۱۸ عنصر است که در ۷ دوره و ۱۸ گروه سازماندهی شده‌اند و همچنان پایه و اساس شیمی نوین به شمار می‌رود.</p>
       <div class="wiki-links">
@@ -682,29 +932,24 @@ const I18N = {
   },
   en: {
     brand: 'Periodic Table', home: 'Home', flashcards: 'Flashcards', notesNav: 'Notes', lesson: 'Lesson',
-    tables: 'Tables & Questions', testbuilder: 'Test Builder', electron: 'Electron Config',
+    tables: 'Tables & Questions', testbuilder: 'Test Builder', electron: 'Electron Config', exam: 'Timed Exam',
     darkMode: 'Dark Mode', lightMode: 'Light Mode', langToggle: 'فارسی',
+    layoutLabel: 'Layout', layoutTop: 'Top bar', layoutLeft: 'Left sidebar', layoutRight: 'Right sidebar', layoutToggleTitle: 'Toggle layout',
     periodicTable: 'Periodic Table of Elements', lanthanides: 'Lanthanides (57–71)', actinides: 'Actinides (89–103)',
     myNotes: 'My Notes',
-    fontSize: 'Font size:', editorPlaceholder: 'Start writing here...',
     newNote: 'New Note', untitledNote: 'Untitled', deleteNoteConfirm: 'Are you sure you want to delete this note?',
-    fontDefault: 'Default Font', fontSizeLabel: 'Inline Font Size', insertImage: 'Image', insertTextBox: 'TextBox',
-    noteTitlePlaceholder: 'Note title...',
-    fcTitle: 'Flashcards',
-    fcSearch: 'Search by name, symbol, or atomic number...',
-    fcShuffle: 'Shuffle', fcReset: 'Reset',
-    fcSeen: 'Cards seen:', fcOf: 'of',
+    insertImage: 'Image', insertTextBox: 'TextBox',
+    noteTitlePlaceholder: 'Note title...', exportPdf: 'Print / PDF', downloadHtml: 'Download',
+    fcTitle: 'Flashcards', fcSearch: 'Search by name, symbol, or atomic number...',
+    fcShuffle: 'Shuffle', fcReset: 'Reset', fcSeen: 'Cards seen:', fcOf: 'of',
     fcAtomicNum: 'Atomic number', fcClick: 'Click',
-    fcConfirmReset: 'Clear all seen cards?',
+    fcConfirmResetSource: 'Clear seen cards in this range?',
     lessonTitle: 'Study Guide (Main Groups)',
-    lessonIntro: 'This guide covers elements 1–40 organized by periodic table groups with Persian mnemonics. For other elements, use the flashcards and test builder.',
     lessonGroup1: 'Group 1 — Alkali metals', lessonGroup2: 'Group 2 — Alkaline earth metals',
     lessonGroup13: 'Group 13 — Boron family', lessonGroup14: 'Group 14 — Carbon family',
     lessonGroup15: 'Group 15 — Nitrogen family', lessonGroup16: 'Group 16 — Oxygen family',
     lessonGroup17: 'Group 17 — Halogens', lessonGroup18: 'Group 18 — Noble gases',
-    lessonGroupD4: 'Period 4 transition metals',
-    mnemonic: 'Mnemonic:', lessonNote: 'Note:',
-    lessonTipBody: 'For elements 31–118, use the flashcards and test builder. You can create your own mnemonics using the first letters of the symbols.',
+    lessonGroupD4: 'Period 4 transition metals', mnemonic: 'Mnemonic:',
     totalScore: 'Total Table Score', yourTotalScore: 'Your total:',
     sectionTitle: 'Section {n}: elements {a} to {b}',
     atomicNumber: 'Atomic number', symbol: 'Symbol', elementName: 'Element name',
@@ -717,33 +962,36 @@ const I18N = {
     tableQSymbol: 'What is the chemical symbol of "{name}" (atomic number {z})?',
     tableAName: '{name} ({sym}) — atomic number {z}',
     tableASymbol: '{sym} — {name} with atomic number {z}',
-    tbTitle: 'Smart Test Builder',
-    tbGenerate: 'Generate Test', yourSectionScoreShort: 'Score:',
+    tbTitle: 'Smart Test Builder', tbGenerate: 'Generate Test', yourSectionScoreShort: 'Score:',
     submitAnswer: 'Submit Answer', nextQuestion: 'Next Question',
     chooseOption: '--- Select an option ---', writeNumber: 'Enter the number...',
     enterAnswer: 'Please enter or select an answer.',
-    tbCorrectFeedback: 'Correct!',
-    tbWrongFeedback: 'Incorrect. Correct answer: "{ans}"',
+    tbCorrectFeedback: 'Correct!', tbWrongFeedback: 'Incorrect. Correct answer: "{ans}"',
     tbQAtomic: 'What is the atomic number of "{name}" ({sym})?',
     tbQName: 'What is the English name of the element with atomic number {z} and symbol "{sym}"?',
     tbQSymbol: 'What is the chemical symbol of "{name}" (atomic number {z})?',
-    ecTitle: 'Electron Configuration Quiz',
-    randomElement: 'Random Element', checkAnswer: 'Check Answer',
-    showCorrectAnswer: 'Show Correct Answer', nextElement: 'Next Element',
-    maxLabel: 'max',
+    ecTitle: 'Electron Configuration Quiz', randomElement: 'Random Element', checkAnswer: 'Check Answer',
+    showCorrectAnswer: 'Show Correct Answer', nextElement: 'Next Element', maxLabel: 'max',
     ecSearchPlaceholder: 'Search element (name or symbol)...',
     ecCorrectFeedback: 'Electron configuration is correct.',
     ecWrongFeedback: 'Electron configuration is incorrect. You can view the correct answer or try the next element.',
     ecCorrectConfig: 'Correct configuration for {name} ({sym}):',
-    historyTitle: 'History of the Periodic Table',
-    highlightLabel: 'Highlight:',
-    addComment: 'Add Comment',
-    removeHighlight: 'Remove Highlight',
-    removeComment: 'Remove Comment',
+    examTitle: 'Timed Exam', examIntro: 'Choose exam duration. The exam combines atomic number, name, symbol, and electron configuration questions.',
+    examStart: 'Start Exam', examTimeLeft: 'Time Left', examCorrectLabel: 'Correct',
+    examWrongLabel: 'Wrong', examTotalLabel: 'Total', examFinish: 'Finish Exam',
+    examSkip: 'Skip', examResultsTitle: 'Exam Results', examSkippedLabel: 'Skipped',
+    examPercentLabel: 'Success Rate', examRestart: 'New Exam',
+    examQConfig: 'What is the electron configuration of "{name}" ({sym})?',
+    sourceLabel: 'Question source:', sourcePlaceholder: 'e.g., 1-20 or H, O, Fe',
+    sourceHelp: 'Range (1-20) or symbol/name separated by commas (H, O, Iron) — empty = all elements',
+    sourceAll: 'All 118 elements', sourceCount: '{n} elements',
+    historyTitle: 'History of the Periodic Table', highlightLabel: 'Highlight:',
+    addComment: 'Add Comment', removeHighlight: 'Remove Highlight', removeComment: 'Remove Comment',
     commentPrompt: 'Write your comment:',
     removeHighlightConfirm: 'Do you want to remove this highlight?',
     removeCommentConfirm: 'Do you want to remove this comment?',
     noTextSelected: 'Please select some text first.',
+    noCommentFound: 'No comment found in this section.',
     historyContent: `
       <h2>Ancient Roots and Alchemy</h2>
       <p>The effort to understand the fundamental nature of elements dates back to antiquity. Greek philosophers such as Thales considered water, Anaximenes air, and Heraclitus fire as the primary element. Aristotle later introduced the theory of four elements (water, air, earth, and fire), which dominated human science for centuries. During the Middle Ages, alchemists, in their quest to turn base metals into gold, inadvertently helped discover new elements like phosphorus (by Hennig Brand in 1669). With the dawn of the Chemical Revolution and the work of scientists like Robert Boyle, a more precise definition of an element as a substance that cannot be decomposed into simpler substances was established.</p>
@@ -768,28 +1016,12 @@ let currentLang = localStorage.getItem('lang') || 'fa';
 
 function t(key, params) {
   let str = (I18N[currentLang] && I18N[currentLang][key]) || key;
-  if (params) {
-    for (const k in params) {
-      str = str.replace(new RegExp('\\{' + k + '\\}', 'g'), params[k]);
-    }
-  }
+  if (params) { for (const k in params) { str = str.replace(new RegExp('\\{' + k + '\\}', 'g'), params[k]); } }
   return str;
 }
-
-function faNum(n) {
-  const s = String(n);
-  if (currentLang === 'en') return s;
-  return s.replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
-}
-
-function enNum(s) {
-  return String(s).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
-}
-
-function elName(el) {
-  return currentLang === 'fa' ? el.name : el.nameEn;
-}
-
+function faNum(n) { const s = String(n); if (currentLang === 'en') return s; return s.replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]); }
+function enNum(s) { return String(s).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)); }
+function elName(el) { return currentLang === 'fa' ? el.name : el.nameEn; }
 function wikiUrl(el) {
   const domain = currentLang === 'fa' ? 'fa' : 'en';
   const title = currentLang === 'fa' ? el.name : el.nameEn;
@@ -804,6 +1036,41 @@ const LS = {
 /* ============================================================
    ساخت جدول تناوبی
    ============================================================ */
+let activeCategory = null;
+
+function buildLegend() {
+  const legend = document.getElementById('legend');
+  if (!legend) return;
+  legend.innerHTML = '';
+  const cats = ['alkali','alkaline','transition','post-transition','metalloid','nonmetal','halogen','noble','lanthanide','actinide'];
+  cats.forEach(cat => {
+    const item = document.createElement('div');
+    item.className = 'legend-item' + (activeCategory === cat ? ' active' : '');
+    item.dataset.cat = cat;
+    item.innerHTML = `<span class="legend-swatch" style="background: var(--cat-${cat})"></span><span>${CATEGORY_LABELS[currentLang][cat]}</span>`;
+    item.addEventListener('click', () => {
+      activeCategory = (activeCategory === cat) ? null : cat;
+      applyCategoryFilter();
+      buildLegend();
+    });
+    legend.appendChild(item);
+  });
+}
+
+function applyCategoryFilter() {
+  document.querySelectorAll('.pt-cell').forEach(cell => {
+    if (!activeCategory || cell.classList.contains('series-indicator') || cell.classList.contains('empty')) {
+      cell.classList.remove('dimmed');
+      return;
+    }
+    if (cell.classList.contains('cat-' + activeCategory)) {
+      cell.classList.remove('dimmed');
+    } else {
+      cell.classList.add('dimmed');
+    }
+  });
+}
+
 function buildPeriodicTable() {
   const wrapper = document.querySelector('.periodic-table-wrapper');
   if (!wrapper) return;
@@ -825,11 +1092,25 @@ function buildPeriodicTable() {
     const el = byZ[z];
     if (!el) return null;
     const a = document.createElement('a');
-    a.className = 'pt-cell';
+    a.className = 'pt-cell cat-' + el.category;
     a.href = wikiUrl(el);
     a.target = '_blank';
     a.rel = 'noopener noreferrer';
-    a.innerHTML = `<span class="pt-z">${faNum(el.z)}</span><span class="pt-sym">${el.sym}</span><span class="pt-name">${elName(el)}</span>`;
+    const showSpeak = currentLang === 'en';
+    a.innerHTML = `
+      <span class="pt-z">${faNum(el.z)}</span>
+      <span class="pt-sym">${el.sym}</span>
+      <span class="pt-name">${elName(el)}</span>
+      ${showSpeak ? `<button class="cell-speak" type="button" aria-label="Play pronunciation"></button>` : ''}
+    `;
+    if (showSpeak) {
+      const btn = a.querySelector('.cell-speak');
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        speakText(el.nameEn, 'en-US');
+      });
+    }
     return a;
   }
 
@@ -838,16 +1119,10 @@ function buildPeriodicTable() {
     div.className = 'pt-cell series-indicator';
     if (type === 'lan') {
       div.innerHTML = `<span class="pt-z">57-71</span><span class="pt-sym">↓</span><span class="pt-name">${t('lanthanides')}</span>`;
-      div.onclick = () => {
-        const target = document.getElementById('lan-grid');
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      };
+      div.onclick = () => { const target = document.getElementById('lan-grid'); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' }); };
     } else {
       div.innerHTML = `<span class="pt-z">89-103</span><span class="pt-sym">↓</span><span class="pt-name">${t('actinides')}</span>`;
-      div.onclick = () => {
-        const target = document.getElementById('act-grid');
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      };
+      div.onclick = () => { const target = document.getElementById('act-grid'); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' }); };
     }
     return div;
   }
@@ -862,20 +1137,10 @@ function buildPeriodicTable() {
         const z = parseInt(zStr, 10);
         if (layout[z].g === group && layout[z].p === period) { foundZ = z; break; }
       }
-      
-      // جایگذاری کادر راهنما در جای خالی لانتانیدها و اکتینیدها
-      if (!foundZ && period === 6 && group === 3) {
-        mainGrid.appendChild(makeSeriesIndicator('lan'));
-      } else if (!foundZ && period === 7 && group === 3) {
-        mainGrid.appendChild(makeSeriesIndicator('act'));
-      } else if (foundZ) {
-        const cell = makeCell(foundZ);
-        if (cell) mainGrid.appendChild(cell);
-      } else {
-        const empty = document.createElement('div');
-        empty.className = 'pt-cell empty';
-        mainGrid.appendChild(empty);
-      }
+      if (!foundZ && period === 6 && group === 3) mainGrid.appendChild(makeSeriesIndicator('lan'));
+      else if (!foundZ && period === 7 && group === 3) mainGrid.appendChild(makeSeriesIndicator('act'));
+      else if (foundZ) { const cell = makeCell(foundZ); if (cell) mainGrid.appendChild(cell); }
+      else { const empty = document.createElement('div'); empty.className = 'pt-cell empty'; mainGrid.appendChild(empty); }
     }
   }
 
@@ -891,11 +1156,7 @@ function buildPeriodicTable() {
   lanGrid.id = 'lan-grid';
   lanGrid.className = 'periodic-table';
   lanGrid.style.direction = 'ltr';
-  for (let i = 0; i < 3; i++) {
-    const empty = document.createElement('div');
-    empty.className = 'pt-cell empty';
-    lanGrid.appendChild(empty);
-  }
+  for (let i = 0; i < 3; i++) { const empty = document.createElement('div'); empty.className = 'pt-cell empty'; lanGrid.appendChild(empty); }
   lanthanides.forEach(z => { const c = makeCell(z); if (c) lanGrid.appendChild(c); });
   extra.appendChild(lanGrid);
 
@@ -908,17 +1169,14 @@ function buildPeriodicTable() {
   actGrid.id = 'act-grid';
   actGrid.className = 'periodic-table';
   actGrid.style.direction = 'ltr';
-  for (let i = 0; i < 3; i++) {
-    const empty = document.createElement('div');
-    empty.className = 'pt-cell empty';
-    actGrid.appendChild(empty);
-  }
+  for (let i = 0; i < 3; i++) { const empty = document.createElement('div'); empty.className = 'pt-cell empty'; actGrid.appendChild(empty); }
   actinides.forEach(z => { const c = makeCell(z); if (c) actGrid.appendChild(c); });
   extra.appendChild(actGrid);
 
   wrapper.innerHTML = '';
   wrapper.appendChild(mainGrid);
   wrapper.appendChild(extra);
+  applyCategoryFilter();
 }
 
 /* ============================================================
@@ -959,6 +1217,30 @@ themeToggle.addEventListener('click', () => {
 });
 
 /* ============================================================
+   تغییر چیدمان نوار بالا / سایدبار
+   ============================================================ */
+const LAYOUTS = ['top', 'left', 'right'];
+function getLayout() { return LS.get('layout', 'top'); }
+function applyLayout(layout) {
+  if (!LAYOUTS.includes(layout)) layout = 'top';
+  document.body.classList.remove('layout-sidebar-left', 'layout-sidebar-right');
+  if (layout === 'left') document.body.classList.add('layout-sidebar-left');
+  else if (layout === 'right') document.body.classList.add('layout-sidebar-right');
+  const btn = document.getElementById('layoutToggle');
+  if (btn) {
+    const key = layout === 'left' ? 'layoutLeft' : layout === 'right' ? 'layoutRight' : 'layoutTop';
+    btn.textContent = t('layoutLabel') + ': ' + t(key);
+    btn.title = t('layoutToggleTitle');
+  }
+}
+document.getElementById('layoutToggle').addEventListener('click', () => {
+  const idx = LAYOUTS.indexOf(getLayout());
+  const next = LAYOUTS[(idx + 1) % LAYOUTS.length];
+  applyLayout(next);
+  LS.set('layout', next);
+});
+
+/* ============================================================
    زبان
    ============================================================ */
 const langToggle = document.getElementById('langToggle');
@@ -972,13 +1254,14 @@ function applyLanguage() {
   const isFa = currentLang === 'fa';
   document.documentElement.lang = currentLang;
   document.documentElement.dir = isFa ? 'rtl' : 'ltr';
-  document.title = isFa ? 'جدول تناوبی تعاملی' : 'Interactive Periodic Table';
+  document.title = isFa ? 'جدول تناوبی' : 'periodic table';
 
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    el.textContent = t(el.dataset.i18n);
-  });
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-    el.placeholder = t(el.dataset.i18nPlaceholder);
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { el.placeholder = t(el.dataset.i18nPlaceholder); });
+
+  document.querySelectorAll('[data-i18n-min]').forEach(btn => {
+    const n = btn.dataset.i18nMin;
+    btn.textContent = isFa ? `${faNum(n)} دقیقه` : `${n} min`;
   });
 
   const lessonNav = document.querySelector('.nav-item[data-page="lesson"]');
@@ -990,26 +1273,28 @@ function applyLanguage() {
 
   applyTheme(document.body.classList.contains('dark'));
   langToggle.textContent = t('langToggle');
+  applyLayout(getLayout());
 
   buildPeriodicTable();
+  buildLegend();
   renderNotesList();
   renderHistoryContent();
   fcSearch.value = '';
-  currentElements = [...elements];
-  renderFlashcards(currentElements);
-  updateFcScore();
+  refreshFlashcards();
   renderTables();
   if (resetTestBuilderFn) resetTestBuilderFn();
   if (resetElectronConfigFn) resetElectronConfigFn();
+  if (updateTbSourceInfoFn) updateTbSourceInfoFn();
+  if (updateExamSourceInfoFn) updateExamSourceInfoFn();
+  if (updateExamTimerFn) updateExamTimerFn();
 }
 
 /* ============================================================
-   یادداشت‌ها (Notes Management & Editor)
+   یادداشت‌ها
    ============================================================ */
 let notes = JSON.parse(LS.get('notes', '[]'));
 let currentNoteId = LS.get('currentNoteId', null);
 
-// مهاجرت از سیستم قدیمی
 if (notes.length === 0) {
   const oldContent = LS.get('editorContent', '');
   if (oldContent) {
@@ -1030,39 +1315,27 @@ function renderNotesList() {
   notes.forEach(note => {
     const li = document.createElement('li');
     li.className = 'note-item' + (note.id === currentNoteId ? ' active' : '');
-    
     const titleSpan = document.createElement('span');
     titleSpan.className = 'note-title';
     titleSpan.textContent = note.title || t('untitledNote');
-    
     const deleteBtn = document.createElement('button');
     deleteBtn.className = 'delete-note-btn';
     deleteBtn.textContent = currentLang === 'fa' ? 'حذف' : 'Del';
     deleteBtn.title = t('deleteNoteConfirm');
-    deleteBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      deleteNote(note.id);
-    });
-
+    deleteBtn.addEventListener('click', (e) => { e.stopPropagation(); deleteNote(note.id); });
     li.appendChild(titleSpan);
     li.appendChild(deleteBtn);
-    
     li.addEventListener('click', () => {
       currentNoteId = note.id;
       LS.set('currentNoteId', currentNoteId);
       loadNote(note);
       renderNotesList();
     });
-    
     notesListEl.appendChild(li);
   });
 }
 
-function loadNote(note) {
-  editor.innerHTML = note.content;
-  noteTitle.value = note.title || '';
-}
-
+function loadNote(note) { editor.innerHTML = note.content; noteTitle.value = note.title || ''; }
 function saveCurrentNote() {
   if (!currentNoteId) return;
   const noteIndex = notes.findIndex(n => n.id === currentNoteId);
@@ -1074,16 +1347,11 @@ function saveCurrentNote() {
 }
 
 document.getElementById('newNoteBtn').addEventListener('click', () => {
-  const newNote = {
-    id: Date.now().toString(),
-    title: '',
-    content: ''
-  };
+  const newNote = { id: Date.now().toString(), title: '', content: '' };
   notes.push(newNote);
   currentNoteId = newNote.id;
   LS.set('notes', JSON.stringify(notes));
   LS.set('currentNoteId', currentNoteId);
-  
   editor.innerHTML = '';
   noteTitle.value = '';
   renderNotesList();
@@ -1094,66 +1362,37 @@ function deleteNote(id) {
   if (!confirm(t('deleteNoteConfirm'))) return;
   notes = notes.filter(n => n.id !== id);
   LS.set('notes', JSON.stringify(notes));
-  
   if (currentNoteId === id) {
-    if (notes.length > 0) {
-      currentNoteId = notes[0].id;
-      loadNote(notes[0]);
-    } else {
-      currentNoteId = null;
-      editor.innerHTML = '';
-      noteTitle.value = '';
-    }
+    if (notes.length > 0) { currentNoteId = notes[0].id; loadNote(notes[0]); }
+    else { currentNoteId = null; editor.innerHTML = ''; noteTitle.value = ''; }
     LS.set('currentNoteId', currentNoteId);
   }
   renderNotesList();
 }
 
-// ذخیره خودکار هنگام تایپ
-editor.addEventListener('input', () => {
-  saveCurrentNote();
-});
-noteTitle.addEventListener('input', () => {
-  saveCurrentNote();
-  renderNotesList();
-});
+editor.addEventListener('input', () => { saveCurrentNote(); });
+noteTitle.addEventListener('input', () => { saveCurrentNote(); renderNotesList(); });
 
-// ابزارهای ویرایشگر
-document.getElementById('boldBtn').addEventListener('click', (e) => {
-  e.preventDefault();
-  document.execCommand('bold', false, null);
-  editor.focus();
-});
+document.getElementById('boldBtn').addEventListener('click', (e) => { e.preventDefault(); document.execCommand('bold', false, null); editor.focus(); });
+document.getElementById('italicBtn').addEventListener('click', (e) => { e.preventDefault(); document.execCommand('italic', false, null); editor.focus(); });
 
-document.getElementById('italicBtn').addEventListener('click', (e) => {
-  e.preventDefault();
-  document.execCommand('italic', false, null);
-  editor.focus();
-});
-
-// افزودن کادر متن با قابلیت خروج و حذف
 document.getElementById('textBoxBtn').addEventListener('click', (e) => {
   e.preventDefault();
   const wrapper = document.createElement('div');
   wrapper.className = 'note-text-box';
   wrapper.setAttribute('contenteditable', 'false');
-  
   const delBtn = document.createElement('button');
   delBtn.className = 'delete-box-btn';
   delBtn.innerHTML = '×';
   delBtn.title = 'حذف کادر';
   delBtn.setAttribute('contenteditable', 'false');
-  
   const inner = document.createElement('div');
   inner.className = 'note-text-box-inner';
   inner.setAttribute('contenteditable', 'true');
   inner.innerHTML = '<br>';
-  
-  // مدیریت خروج با Escape یا Backspace
   inner.addEventListener('keydown', (ev) => {
     if (ev.key === 'Escape') {
       ev.preventDefault();
-      // ساخت یک پاراگراف جدید در پایین کادر و انتقال مکان‌نما
       const p = document.createElement('p');
       p.innerHTML = '<br>';
       wrapper.after(p);
@@ -1170,16 +1409,13 @@ document.getElementById('textBoxBtn').addEventListener('click', (e) => {
       saveCurrentNote();
     }
   });
-
   wrapper.appendChild(delBtn);
   wrapper.appendChild(inner);
-  
   const selection = window.getSelection();
   if (selection.rangeCount) {
     const range = selection.getRangeAt(0);
     range.deleteContents();
     range.insertNode(wrapper);
-    
     const newRange = document.createRange();
     newRange.setStart(inner, 0);
     newRange.collapse(true);
@@ -1188,92 +1424,58 @@ document.getElementById('textBoxBtn').addEventListener('click', (e) => {
   } else {
     editor.appendChild(wrapper);
   }
-  
   inner.focus();
   saveCurrentNote();
 });
 
-// هندل کردن حذف کادر با دکمه (Event Delegation)
 editor.addEventListener('click', (e) => {
   if (e.target.classList.contains('delete-box-btn')) {
     e.preventDefault();
     e.stopPropagation();
     const box = e.target.closest('.note-text-box');
-    if (box) {
-      box.remove();
-      saveCurrentNote();
-    }
+    if (box) { box.remove(); saveCurrentNote(); }
   }
 });
 
-// آپلود و بهینه‌سازی عکس
 const imageInput = document.getElementById('imageInput');
-document.getElementById('imageBtn').addEventListener('click', () => {
-  imageInput.click();
-});
+document.getElementById('imageBtn').addEventListener('click', () => { imageInput.click(); });
 
 imageInput.addEventListener('change', (e) => {
   const file = e.target.files[0];
   if (!file) return;
-  
   const reader = new FileReader();
   reader.onload = (event) => {
     const img = new Image();
     img.onload = () => {
-      // بهینه‌سازی و تغییر سایز عکس
       const canvas = document.createElement('canvas');
-      const MAX_WIDTH = 800;
-      const MAX_HEIGHT = 800;
-      let width = img.width;
-      let height = img.height;
-
-      if (width > height) {
-        if (width > MAX_WIDTH) {
-          height *= MAX_WIDTH / width;
-          width = MAX_WIDTH;
-        }
-      } else {
-        if (height > MAX_HEIGHT) {
-          width *= MAX_HEIGHT / height;
-          height = MAX_HEIGHT;
-        }
-      }
-      canvas.width = width;
-      canvas.height = height;
+      const MAX_WIDTH = 800, MAX_HEIGHT = 800;
+      let width = img.width, height = img.height;
+      if (width > height) { if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; } }
+      else { if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; } }
+      canvas.width = width; canvas.height = height;
       const ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, width, height);
-      
-      // تبدیل به JPEG با کیفیت 0.7 برای کاهش حجم
       const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
-
       const imgElement = document.createElement('img');
       imgElement.src = dataUrl;
       imgElement.alt = 'Uploaded image';
-      
-      // ایجاد کادر با اندازه ثابت و غیر قابل ویرایش
       const container = document.createElement('div');
       container.className = 'img-container';
-      container.setAttribute('contenteditable', 'false'); 
+      container.setAttribute('contenteditable', 'false');
       container.appendChild(imgElement);
-
-      // باز کردن در تب جدید با کلیک روی کادر
       container.onclick = function() {
         const w = window.open("");
         w.document.write('<html><body style="margin:0;display:flex;justify-content:center;align-items:center;background:#222;"><img src="' + dataUrl + '" style="max-width:100%;max-height:100vh;"></body></html>');
         w.document.close();
       };
-
       const selection = window.getSelection();
       if (selection.rangeCount) {
         const range = selection.getRangeAt(0);
         range.deleteContents();
         range.insertNode(container);
-        
-        // ایجاد یک پاراگراف جدید بعد از عکس و انتقال نشانگر به آن
         const p = document.createElement('p');
         p.innerHTML = '<br>';
         container.after(p);
-        
         const newRange = document.createRange();
         newRange.setStart(p, 0);
         newRange.collapse(true);
@@ -1285,7 +1487,6 @@ imageInput.addEventListener('change', (e) => {
         p.innerHTML = '<br>';
         editor.appendChild(p);
       }
-      
       saveCurrentNote();
     };
     img.src = event.target.result;
@@ -1294,7 +1495,24 @@ imageInput.addEventListener('change', (e) => {
   imageInput.value = '';
 });
 
-// بارگذاری اولیه
+document.getElementById('exportPdfBtn').addEventListener('click', () => { window.print(); });
+
+document.getElementById('downloadHtmlBtn').addEventListener('click', () => {
+  const title = noteTitle.value.trim() || t('untitledNote');
+  const content = editor.innerHTML;
+  const fontFamily = currentLang === 'fa' ? "'Noto Naskh Arabic', 'Nazanin', 'B Nazanin', 'Mitra', 'B Mitra', 'Times New Roman', serif" : "'Times New Roman', Times, serif";
+  const dir = currentLang === 'fa' ? 'rtl' : 'ltr';
+  const html = `<!DOCTYPE html><html lang="${currentLang}" dir="${dir}"><head><meta charset="UTF-8"><title>${title}</title>
+<style>body { font-family: ${fontFamily}; line-height: 1.8; padding: 20px; max-width: 800px; margin: 0 auto; color: #2e2a25; background: #fdfcfb; } h1 { border-bottom: 1px solid #dcd7cc; padding-bottom: 8px; margin-bottom: 20px; } img { max-width: 100%; height: auto; border-radius: 2px; border: 1px solid #dcd7cc; margin: 10px 0; cursor: pointer; } .img-container { display: block; width: 200px; height: 150px; overflow: hidden; margin: 10px 0; } .img-container img { width: 100%; height: 100%; object-fit: cover; } .note-text-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 14px; margin: 10px 0; }</style>
+</head><body><h1>${title}</h1>${content}</body></html>`;
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${title}.html`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
 function initNotes() {
   if (notes.length > 0) {
     if (!currentNoteId || !notes.find(n => n.id === currentNoteId)) {
@@ -1302,11 +1520,8 @@ function initNotes() {
       LS.set('currentNoteId', currentNoteId);
     }
     const activeNote = notes.find(n => n.id === currentNoteId);
-    if (activeNote) {
-      loadNote(activeNote);
-    }
+    if (activeNote) { loadNote(activeNote); }
   } else {
-    // اگر هیچ یادداشتی نیست، یک یادداشت خالی بساز
     const newNote = { id: Date.now().toString(), title: '', content: '' };
     notes.push(newNote);
     currentNoteId = newNote.id;
@@ -1324,8 +1539,34 @@ const fcGrid = document.getElementById('fcGrid');
 const fcScore = document.getElementById('fcScore');
 const fcSearch = document.getElementById('fcSearch');
 const fcProgressBar = document.getElementById('fcProgressBar');
+const fcSourceInput = document.getElementById('fcSourceInput');
+const fcSourceInfo = document.getElementById('fcSourceInfo');
 const seenCards = new Set(JSON.parse(LS.get('seenCards', '[]')));
 let currentElements = [...elements];
+let fcSourceElements = [...elements];
+
+function updateFcSourceInfo() {
+  const val = fcSourceInput.value.trim();
+  if (!val) {
+    fcSourceInfo.textContent = t('sourceAll');
+    fcSourceInfo.style.background = 'var(--surface-alt)';
+    fcSourceInfo.style.color = 'var(--text-light)';
+  } else {
+    fcSourceInfo.textContent = t('sourceCount', {n: faNum(fcSourceElements.length)});
+    fcSourceInfo.style.background = 'var(--primary-light)';
+    fcSourceInfo.style.color = 'var(--primary)';
+  }
+}
+
+function refreshFlashcards() {
+  fcSourceElements = parseElementSource(fcSourceInput.value);
+  updateFcSourceInfo();
+  const q = fcSearch.value.trim().toLowerCase();
+  currentElements = !q ? [...fcSourceElements] : fcSourceElements.filter(el =>
+    String(el.z).includes(q) || el.sym.toLowerCase().includes(q) || el.name.includes(q) || el.nameEn.toLowerCase().includes(q));
+  renderFlashcards(currentElements);
+  updateFcScore();
+}
 
 function renderFlashcards(list) {
   fcGrid.innerHTML = '';
@@ -1363,34 +1604,42 @@ function renderFlashcards(list) {
   });
   fcGrid.appendChild(frag);
 }
+
 function updateFcScore() {
-  const pct = Math.round((seenCards.size / elements.length) * 100);
-  fcScore.textContent = `${t('fcSeen')} ${faNum(seenCards.size)} ${t('fcOf')} ${faNum(elements.length)} (${faNum(pct)}٪)`;
+  const seenInSource = fcSourceElements.filter(el => seenCards.has(el.z)).length;
+  const total = fcSourceElements.length;
+  const pct = total > 0 ? Math.round((seenInSource / total) * 100) : 0;
+  fcScore.textContent = `${t('fcSeen')} ${faNum(seenInSource)} ${t('fcOf')} ${faNum(total)} (${faNum(pct)}٪)`;
   fcProgressBar.style.width = pct + '%';
 }
+
 fcSearch.addEventListener('input', () => {
   const q = fcSearch.value.trim().toLowerCase();
-  currentElements = !q ? [...elements] : elements.filter(el =>
-    String(el.z).includes(q) ||
-    el.sym.toLowerCase().includes(q) ||
-    el.name.includes(q) ||
-    el.nameEn.toLowerCase().includes(q));
+  currentElements = !q ? [...fcSourceElements] : fcSourceElements.filter(el =>
+    String(el.z).includes(q) || el.sym.toLowerCase().includes(q) || el.name.includes(q) || el.nameEn.toLowerCase().includes(q));
+  renderFlashcards(currentElements);
+});
+
+document.getElementById('fcShuffleBtn').addEventListener('click', () => {
+  const arr = [...currentElements];
+  for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; }
+  renderFlashcards(arr);
+});
+
+document.getElementById('fcResetBtn').addEventListener('click', () => {
+  if (!confirm(t('fcConfirmResetSource'))) return;
+  fcSearch.value = '';
+  fcSourceElements.forEach(el => seenCards.delete(el.z));
+  LS.set('seenCards', JSON.stringify([...seenCards]));
+  currentElements = [...fcSourceElements];
   renderFlashcards(currentElements);
   updateFcScore();
 });
-document.getElementById('fcShuffleBtn').addEventListener('click', () => {
-  const arr = [...currentElements];
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  renderFlashcards(arr);
-});
-document.getElementById('fcResetBtn').addEventListener('click', () => {
-  if (!confirm(t('fcConfirmReset'))) return;
-  fcSearch.value = ''; currentElements = [...elements]; seenCards.clear();
-  LS.set('seenCards', '[]');
-  renderFlashcards(currentElements); updateFcScore();
+
+fcSourceInput.value = LS.get('fcSource', '');
+fcSourceInput.addEventListener('input', () => {
+  LS.set('fcSource', fcSourceInput.value);
+  refreshFlashcards();
 });
 
 /* ============================================================
@@ -1408,19 +1657,9 @@ function makeQuestions(sectionElements) {
   const shuffled = [...sectionElements].sort(() => Math.random() - 0.5);
   for (let i = 0; i < 10; i++) {
     const el = shuffled[i % shuffled.length];
-    const [z, sym, nameFa, nameEn] = el;
-    const nameStr = currentLang === 'fa' ? nameFa : nameEn;
-    if (i % 2 === 0) {
-      qs.push({
-        q: t('tableQName', {z: faNum(z), sym}),
-        a: t('tableAName', {name: nameStr, sym, z: faNum(z)})
-      });
-    } else {
-      qs.push({
-        q: t('tableQSymbol', {name: nameStr, z: faNum(z)}),
-        a: t('tableASymbol', {sym, name: nameStr, z: faNum(z)})
-      });
-    }
+    const nameStr = elName(el);
+    if (i % 2 === 0) qs.push({ q: t('tableQName', {z: faNum(el.z), sym: el.sym}), a: t('tableAName', {name: nameStr, sym: el.sym, z: faNum(el.z)}) });
+    else qs.push({ q: t('tableQSymbol', {name: nameStr, z: faNum(el.z)}), a: t('tableASymbol', {sym: el.sym, name: nameStr, z: faNum(el.z)}) });
   }
   return qs;
 }
@@ -1429,15 +1668,11 @@ function renderTables() {
   allStates.length = 0;
   updateTotal();
 
-  for (let start = 0; start < rawElements.length; start += 10) {
-    const slice = rawElements.slice(start, start + 10);
+  for (let start = 0; start < elements.length; start += 10) {
+    const slice = elements.slice(start, start + 10);
     const sectionNum = Math.floor(start / 10) + 1;
-    const firstZ = slice[0][0], lastZ = slice[slice.length - 1][0];
-    const tbl = {
-      title: t('sectionTitle', {n: faNum(sectionNum), a: faNum(firstZ), b: faNum(lastZ)}),
-      elements: slice,
-      questions: makeQuestions(slice)
-    };
+    const firstZ = slice[0].z, lastZ = slice[slice.length - 1].z;
+    const tbl = { title: t('sectionTitle', {n: faNum(sectionNum), a: faNum(firstZ), b: faNum(lastZ)}), elements: slice, questions: makeQuestions(slice) };
     const card = document.createElement('section');
     card.className = 'panel';
     card.innerHTML = `<h2>${tbl.title}</h2>`;
@@ -1452,10 +1687,9 @@ function renderTables() {
     const table = document.createElement('table');
     table.innerHTML = `<thead><tr><th>${t('atomicNumber')}</th><th>${t('symbol')}</th><th>${t('elementName')}</th></tr></thead>`;
     const tbody = document.createElement('tbody');
-    tbl.elements.forEach(([z, sym, nameFa, nameEn]) => {
+    tbl.elements.forEach(el => {
       const tr = document.createElement('tr');
-      const nameStr = currentLang === 'fa' ? nameFa : nameEn;
-      tr.innerHTML = `<td>${faNum(z)}</td><td class="sym">${sym}</td><td class="name">${nameStr}</td>`;
+      tr.innerHTML = `<td>${faNum(el.z)}</td><td class="sym">${el.sym}</td><td class="name">${elName(el)}</td>`;
       tbody.appendChild(tr);
     });
     table.appendChild(tbody);
@@ -1528,21 +1762,17 @@ function renderTables() {
     qContent.appendChild(scoreEl);
     qSection.appendChild(qContent);
     card.appendChild(qSection);
-    qBar.addEventListener('click', () => {
-      qSection.classList.toggle('collapsed');
-    });
+    qBar.addEventListener('click', () => { qSection.classList.toggle('collapsed'); });
     updateScore();
     app.appendChild(card);
   }
 }
 
 /* ============================================================
-   تست‌ساز
+   تست‌ساز (با منبع سوالات سفارشی)
    ============================================================ */
 let resetTestBuilderFn = null;
 (function initTestBuilder() {
-  const tbElements = elements;
-
   const generateBtn = document.getElementById('tbGenerateBtn');
   const questionBox = document.getElementById('tbQuestionBox');
   const questionText = document.getElementById('tbQuestionText');
@@ -1551,27 +1781,35 @@ let resetTestBuilderFn = null;
   const nextBtn = document.getElementById('tbNextBtn');
   const feedback = document.getElementById('tbFeedback');
   const scoreSpan = document.getElementById('tbScore');
+  const sourceInput = document.getElementById('tbSourceInput');
+  const sourceInfo = document.getElementById('tbSourceInfo');
 
   let currentQuestion = null, tbCorrect = 0, tbTotal = 0;
 
-  function updateScoreLabel() {
-    scoreSpan.textContent = `${t('yourSectionScoreShort')} ${faNum(tbCorrect)} / ${faNum(tbTotal)}`;
-  }
+  function updateScoreLabel() { scoreSpan.textContent = `${t('yourSectionScoreShort')} ${faNum(tbCorrect)} / ${faNum(tbTotal)}`; }
 
-  function shuffle(arr) {
-    const a = [...arr];
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
+  function updateTbSourceInfo() {
+    const val = sourceInput.value.trim();
+    if (!val) {
+      sourceInfo.textContent = t('sourceAll');
+      sourceInfo.style.background = 'var(--surface-alt)';
+      sourceInfo.style.color = 'var(--text-light)';
+    } else {
+      const src = parseElementSource(val);
+      sourceInfo.textContent = t('sourceCount', {n: faNum(src.length)});
+      sourceInfo.style.background = 'var(--primary-light)';
+      sourceInfo.style.color = 'var(--primary)';
     }
-    return a;
   }
+  updateTbSourceInfoFn = updateTbSourceInfo;
 
   function generateQuestion() {
-    const element = tbElements[Math.floor(Math.random() * tbElements.length)];
+    const source = parseElementSource(sourceInput.value);
+    const element = source[Math.floor(Math.random() * source.length)];
     const types = ['atomicNumber', 'name', 'symbol'];
     const type = types[Math.floor(Math.random() * types.length)];
     let question, correctAnswer, options = null, inputMode;
+
     if (type === 'atomicNumber') {
       question = t('tbQAtomic', {name: elName(element), sym: element.sym});
       correctAnswer = String(element.z);
@@ -1580,13 +1818,13 @@ let resetTestBuilderFn = null;
       question = t('tbQName', {z: faNum(element.z), sym: element.sym});
       correctAnswer = elName(element);
       inputMode = 'select';
-      const others = shuffle(tbElements.filter(e => e.z !== element.z)).slice(0, 5).map(e => elName(e));
+      const others = getDistractors(source, element, 5, e => elName(e));
       options = shuffle([elName(element), ...others]);
     } else {
       question = t('tbQSymbol', {name: elName(element), z: faNum(element.z)});
       correctAnswer = element.sym;
       inputMode = 'select';
-      const others = shuffle(tbElements.filter(e => e.z !== element.z)).slice(0, 5).map(e => e.sym);
+      const others = getDistractors(source, element, 5, e => e.sym);
       options = shuffle([element.sym, ...others]);
     }
     return { type, element, question, correctAnswer, options, inputMode };
@@ -1605,18 +1843,14 @@ let resetTestBuilderFn = null;
       const input = document.createElement('input');
       input.type = 'text'; input.id = 'tbTextInput'; input.className = 'tb-input';
       input.placeholder = t('writeNumber'); input.style.textAlign = 'center';
-      input.setAttribute('aria-label', t('writeNumber'));
       answerArea.appendChild(input); input.focus();
       input.addEventListener('keydown', e => { if (e.key === 'Enter') submitBtn.click(); });
     } else {
       const select = document.createElement('select');
       select.id = 'tbSelectInput'; select.className = 'tb-input';
-      select.setAttribute('aria-label', t('chooseOption'));
       const def = document.createElement('option'); def.value = ''; def.textContent = t('chooseOption');
       select.appendChild(def);
-      q.options.forEach(opt => {
-        const o = document.createElement('option'); o.value = opt; o.textContent = opt; select.appendChild(o);
-      });
+      q.options.forEach(opt => { const o = document.createElement('option'); o.value = opt; o.textContent = opt; select.appendChild(o); });
       answerArea.appendChild(select); select.focus();
     }
     questionBox.style.display = 'block';
@@ -1626,22 +1860,13 @@ let resetTestBuilderFn = null;
     if (!currentQuestion) return;
     const q = currentQuestion;
     let userAnswer = '';
-    if (q.inputMode === 'text') {
-      userAnswer = enNum(document.getElementById('tbTextInput').value.trim());
-    } else {
-      userAnswer = document.getElementById('tbSelectInput').value;
-    }
-    if (!userAnswer) {
-      feedback.textContent = t('enterAnswer');
-      feedback.style.color = 'var(--warning-text)';
-      return;
-    }
+    if (q.inputMode === 'text') userAnswer = enNum(document.getElementById('tbTextInput').value.trim());
+    else userAnswer = document.getElementById('tbSelectInput').value;
+    if (!userAnswer) { feedback.textContent = t('enterAnswer'); feedback.style.color = 'var(--warning-text)'; return; }
     const isCorrect = userAnswer === q.correctAnswer;
     tbTotal++; if (isCorrect) tbCorrect++;
     updateScoreLabel();
-    feedback.textContent = isCorrect
-      ? t('tbCorrectFeedback')
-      : t('tbWrongFeedback', {ans: q.correctAnswer});
+    feedback.textContent = isCorrect ? t('tbCorrectFeedback') : t('tbWrongFeedback', {ans: q.correctAnswer});
     feedback.style.color = isCorrect ? 'var(--success-dark)' : 'var(--danger-dark)';
     submitBtn.style.display = 'none'; nextBtn.style.display = 'inline-block';
     const inp = document.getElementById('tbTextInput');
@@ -1654,12 +1879,20 @@ let resetTestBuilderFn = null;
   submitBtn.addEventListener('click', submitAnswer);
   nextBtn.addEventListener('click', () => renderQuestion(generateQuestion()));
 
+  sourceInput.value = LS.get('tbSource', '');
+  sourceInput.addEventListener('input', () => {
+    LS.set('tbSource', sourceInput.value);
+    if (resetTestBuilderFn) resetTestBuilderFn();
+    updateTbSourceInfo();
+  });
+
   resetTestBuilderFn = function() {
     tbCorrect = 0; tbTotal = 0; currentQuestion = null;
     questionBox.style.display = 'none';
     updateScoreLabel();
   };
   resetTestBuilderFn();
+  updateTbSourceInfo();
 })();
 
 /* ============================================================
@@ -1668,7 +1901,6 @@ let resetTestBuilderFn = null;
 let resetElectronConfigFn = null;
 (function initElectronConfig() {
   const ecElements = elements;
-
   const generateBtn = document.getElementById('ecGenerateBtn');
   const searchInput = document.getElementById('ecSearchInput');
   const datalist = document.getElementById('ecElementsList');
@@ -1682,40 +1914,19 @@ let resetElectronConfigFn = null;
   const correctBox = document.getElementById('ecCorrect');
   const scoreSpan = document.getElementById('ecScore');
 
-  // پر کردن لیست دیتالیست
   function populateDatalist() {
     datalist.innerHTML = '';
-    elements.forEach(el => {
-      const opt = document.createElement('option');
-      opt.value = `${elName(el)} (${el.sym})`;
-      datalist.appendChild(opt);
-    });
+    elements.forEach(el => { const opt = document.createElement('option'); opt.value = `${elName(el)} (${el.sym})`; datalist.appendChild(opt); });
   }
 
-  const SHELLS = [
-    { name: 'K', max: 2 }, { name: 'L', max: 8 }, { name: 'M', max: 18 },
-    { name: 'N', max: 32 }, { name: 'O', max: 32 }, { name: 'P', max: 18 }, { name: 'Q', max: 8 }
-  ];
-  const EXCEPTIONS = {
-    24: [2,8,13,1], 29: [2,8,18,1],
-    41: [2,8,18,12,1], 42: [2,8,18,13,1], 44: [2,8,18,15,1],
-    45: [2,8,18,16,1], 46: [2,8,18,18], 47: [2,8,18,18,1],
-    78: [2,8,18,32,17,1], 79: [2,8,18,32,18,1]
-  };
-  const AUFBAU = [
-    [1,2],[2,2],[2,6],[3,2],[3,6],[4,2],[3,10],[4,6],[5,2],
-    [4,10],[5,6],[6,2],[4,14],[5,10],[6,6],[7,2],[5,14],[6,10],[7,6]
-  ];
+  const SHELLS = [{ name: 'K', max: 2 }, { name: 'L', max: 8 }, { name: 'M', max: 18 }, { name: 'N', max: 32 }, { name: 'O', max: 32 }, { name: 'P', max: 18 }, { name: 'Q', max: 8 }];
+  const EXCEPTIONS = { 24: [2,8,13,1], 29: [2,8,18,1], 41: [2,8,18,12,1], 42: [2,8,18,13,1], 44: [2,8,18,15,1], 45: [2,8,18,16,1], 46: [2,8,18,18], 47: [2,8,18,18,1], 78: [2,8,18,32,17,1], 79: [2,8,18,32,18,1] };
+  const AUFBAU = [[1,2],[2,2],[2,6],[3,2],[3,6],[4,2],[3,10],[4,6],[5,2],[4,10],[5,6],[6,2],[4,14],[5,10],[6,6],[7,2],[5,14],[6,10],[7,6]];
   function getShellConfiguration(z) {
     if (EXCEPTIONS[z]) return [...EXCEPTIONS[z]];
     let remaining = z;
     const shells = [0,0,0,0,0,0,0];
-    for (const [n, cap] of AUFBAU) {
-      if (remaining <= 0) break;
-      const e = Math.min(remaining, cap);
-      shells[n - 1] += e;
-      remaining -= e;
-    }
+    for (const [n, cap] of AUFBAU) { if (remaining <= 0) break; const e = Math.min(remaining, cap); shells[n - 1] += e; remaining -= e; }
     return shells.filter(s => s > 0);
   }
 
@@ -1723,9 +1934,7 @@ let resetElectronConfigFn = null;
   let ecCorrect = 0, ecTotal = 0;
   let sliderRefs = [];
 
-  function updateScoreLabel() {
-    scoreSpan.textContent = `${t('yourSectionScoreShort')} ${faNum(ecCorrect)} / ${faNum(ecTotal)}`;
-  }
+  function updateScoreLabel() { scoreSpan.textContent = `${t('yourSectionScoreShort')} ${faNum(ecCorrect)} / ${faNum(ecTotal)}`; }
 
   function generateElement(forcedEl = null, revealAnswer = false) {
     currentElement = forcedEl || ecElements[Math.floor(Math.random() * ecElements.length)];
@@ -1740,20 +1949,12 @@ let resetElectronConfigFn = null;
     SHELLS.forEach((shell, idx) => {
       const div = document.createElement('div');
       div.className = 'ec-shell';
-      div.innerHTML = `
-        <div class="ec-shell-label">${shell.name}</div>
-        <div class="ec-max">${t('maxLabel')} ${faNum(shell.max)}</div>
-        <input type="range" class="ec-slider" min="0" max="${shell.max}" value="0"
-               data-shell="${idx}" aria-label="Shell ${shell.name}">
-        <div class="ec-value" id="ecVal${idx}">۰</div>
-      `;
+      div.innerHTML = `<div class="ec-shell-label">${shell.name}</div><div class="ec-max">${t('maxLabel')} ${faNum(shell.max)}</div><input type="range" class="ec-slider" min="0" max="${shell.max}" value="0" data-shell="${idx}"><div class="ec-value" id="ecVal${idx}">۰</div>`;
       ecGrid.appendChild(div);
       const slider = div.querySelector('.ec-slider');
       const valDisplay = div.querySelector('.ec-value');
       sliderRefs.push(slider);
-      slider.addEventListener('input', () => {
-        valDisplay.textContent = faNum(slider.value);
-      });
+      slider.addEventListener('input', () => { valDisplay.textContent = faNum(slider.value); });
     });
     feedback.classList.add('hidden');
     feedback.textContent = '';
@@ -1766,10 +1967,7 @@ let resetElectronConfigFn = null;
     showAnswerBtn.style.display = 'inline-block';
     nextBtn.style.display = 'none';
     elementBox.style.display = 'block';
-
-    if (revealAnswer) {
-      showCorrectAnswer();
-    }
+    if (revealAnswer) showCorrectAnswer();
   }
 
   function checkAnswer() {
@@ -1790,8 +1988,7 @@ let resetElectronConfigFn = null;
 
   function showCorrectAnswer() {
     if (!currentElement) return;
-    correctBox.innerHTML = `${t('ecCorrectConfig', {name: elName(currentElement), sym: currentElement.sym})}<br>
-      <strong style="font-size:1.02rem">${correctConfig.map((e, i) => `${SHELLS[i].name}: ${faNum(e)}`).join(' — ')}</strong>`;
+    correctBox.innerHTML = `${t('ecCorrectConfig', {name: elName(currentElement), sym: currentElement.sym})}<br><strong style="font-size:1.02rem">${correctConfig.map((e, i) => `${SHELLS[i].name}: ${faNum(e)}`).join(' — ')}</strong>`;
     correctBox.classList.remove('hidden');
     showAnswerBtn.style.display = 'none';
   }
@@ -1801,7 +1998,6 @@ let resetElectronConfigFn = null;
   showAnswerBtn.addEventListener('click', showCorrectAnswer);
   nextBtn.addEventListener('click', () => generateElement());
 
-  // مدیریت جستجو
   searchInput.addEventListener('change', (e) => {
     const val = e.target.value.trim();
     if (!val) return;
@@ -1809,28 +2005,24 @@ let resetElectronConfigFn = null;
       val === `${elName(item)} (${item.sym})` ||
       val === item.sym ||
       val === elName(item) ||
-      (item.z && val.includes(String(item.z)))
+      val === String(item.z)
     );
-    if (matchedEl) {
-      generateElement(matchedEl, true); // با نمایش خودکار پاسخ
-    }
+    if (matchedEl) generateElement(matchedEl, true);
     searchInput.value = '';
   });
 
-  // مدیریت Enter در کادر جستجو
   searchInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       const val = searchInput.value.trim();
       if (!val) return;
       const matchedEl = elements.find(item =>
-        val.includes(elName(item)) ||
-        val.toLowerCase() === item.sym.toLowerCase() ||
-        val.includes(String(item.z))
+        val === `${elName(item)} (${item.sym})` ||
+        val === item.sym ||
+        val === elName(item) ||
+        val === String(item.z)
       );
-      if (matchedEl) {
-        generateElement(matchedEl, true);
-      }
+      if (matchedEl) generateElement(matchedEl, true);
       searchInput.value = '';
     }
   });
@@ -1841,13 +2033,248 @@ let resetElectronConfigFn = null;
     ecCorrect = 0; ecTotal = 0; currentElement = null;
     elementBox.style.display = 'none';
     updateScoreLabel();
-    populateDatalist(); // به‌روزرسانی لیست با زبان جدید
+    populateDatalist();
   };
   resetElectronConfigFn();
 })();
 
 /* ============================================================
-   تاریخچه (هایلایت و کامنت)
+   آزمون زمان‌دار (با منبع سوالات سفارشی)
+   ============================================================ */
+(function initExam() {
+  const SHELLS = [{ name: 'K', max: 2 }, { name: 'L', max: 8 }, { name: 'M', max: 18 }, { name: 'N', max: 32 }, { name: 'O', max: 32 }, { name: 'P', max: 18 }, { name: 'Q', max: 8 }];
+  const EXCEPTIONS = { 24: [2,8,13,1], 29: [2,8,18,1], 41: [2,8,18,12,1], 42: [2,8,18,13,1], 44: [2,8,18,15,1], 45: [2,8,18,16,1], 46: [2,8,18,18], 47: [2,8,18,18,1], 78: [2,8,18,32,17,1], 79: [2,8,18,32,18,1] };
+  const AUFBAU = [[1,2],[2,2],[2,6],[3,2],[3,6],[4,2],[3,10],[4,6],[5,2],[4,10],[5,6],[6,2],[4,14],[5,10],[6,6],[7,2],[5,14],[6,10],[7,6]];
+
+  function getShellConfiguration(z) {
+    if (EXCEPTIONS[z]) return [...EXCEPTIONS[z]];
+    let remaining = z;
+    const shells = [0,0,0,0,0,0,0];
+    for (const [n, cap] of AUFBAU) { if (remaining <= 0) break; const e = Math.min(remaining, cap); shells[n - 1] += e; remaining -= e; }
+    return shells.filter(s => s > 0);
+  }
+
+  let examDuration = 600;
+  let timeLeft = 600;
+  let timerInterval = null;
+  let examCorrect = 0;
+  let examWrong = 0;
+  let examSkipped = 0;
+  let currentQ = null;
+  let isActive = false;
+  let examSource = [...elements];
+
+  const setupDiv = document.getElementById('examSetup');
+  const activeDiv = document.getElementById('examActive');
+  const resultsDiv = document.getElementById('examResults');
+  const timerDisplay = document.getElementById('examTimer');
+  const questionText = document.getElementById('examQuestionText');
+  const answerArea = document.getElementById('examAnswerArea');
+  const feedback = document.getElementById('examFeedback');
+  const submitBtn = document.getElementById('examSubmitBtn');
+  const skipBtn = document.getElementById('examSkipBtn');
+  const finishBtn = document.getElementById('examFinishBtn');
+  const startBtn = document.getElementById('examStartBtn');
+  const restartBtn = document.getElementById('examRestartBtn');
+  const correctCountEl = document.getElementById('examCorrectCount');
+  const wrongCountEl = document.getElementById('examWrongCount');
+  const totalCountEl = document.getElementById('examTotalCount');
+  const resultCorrectEl = document.getElementById('resultCorrect');
+  const resultWrongEl = document.getElementById('resultWrong');
+  const resultSkippedEl = document.getElementById('resultSkipped');
+  const resultPercentEl = document.getElementById('resultPercent');
+  const examSourceInput = document.getElementById('examSourceInput');
+  const examSourceInfo = document.getElementById('examSourceInfo');
+
+  function updateExamSourceInfo() {
+    const val = examSourceInput.value.trim();
+    if (!val) {
+      examSourceInfo.textContent = t('sourceAll');
+      examSourceInfo.style.background = 'var(--surface-alt)';
+      examSourceInfo.style.color = 'var(--text-light)';
+    } else {
+      const src = parseElementSource(val);
+      examSourceInfo.textContent = t('sourceCount', {n: faNum(src.length)});
+      examSourceInfo.style.background = 'var(--primary-light)';
+      examSourceInfo.style.color = 'var(--primary)';
+    }
+  }
+  updateExamSourceInfoFn = updateExamSourceInfo;
+
+  function formatTime(sec) {
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return faNum(`${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`);
+  }
+
+  function updateTimerDisplay() {
+    timerDisplay.textContent = formatTime(timeLeft);
+    timerDisplay.classList.remove('warning', 'danger');
+    if (timeLeft <= 30) timerDisplay.classList.add('danger');
+    else if (timeLeft <= 60) timerDisplay.classList.add('warning');
+  }
+  updateExamTimerFn = updateTimerDisplay;
+
+  function generateExamQuestion() {
+    const element = examSource[Math.floor(Math.random() * examSource.length)];
+    const types = ['atomicNumber', 'name', 'symbol', 'config'];
+    const type = types[Math.floor(Math.random() * types.length)];
+    let question, correctAnswer, options = null, inputMode;
+
+    if (type === 'atomicNumber') {
+      question = t('tbQAtomic', {name: elName(element), sym: element.sym});
+      correctAnswer = String(element.z);
+      inputMode = 'text';
+    } else if (type === 'name') {
+      question = t('tbQName', {z: faNum(element.z), sym: element.sym});
+      correctAnswer = elName(element);
+      inputMode = 'select';
+      const others = getDistractors(examSource, element, 3, e => elName(e));
+      options = shuffle([elName(element), ...others]);
+    } else if (type === 'symbol') {
+      question = t('tbQSymbol', {name: elName(element), z: faNum(element.z)});
+      correctAnswer = element.sym;
+      inputMode = 'select';
+      const others = getDistractors(examSource, element, 3, e => e.sym);
+      options = shuffle([element.sym, ...others]);
+    } else {
+      question = t('examQConfig', {name: elName(element), sym: element.sym});
+      const correct = getShellConfiguration(element.z);
+      correctAnswer = correct.join(',');
+      inputMode = 'select';
+      const wrongs = getDistractors(examSource, element, 3, e => getShellConfiguration(e.z).join(','));
+      const formatConfig = (c) => c.split(',').map((e, i) => `${SHELLS[i].name}:${faNum(e)}`).join(' ');
+      options = shuffle([correctAnswer, ...wrongs]).map(formatConfig);
+      const correctFormatted = formatConfig(correctAnswer);
+      return { element, question, correctAnswer: correctFormatted, options, inputMode };
+    }
+    return { element, question, correctAnswer, options, inputMode };
+  }
+
+  function renderExamQuestion() {
+    currentQ = generateExamQuestion();
+    questionText.textContent = currentQ.question;
+    answerArea.innerHTML = '';
+    feedback.textContent = '';
+    submitBtn.style.display = 'inline-block';
+    submitBtn.disabled = false;
+
+    if (currentQ.inputMode === 'text') {
+      const input = document.createElement('input');
+      input.type = 'text'; input.id = 'examTextInput'; input.className = 'tb-input';
+      input.placeholder = t('writeNumber'); input.style.textAlign = 'center';
+      answerArea.appendChild(input); input.focus();
+      input.addEventListener('keydown', e => { if (e.key === 'Enter') submitBtn.click(); });
+    } else {
+      const select = document.createElement('select');
+      select.id = 'examSelectInput'; select.className = 'tb-input';
+      const def = document.createElement('option'); def.value = ''; def.textContent = t('chooseOption');
+      select.appendChild(def);
+      currentQ.options.forEach(opt => { const o = document.createElement('option'); o.value = opt; o.textContent = opt; select.appendChild(o); });
+      answerArea.appendChild(select); select.focus();
+    }
+  }
+
+  function updateExamStats() {
+    correctCountEl.textContent = faNum(examCorrect);
+    wrongCountEl.textContent = faNum(examWrong);
+    totalCountEl.textContent = faNum(examCorrect + examWrong + examSkipped);
+  }
+
+  function submitExamAnswer() {
+    if (!currentQ || !isActive) return;
+    let userAnswer = '';
+    if (currentQ.inputMode === 'text') {
+      userAnswer = enNum(document.getElementById('examTextInput').value.trim());
+    } else {
+      userAnswer = document.getElementById('examSelectInput').value;
+    }
+    if (!userAnswer) {
+      feedback.textContent = t('enterAnswer');
+      feedback.style.color = 'var(--warning-text)';
+      return;
+    }
+    const isCorrect = userAnswer === currentQ.correctAnswer;
+    if (isCorrect) examCorrect++; else examWrong++;
+    updateExamStats();
+    feedback.textContent = isCorrect ? '✓' : '✗';
+    feedback.style.color = isCorrect ? 'var(--success-dark)' : 'var(--danger-dark)';
+    submitBtn.disabled = true;
+    setTimeout(() => { if (isActive) renderExamQuestion(); }, 600);
+  }
+
+  function skipExamQuestion() {
+    if (!isActive) return;
+    examSkipped++;
+    updateExamStats();
+    renderExamQuestion();
+  }
+
+  function startExam() {
+    examSource = parseElementSource(examSourceInput.value);
+    timeLeft = examDuration;
+    examCorrect = 0; examWrong = 0; examSkipped = 0;
+    isActive = true;
+    updateExamStats();
+    updateTimerDisplay();
+    setupDiv.style.display = 'none';
+    resultsDiv.style.display = 'none';
+    activeDiv.style.display = 'block';
+    renderExamQuestion();
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      updateTimerDisplay();
+      if (timeLeft <= 0) endExam();
+    }, 1000);
+  }
+
+  function endExam() {
+    isActive = false;
+    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+    activeDiv.style.display = 'none';
+    setupDiv.style.display = 'none';
+    resultsDiv.style.display = 'block';
+    const total = examCorrect + examWrong + examSkipped;
+    const percent = total > 0 ? Math.round((examCorrect / total) * 100) : 0;
+    resultCorrectEl.textContent = faNum(examCorrect);
+    resultWrongEl.textContent = faNum(examWrong);
+    resultSkippedEl.textContent = faNum(examSkipped);
+    resultPercentEl.textContent = faNum(percent) + (currentLang === 'fa' ? '٪' : '%');
+  }
+
+  function resetExam() {
+    isActive = false;
+    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+    activeDiv.style.display = 'none';
+    resultsDiv.style.display = 'none';
+    setupDiv.style.display = 'block';
+  }
+
+  document.querySelectorAll('.exam-duration-buttons button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.exam-duration-buttons button').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      examDuration = parseInt(btn.dataset.duration, 10);
+    });
+  });
+
+  startBtn.addEventListener('click', startExam);
+  submitBtn.addEventListener('click', submitExamAnswer);
+  skipBtn.addEventListener('click', skipExamQuestion);
+  finishBtn.addEventListener('click', endExam);
+  restartBtn.addEventListener('click', resetExam);
+
+  examSourceInput.value = LS.get('examSource', '');
+  examSourceInput.addEventListener('input', () => {
+    LS.set('examSource', examSourceInput.value);
+    updateExamSourceInfo();
+  });
+  updateExamSourceInfo();
+})();
+
+/* ============================================================
+   تاریخچه
    ============================================================ */
 const historyContentEl = document.getElementById('history-content');
 let currentHighlightColor = 'highlight-yellow';
@@ -1866,7 +2293,6 @@ document.querySelectorAll('.color-swatch').forEach(swatch => {
   });
 });
 
-// هایلایت ساده و افزودن کامنت
 document.querySelectorAll('.color-swatch').forEach(swatch => {
   swatch.addEventListener('click', () => {
     const selection = window.getSelection();
@@ -1874,13 +2300,8 @@ document.querySelectorAll('.color-swatch').forEach(swatch => {
     const range = selection.getRangeAt(0);
     const span = document.createElement('span');
     span.className = swatch.dataset.color;
-    try {
-      range.surroundContents(span);
-    } catch (e) {
-      const fragment = range.extractContents();
-      span.appendChild(fragment);
-      range.insertNode(span);
-    }
+    try { range.surroundContents(span); }
+    catch (e) { const fragment = range.extractContents(); span.appendChild(fragment); range.insertNode(span); }
     selection.removeAllRanges();
     saveHistoryState();
   });
@@ -1888,49 +2309,32 @@ document.querySelectorAll('.color-swatch').forEach(swatch => {
 
 document.getElementById('addCommentBtn').addEventListener('click', () => {
   const selection = window.getSelection();
-  if (selection.isCollapsed) {
-    alert(t('noTextSelected'));
-    return;
-  }
+  if (selection.isCollapsed) { alert(t('noTextSelected')); return; }
   const range = selection.getRangeAt(0);
   const comment = prompt(t('commentPrompt'));
   if (!comment) return;
-
   const span = document.createElement('span');
   span.className = currentHighlightColor;
   span.dataset.comment = comment;
-  try {
-    range.surroundContents(span);
-  } catch (e) {
-    const fragment = range.extractContents();
-    span.appendChild(fragment);
-    range.insertNode(span);
-  }
+  try { range.surroundContents(span); }
+  catch (e) { const fragment = range.extractContents(); span.appendChild(fragment); range.insertNode(span); }
   const icon = document.createElement('span');
   icon.className = 'comment-icon';
   icon.textContent = '?';
   icon.title = comment;
   icon.addEventListener('click', (e) => {
     e.stopPropagation();
-    if (confirm(`${comment}\n\n${t('removeCommentConfirm')}`)) {
-      removeComment(span);
-    }
+    if (confirm(`${comment}\n\n${t('removeCommentConfirm')}`)) removeComment(span);
   });
   span.appendChild(icon);
-
   selection.removeAllRanges();
   saveHistoryState();
 });
 
-/* ============================================================
-   حذف هایلایت و کامنت
-   ============================================================ */
 function removeHighlight(element) {
   if (!element) return;
   const parent = element.parentNode;
-  while (element.firstChild) {
-    parent.insertBefore(element.firstChild, element);
-  }
+  while (element.firstChild) parent.insertBefore(element.firstChild, element);
   parent.removeChild(element);
   saveHistoryState();
 }
@@ -1940,52 +2344,32 @@ function removeComment(element) {
   delete element.dataset.comment;
   const icon = element.querySelector('.comment-icon');
   if (icon) icon.remove();
-  
   if (!element.className.startsWith('highlight-')) {
     const parent = element.parentNode;
-    while (element.firstChild) {
-      parent.insertBefore(element.firstChild, element);
-    }
+    while (element.firstChild) parent.insertBefore(element.firstChild, element);
     parent.removeChild(element);
   }
   saveHistoryState();
 }
 
-// حذف با کلیک مستقیم روی هایلایت‌ها
 historyContentEl.addEventListener('click', (e) => {
   const target = e.target;
   if (target.classList.contains('comment-icon')) return;
-
   if (target.tagName === 'SPAN' && target.className.startsWith('highlight-')) {
-    if (confirm(t('removeHighlightConfirm'))) {
-      removeHighlight(target);
-    }
+    if (confirm(t('removeHighlightConfirm'))) removeHighlight(target);
   }
 });
 
-// حذف با دکمه‌های نوار ابزار
 document.getElementById('removeHighlightBtn').addEventListener('click', () => {
   const selection = window.getSelection();
-  if (selection.isCollapsed) {
-    alert(t('noTextSelected'));
-    return;
-  }
-  
+  if (selection.isCollapsed) { alert(t('noTextSelected')); return; }
   let range = selection.getRangeAt(0);
   let container = range.commonAncestorContainer;
   let highlightSpan = container.nodeType === 3 ? container.parentNode : container;
-  
   while (highlightSpan && highlightSpan !== historyContentEl) {
-    if (highlightSpan.classList && (
-        highlightSpan.classList.contains('highlight-yellow') ||
-        highlightSpan.classList.contains('highlight-green') ||
-        highlightSpan.classList.contains('highlight-blue') ||
-        highlightSpan.classList.contains('highlight-pink'))) {
-      break;
-    }
+    if (highlightSpan.classList && (highlightSpan.classList.contains('highlight-yellow') || highlightSpan.classList.contains('highlight-green') || highlightSpan.classList.contains('highlight-blue') || highlightSpan.classList.contains('highlight-pink'))) break;
     highlightSpan = highlightSpan.parentNode;
   }
-  
   if (highlightSpan && highlightSpan !== historyContentEl) {
     removeHighlight(highlightSpan);
     selection.removeAllRanges();
@@ -1994,33 +2378,23 @@ document.getElementById('removeHighlightBtn').addEventListener('click', () => {
 
 document.getElementById('removeCommentBtn').addEventListener('click', () => {
   const selection = window.getSelection();
-  if (selection.isCollapsed) {
-    alert(t('noTextSelected'));
-    return;
-  }
-  
+  if (selection.isCollapsed) { alert(t('noTextSelected')); return; }
   let range = selection.getRangeAt(0);
   let container = range.commonAncestorContainer;
   let commentSpan = container.nodeType === 3 ? container.parentNode : container;
-  
   while (commentSpan && commentSpan !== historyContentEl) {
-    if (commentSpan.dataset && commentSpan.dataset.comment) {
-      break;
-    }
+    if (commentSpan.dataset && commentSpan.dataset.comment) break;
     commentSpan = commentSpan.parentNode;
   }
-  
   if (commentSpan && commentSpan !== historyContentEl) {
     removeComment(commentSpan);
     selection.removeAllRanges();
   } else {
-    alert('کامنتی در این بخش یافت نشد.');
+    alert(t('noCommentFound'));
   }
 });
 
-function saveHistoryState() {
-  LS.set(`historyHighlights_${currentLang}`, historyContentEl.innerHTML);
-}
+function saveHistoryState() { LS.set(`historyHighlights_${currentLang}`, historyContentEl.innerHTML); }
 
 function restoreHighlights() {
   const saved = LS.get(`historyHighlights_${currentLang}`, null);
@@ -2029,9 +2403,7 @@ function restoreHighlights() {
     historyContentEl.querySelectorAll('.comment-icon').forEach(icon => {
       icon.addEventListener('click', (e) => {
         e.stopPropagation();
-        if (confirm(`${icon.title}\n\n${t('removeCommentConfirm')}`)) {
-          removeComment(icon.parentNode);
-        }
+        if (confirm(`${icon.title}\n\n${t('removeCommentConfirm')}`)) removeComment(icon.parentNode);
       });
     });
   }
